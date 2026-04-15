@@ -1,23 +1,9 @@
 'use client';
 import { useState, useRef, useEffect } from "react";
 
-const isMobile = () => {
-    if (typeof window === 'undefined') return false;
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-};
-
 export const Game = () => {
     return (
         <div className="relative flex flex-col h-full w-full cente py-20">
-            {/*  <video
-        autoPlay
-        muted
-        loop
-        className="rotate-180 absolute top-[-340px] left-0 w-full h-full object-cover -z-20 opacity-35"
-      >
-        <source src="/videos/blackhole.webm" type="video/webm" />
-      </video>*/}
-
             <GameContent />
         </div>
     );
@@ -26,52 +12,25 @@ export const Game = () => {
 
 const GameContent = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [orientationLocked, setOrientationLocked] = useState(false);
     const iframeRef = useRef<HTMLIFrameElement>(null);
-
-    const mobile = isMobile();
 
     useEffect(() => {
         const handleFullscreenChange = () => {
-            const fs = !!document.fullscreenElement;
-            setIsFullscreen(fs);
-            
-            if (!fs && orientationLocked) {
-                setOrientationLocked(false);
-                if (screen.orientation && screen.orientation.unlock) {
-                    screen.orientation.unlock();
-                }
-            }
+            setIsFullscreen(!!document.fullscreenElement);
         };
-
         document.addEventListener('fullscreenchange', handleFullscreenChange);
         return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    }, [orientationLocked]);
+    }, []);
 
     const toggleFullscreen = async () => {
         if (!document.fullscreenElement) {
             try {
                 await iframeRef.current?.requestFullscreen();
-                setIsFullscreen(true);
-
-                if (mobile && screen.orientation && 'lock' in screen.orientation) {
-                    try {
-                        await screen.orientation.lock('landscape');
-                        setOrientationLocked(true);
-                    } catch (e) {
-                        console.log('Orientation lock not supported or denied: ', e);
-                    }
-                }
             } catch (e) {
                 console.error('Fullscreen failed:', e);
             }
         } else {
-            if (orientationLocked && screen.orientation && 'unlock' in screen.orientation) {
-                screen.orientation.unlock();
-            }
             await document.exitFullscreen();
-            setIsFullscreen(false);
-            setOrientationLocked(false);
         }
     };
 
