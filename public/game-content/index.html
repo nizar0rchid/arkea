@@ -95,7 +95,18 @@ body {
 <link rel="manifest" href="index.manifest.json">
 <script>
 var _dbg = document.createElement('div');
-_dbg.style.cssText = 'position:fixed;top:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.85);color:#0f0;padding:10px;font:12px monospace;max-height:40vh;overflow-y:auto;pointer-events:none;border-radius:0 0 8px 0;';
+var _dbgHdr = document.createElement('div');
+var _dbgLog = document.createElement('div');
+var _dbgOpen = true;
+
+_dbgHdr.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:#222;margin:-10px -10px 10px -10px;border-radius:5px 5px 0 0;cursor:pointer;';
+_dbgHdr.innerHTML = '<span>ARKEA DEBUG</span><span>▼</span>';
+_dbgHdr.onclick = function() { _dbgOpen = !_dbgOpen; _dbgLog.style.display = _dbgOpen ? 'block' : 'none'; _dbgHdr.children[1].textContent = _dbgOpen ? '▼' : '▲'; };
+_dbgLog.style.cssText = 'max-height:150px;overflow-y:auto;';
+
+_dbg.style.cssText = 'position:fixed;top:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.9);color:#0f0;padding:10px;font:12px monospace;border-radius:8px;';
+_dbg.appendChild(_dbgHdr);
+_dbg.appendChild(_dbgLog);
 document.documentElement.appendChild(_dbg);
 
 var _isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -106,12 +117,12 @@ var _wasInFullscreen = false;
 
 function log(msg) {
     var time = new Date().toLocaleTimeString();
-    _dbg.innerHTML = '[' + time + '] ' + msg + '<br>' + _dbg.innerHTML;
+    _dbgLog.innerHTML = '[' + time + '] ' + msg + '<br>' + _dbgLog.innerHTML;
+    _dbgLog.scrollTop = _dbgLog.scrollHeight;
 }
 
-log('=== ARKEA DEBUG ===');
 log('Mobile: ' + _isMobile);
-log('Orientation.lock: ' + _hasOrientation);
+log('API: ' + _hasOrientation);
 
 function tryLockForce() {
     _lockAttempts++;
@@ -162,16 +173,13 @@ window.addEventListener('message', function(e) {
     }
 });
 
-// Check document.fullscreenElement state (iframe fullscreen)
+// Use parent message state instead of unreliable document.fullscreenElement
 setInterval(function() {
-    var isFs = !!document.fullscreenElement;
-    
-    if (isFs && (!_locked || (screen.orientation && screen.orientation.type && screen.orientation.type.indexOf('landscape') === -1))) {
-        log('In fullscreen - enforcing landscape');
-        tryLockForce();
-    } else if (!isFs && _locked) {
-        log('Exited fullscreen');
-        tryUnlock();
+    if (_wasInFullscreen) {
+        if (!_locked || (screen.orientation && screen.orientation.type && screen.orientation.type.indexOf('landscape') === -1)) {
+            log('Ensuring landscape lock...');
+            tryLockForce();
+        }
     }
 }, 500);
 </script>
