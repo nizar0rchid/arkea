@@ -110,37 +110,38 @@ function log(msg) {
 log('=== ARKEA DEBUG ===');
 log('Mobile: ' + _isMobile);
 log('Orientation.lock: ' + _hasOrientation);
-log('UA: ' + navigator.userAgent.substring(0, 50) + '...');
 
-window.addEventListener('message', function(e) {
-    log('MSG from parent: ' + e.data);
-    
-    if (e.data === 'fullscreen-enter') {
-        if (_hasOrientation) {
-            log('Attempting orientation lock...');
-            screen.orientation.lock('landscape').then(function() {
-                _locked = true;
-                log('SUCCESS: Locked to landscape');
-            }).catch(function(err) {
-                log('ERROR: ' + err.message);
-            });
-        } else {
-            log('No orientation API available');
-        }
-    } else if (e.data === 'fullscreen-exit') {
-        if (_locked && screen.orientation.unlock) {
-            screen.orientation.unlock();
+function tryLock() {
+    if (_hasOrientation && !_locked) {
+        log('Locking...');
+        screen.orientation.lock('landscape').then(function() {
+            _locked = true;
+            log('LOCKED');
+        }).catch(function(err) {
+            log('Error: ' + err.message);
             _locked = false;
-            log('Unlocked orientation');
-        }
+        });
     }
-});
+}
+
+function tryUnlock() {
+    if (_locked && screen.orientation && screen.orientation.unlock) {
+        screen.orientation.unlock();
+        _locked = false;
+        log('Unlocked');
+    }
+}
+
+log('Setup complete');
 
 setInterval(function() {
-    if (_locked && screen.orientation && screen.orientation.type) {
-        log('Current: ' + screen.orientation.type);
+    if (document.fullscreenElement) {
+        if (!_locked || (screen.orientation && screen.orientation.type && screen.orientation.type.indexOf('landscape') === -1)) {
+            log('FS active - enforcing landscape...');
+            tryLock();
+        }
     }
-}, 2000);
+}, 500);
 </script>
 	</head>
 	<body>
