@@ -94,21 +94,22 @@ body {
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
 <link rel="manifest" href="index.manifest.json">
 <script>
-var _dbg = document.createElement('div');
-var _dbgHdr = document.createElement('div');
-var _dbgLog = document.createElement('div');
-var _dbgOpen = false;
-
-_dbgHdr.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:#222;margin:-10px -10px 10px -10px;border-radius:5px 5px 0 0;cursor:pointer;';
-_dbgHdr.innerHTML = '<span>ARKEA DEBUG ▲</span>';
-_dbgHdr.onclick = function() { _dbgOpen = !_dbgOpen; _dbgLog.style.display = _dbgOpen ? 'block' : 'none'; _dbgHdr.innerHTML = _dbgOpen ? '<span>ARKEA DEBUG ▼</span>' : '<span>ARKEA DEBUG ▲</span>'; };
-_dbgLog.style.display = 'none';
-_dbgLog.style.cssText = 'max-height:150px;overflow-y:auto;';
-
-_dbg.style.cssText = 'position:fixed;top:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.9);color:#0f0;padding:10px;font:12px monospace;border-radius:8px;';
-_dbg.appendChild(_dbgHdr);
-_dbg.appendChild(_dbgLog);
-document.documentElement.appendChild(_dbg);
+var _log = function(msg) { console.log('[ARKEA] ' + msg); };
+// DEBUG PANEL (commented out - uncomment to show)
+// var _dbg = document.createElement('div');
+// var _dbgHdr = document.createElement('div');
+// var _dbgLog = document.createElement('div');
+// var _dbgOpen = false;
+// _dbgHdr.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:#222;margin:-10px -10px 10px -10px;border-radius:5px 5px 0 0;cursor:pointer;';
+// _dbgHdr.innerHTML = '<span>ARKEA DEBUG ▲</span>';
+// _dbgHdr.onclick = function() { _dbgOpen = !_dbgOpen; _dbgLog.style.display = _dbgOpen ? 'block' : 'none'; _dbgHdr.innerHTML = _dbgOpen ? '<span>ARKEA DEBUG ▼</span>' : '<span>ARKEA DEBUG ▲</span>'; };
+// _dbgLog.style.display = 'none';
+// _dbgLog.style.cssText = 'max-height:150px;overflow-y:auto;';
+// _dbg.style.cssText = 'position:fixed;top:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.9);color:#0f0;padding:10px;font:12px monospace;border-radius:8px;';
+// _dbg.appendChild(_dbgHdr);
+// _dbg.appendChild(_dbgLog);
+// document.documentElement.appendChild(_dbg);
+// function log(msg) { var time = new Date().toLocaleTimeString(); _dbgLog.innerHTML = '[' + time + '] ' + msg + '<br>' + _dbgLog.innerHTML; _dbgLog.scrollTop = _dbgLog.scrollHeight; }
 
 var _isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 var _hasOrientation = !!(screen.orientation && screen.orientation.lock);
@@ -116,38 +117,34 @@ var _locked = false;
 var _lockAttempts = 0;
 var _wasInFullscreen = false;
 
-function log(msg) {
-    var time = new Date().toLocaleTimeString();
-    _dbgLog.innerHTML = '[' + time + '] ' + msg + '<br>' + _dbgLog.innerHTML;
-    _dbgLog.scrollTop = _dbgLog.scrollHeight;
-}
+// function log(msg) { var time = new Date().toLocaleTimeString(); _dbgLog.innerHTML = '[' + time + '] ' + msg + '<br>' + _dbgLog.innerHTML; _dbgLog.scrollTop = _dbgLog.scrollHeight; }
 
-log('Mobile: ' + _isMobile);
-log('API: ' + _hasOrientation);
+_log('Mobile: ' + _isMobile);
+_log('API: ' + _hasOrientation);
 
 function tryLockForce() {
     _lockAttempts++;
     if (!_hasOrientation) {
-        log('No orientation API');
+        _log('No orientation API');
         return;
     }
     
-    log('Force lock attempt #' + _lockAttempts);
+    _log('Force lock attempt #' + _lockAttempts);
     
     screen.orientation.lock('landscape').then(function() {
         _locked = true;
-        log('LOCKED to landscape');
+        _log('LOCKED to landscape');
     }).catch(function(err) {
-        log('Lock error: ' + err.message);
+        _log('Lock error: ' + err.message);
         _locked = false;
         
         // Try alternative - some browsers support this
         if (screen.orientation.lock && screen.orientation.type === 'portrait-primary') {
             screen.orientation.lock('landscape-primary').then(function() {
                 _locked = true;
-                log('Locked landscape-primary');
+                _log('Locked landscape-primary');
             }).catch(function(e2) {
-                log('Alt lock failed: ' + e2.message);
+                _log('Alt lock failed: ' + e2.message);
             });
         }
     });
@@ -157,13 +154,13 @@ function tryUnlock() {
     if (_locked && screen.orientation && screen.orientation.unlock) {
         screen.orientation.unlock();
         _locked = false;
-        log('Unlocked orientation');
+        _log('Unlocked orientation');
     }
 }
 
 // Listen for messages from parent (Next.js)
 window.addEventListener('message', function(e) {
-    log('MSG from parent: ' + e.data);
+    _log('MSG from parent: ' + e.data);
     
     if (e.data === 'fullscreen-enter') {
         _wasInFullscreen = true;
@@ -178,7 +175,7 @@ window.addEventListener('message', function(e) {
 setInterval(function() {
     if (_wasInFullscreen) {
         if (!_locked || (screen.orientation && screen.orientation.type && screen.orientation.type.indexOf('landscape') === -1)) {
-            log('Ensuring landscape lock...');
+            _log('Ensuring landscape lock...');
             tryLockForce();
         }
     }
