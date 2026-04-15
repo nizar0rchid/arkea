@@ -37,7 +37,7 @@ const GameContent = () => {
         <div className="relative flex flex-col items-center justify-center h-full w-full px-4 gap-4">
             <iframe
                 ref={iframeRef}
-                src="/game/index.html"
+                src="/game-content/index.html"
                 className="w-full max-w-5xl aspect-video"
                 style={{ height: 'auto' }}
             />
