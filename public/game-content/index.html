@@ -101,6 +101,8 @@ document.documentElement.appendChild(_dbg);
 var _isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 var _hasOrientation = !!(screen.orientation && screen.orientation.lock);
 var _locked = false;
+var _lockAttempts = 0;
+var _wasInFullscreen = false;
 
 function log(msg) {
     var time = new Date().toLocaleTimeString();
@@ -111,35 +113,65 @@ log('=== ARKEA DEBUG ===');
 log('Mobile: ' + _isMobile);
 log('Orientation.lock: ' + _hasOrientation);
 
-function tryLock() {
-    if (_hasOrientation && !_locked) {
-        log('Locking...');
-        screen.orientation.lock('landscape').then(function() {
-            _locked = true;
-            log('LOCKED');
-        }).catch(function(err) {
-            log('Error: ' + err.message);
-            _locked = false;
-        });
+function tryLockForce() {
+    _lockAttempts++;
+    if (!_hasOrientation) {
+        log('No orientation API');
+        return;
     }
+    
+    log('Force lock attempt #' + _lockAttempts);
+    
+    screen.orientation.lock('landscape').then(function() {
+        _locked = true;
+        log('LOCKED to landscape');
+    }).catch(function(err) {
+        log('Lock error: ' + err.message);
+        _locked = false;
+        
+        // Try alternative - some browsers support this
+        if (screen.orientation.lock && screen.orientation.type === 'portrait-primary') {
+            screen.orientation.lock('landscape-primary').then(function() {
+                _locked = true;
+                log('Locked landscape-primary');
+            }).catch(function(e2) {
+                log('Alt lock failed: ' + e2.message);
+            });
+        }
+    });
 }
 
 function tryUnlock() {
     if (_locked && screen.orientation && screen.orientation.unlock) {
         screen.orientation.unlock();
         _locked = false;
-        log('Unlocked');
+        log('Unlocked orientation');
     }
 }
 
-log('Setup complete');
+// Listen for messages from parent (Next.js)
+window.addEventListener('message', function(e) {
+    log('MSG from parent: ' + e.data);
+    
+    if (e.data === 'fullscreen-enter') {
+        _wasInFullscreen = true;
+        tryLockForce();
+    } else if (e.data === 'fullscreen-exit') {
+        _wasInFullscreen = false;
+        tryUnlock();
+    }
+});
 
+// Check document.fullscreenElement state (iframe fullscreen)
 setInterval(function() {
-    if (document.fullscreenElement) {
-        if (!_locked || (screen.orientation && screen.orientation.type && screen.orientation.type.indexOf('landscape') === -1)) {
-            log('FS active - enforcing landscape...');
-            tryLock();
-        }
+    var isFs = !!document.fullscreenElement;
+    
+    if (isFs && (!_locked || (screen.orientation && screen.orientation.type && screen.orientation.type.indexOf('landscape') === -1))) {
+        log('In fullscreen - enforcing landscape');
+        tryLockForce();
+    } else if (!isFs && _locked) {
+        log('Exited fullscreen');
+        tryUnlock();
     }
 }, 500);
 </script>
