@@ -16,8 +16,17 @@ const GameContent = () => {
 
     useEffect(() => {
         const handleFullscreenChange = () => {
-            setIsFullscreen(!!document.fullscreenElement);
+            const fs = !!document.fullscreenElement;
+            setIsFullscreen(fs);
+            
+            if (iframeRef.current?.contentWindow) {
+                iframeRef.current.contentWindow.postMessage(
+                    fs ? 'fullscreen-enter' : 'fullscreen-exit',
+                    '*'
+                );
+            }
         };
+
         document.addEventListener('fullscreenchange', handleFullscreenChange);
         return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
     }, []);
@@ -41,7 +50,7 @@ const GameContent = () => {
                 src="/game-content/index.html"
                 className="w-full max-w-5xl aspect-video"
                 style={{ height: 'auto' }}
-                allow="fullscreen; orientation=landscape"
+                allow="fullscreen"
             />
             <button
                 onClick={toggleFullscreen}
