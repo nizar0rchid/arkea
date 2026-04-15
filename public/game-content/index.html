@@ -97,11 +97,12 @@ body {
 var _dbg = document.createElement('div');
 var _dbgHdr = document.createElement('div');
 var _dbgLog = document.createElement('div');
-var _dbgOpen = true;
+var _dbgOpen = false;
 
 _dbgHdr.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:#222;margin:-10px -10px 10px -10px;border-radius:5px 5px 0 0;cursor:pointer;';
-_dbgHdr.innerHTML = '<span>ARKEA DEBUG</span><span>▼</span>';
-_dbgHdr.onclick = function() { _dbgOpen = !_dbgOpen; _dbgLog.style.display = _dbgOpen ? 'block' : 'none'; _dbgHdr.children[1].textContent = _dbgOpen ? '▼' : '▲'; };
+_dbgHdr.innerHTML = '<span>ARKEA DEBUG ▲</span>';
+_dbgHdr.onclick = function() { _dbgOpen = !_dbgOpen; _dbgLog.style.display = _dbgOpen ? 'block' : 'none'; _dbgHdr.innerHTML = _dbgOpen ? '<span>ARKEA DEBUG ▼</span>' : '<span>ARKEA DEBUG ▲</span>'; };
+_dbgLog.style.display = 'none';
 _dbgLog.style.cssText = 'max-height:150px;overflow-y:auto;';
 
 _dbg.style.cssText = 'position:fixed;top:10px;left:10px;z-index:9999;background:rgba(0,0,0,0.9);color:#0f0;padding:10px;font:12px monospace;border-radius:8px;';
