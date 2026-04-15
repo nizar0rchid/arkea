@@ -82,7 +82,7 @@ const GameContent = () => {
                 src="/game-content/index.html"
                 className="w-full max-w-5xl aspect-video"
                 style={{ height: 'auto' }}
-                allow="fullscreen"
+                allow="fullscreen; orientation=landscape"
             />
             <button
                 onClick={toggleFullscreen}
