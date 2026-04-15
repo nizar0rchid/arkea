@@ -93,7 +93,48 @@ body {
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
 <link rel="manifest" href="index.manifest.json">
-
+<script>
+  var _orientation_locked = false;
+  var _orientation_interval = null;
+  
+  function _lock_orientation() {
+    if (screen.orientation && 'lock' in screen.orientation && !_orientation_locked) {
+      screen.orientation.lock('landscape').then(function() {
+        _orientation_locked = true;
+      }).catch(function() {});
+    }
+  }
+  
+  function _unlock_orientation() {
+    if (_orientation_locked && screen.orientation && 'unlock' in screen.orientation) {
+      screen.orientation.unlock();
+      _orientation_locked = false;
+    }
+    if (_orientation_interval) {
+      clearInterval(_orientation_interval);
+      _orientation_interval = null;
+    }
+  }
+  
+  function _start_monitoring() {
+    if (!_orientation_interval) {
+      _orientation_interval = setInterval(function() {
+        if (document.fullscreenElement && !_orientation_locked) {
+          _lock_orientation();
+        }
+      }, 1000);
+    }
+  }
+  
+  document.addEventListener('fullscreenchange', function() {
+    if (document.fullscreenElement) {
+      _lock_orientation();
+      _start_monitoring();
+    } else {
+      _unlock_orientation();
+    }
+  });
+</script>
 	</head>
 	<body>
 		<canvas id="canvas">
@@ -112,7 +153,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":52368032,"index.wasm":43682606},"focusCanvas":true,"gdextensionLibs":[],"serviceWorker":"index.service.worker.js"};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":52367936,"index.wasm":43682606},"focusCanvas":true,"gdextensionLibs":[],"serviceWorker":"index.service.worker.js"};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
