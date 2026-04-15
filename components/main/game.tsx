@@ -1,5 +1,10 @@
 'use client';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+
+const isMobile = () => {
+    if (typeof window === 'undefined') return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
 
 export const Game = () => {
     return (
@@ -21,15 +26,52 @@ export const Game = () => {
 
 const GameContent = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [orientationLocked, setOrientationLocked] = useState(false);
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
-    const toggleFullscreen = () => {
+    const mobile = isMobile();
+
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            const fs = !!document.fullscreenElement;
+            setIsFullscreen(fs);
+            
+            if (!fs && orientationLocked) {
+                setOrientationLocked(false);
+                if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            }
+        };
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    }, [orientationLocked]);
+
+    const toggleFullscreen = async () => {
         if (!document.fullscreenElement) {
-            iframeRef.current?.requestFullscreen();
-            setIsFullscreen(true);
+            try {
+                await iframeRef.current?.requestFullscreen();
+                setIsFullscreen(true);
+
+                if (mobile && screen.orientation && 'lock' in screen.orientation) {
+                    try {
+                        await screen.orientation.lock('landscape');
+                        setOrientationLocked(true);
+                    } catch (e) {
+                        console.log('Orientation lock not supported or denied: ', e);
+                    }
+                }
+            } catch (e) {
+                console.error('Fullscreen failed:', e);
+            }
         } else {
-            document.exitFullscreen();
+            if (orientationLocked && screen.orientation && 'unlock' in screen.orientation) {
+                screen.orientation.unlock();
+            }
+            await document.exitFullscreen();
             setIsFullscreen(false);
+            setOrientationLocked(false);
         }
     };
 
@@ -40,6 +82,7 @@ const GameContent = () => {
                 src="/game-content/index.html"
                 className="w-full max-w-5xl aspect-video"
                 style={{ height: 'auto' }}
+                allow="fullscreen"
             />
             <button
                 onClick={toggleFullscreen}
