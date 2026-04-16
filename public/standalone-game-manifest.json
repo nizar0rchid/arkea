@@ -1,0 +1,23 @@
+{
+  "name": "ArkeA - Space Game",
+  "short_name": "ArkeA",
+  "description": "Play ArkeA - An immersive space exploration puzzle game",
+  "start_url": "/standalone-game",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#7c3aed",
+  "orientation": "landscape",
+  "icons": [
+    {
+      "src": "/game-content/index.icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/game-content/index.512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "prefer_related_applications": false
+}
