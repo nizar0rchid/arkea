@@ -1,17 +1,5 @@
-const withPWA = require('next-pwa')({
-  dest: 'public',
-  disable: false,
-  register: true,
-  scope: '/standalone-game',
-  startUrl: '/standalone-game',
-});
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  turbopack: {},
-  webpack: (config) => {
-    return config;
-  },
   async headers() {
     return [
       {
@@ -25,4 +13,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withPWA(nextConfig);
+module.exports = nextConfig;

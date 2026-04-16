@@ -19,6 +19,12 @@ export const metadata: Metadata = {
 };
 
 export default function StandaloneGameLayout({ children }: PropsWithChildren) {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+    }
+    
     return (
         <html lang="en">
         <body
