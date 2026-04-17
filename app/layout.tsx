@@ -22,8 +22,10 @@ export const metadata: Metadata = siteConfig;
 export default async function RootLayout({ children }: PropsWithChildren) {
   const headersList = await headers();
   const pathname = headersList.get("x-pathname") || "";
+  console.log(pathname)
   
   const isStandaloneGame = pathname.startsWith("/standalone-game");
+  console.log(isStandaloneGame)
 
   return (
     <html lang="en">

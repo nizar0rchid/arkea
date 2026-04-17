@@ -5,10 +5,50 @@ export const Standalone = () => {
     return (
         <div className="relative flex flex-col h-screen w-full">
             <StandaloneContent />
+            <InstallPromptHint />
         </div>
     );
 };
 
+const InstallPromptHint = () => {
+    const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null);
+    const [showHint, setShowHint] = useState(false);
+
+    useEffect(() => {
+        const handler = (e: Event) => {
+            e.preventDefault();
+            setDeferredPrompt(e);
+            setShowHint(true);
+        };
+        window.addEventListener('beforeinstallprompt', handler);
+        return () => window.removeEventListener('beforeinstallprompt', handler);
+    }, []);
+
+    if (!showHint) return null;
+
+    return (
+        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-purple-600/90 backdrop-blur-sm rounded-lg">
+            <div className="flex items-center gap-3">
+                <span className="text-white text-sm">Tap below to install ArkeA</span>
+                <button
+                    onClick={async () => {
+                        if (deferredPrompt) {
+                            (deferredPrompt as any).prompt();
+                            const { outcome } = await (deferredPrompt as any).userChoice;
+                            if (outcome === 'accepted') {
+                                setShowHint(false);
+                            }
+                            setDeferredPrompt(null);
+                        }
+                    }}
+                    className="px-3 py-1 bg-white text-purple-700 text-sm font-medium rounded hover:bg-purple-50 transition-colors"
+                >
+                    Install
+                </button>
+            </div>
+        </div>
+    );
+};
 
 const StandaloneContent = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
