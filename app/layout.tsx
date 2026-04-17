@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { PropsWithChildren } from "react";
-import { headers } from "next/headers";
 
 import { Footer } from "@/components/main/footer";
 import { Navbar } from "@/components/main/navbar";
@@ -17,17 +16,9 @@ export const viewport: Viewport = {
   themeColor: "#030014",
 };
 
-export const metadata: Metadata = {
-  ...siteConfig,
-  manifest: '/standalone-game-manifest.json',
-};
+export const metadata: Metadata = siteConfig;
 
-export default async function RootLayout({ children }: PropsWithChildren) {
-  const headersList = await headers();
-  const pathname = headersList.get("x-pathname") || "";
-  
-  const isStandaloneGame = pathname.startsWith("/standalone-game");
-
+export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang="en">
       <body
@@ -36,10 +27,10 @@ export default async function RootLayout({ children }: PropsWithChildren) {
           inter.className
         )}
       >
-        {!isStandaloneGame && <StarsCanvas />}
-        {!isStandaloneGame && <Navbar />}
+        <StarsCanvas />
+        <Navbar />
         {children}
-        {!isStandaloneGame && <Footer />}
+        <Footer />
       </body>
     </html>
   );
