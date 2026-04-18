@@ -1,5 +1,4 @@
-import { Hero } from "@/components/main/hero";
-import {Game} from "@/components/main/game";
+import { Game } from "@/components/main/game";
 import { PWAInstallBanner } from "@/components/main/pwa-install-banner";
 
 export default function GamePage() {

@@ -2,55 +2,101 @@
 import { useState, useRef, useEffect } from "react";
 
 export const Standalone = () => {
+    const [showContent, setShowContent] = useState(false);
+
     return (
         <div className="relative flex flex-col h-screen w-full">
-            <StandaloneContent />
-            <InstallPromptHint />
+            {showContent && <StandaloneContent onReady={() => setShowContent(true)} />}
+            <InstallPromptHint 
+                showContent={showContent} 
+                onShowContent={() => setShowContent(true)} 
+            />
+            {!showContent && (
+                <LoadingOverlay />
+            )}
         </div>
     );
 };
 
-const InstallPromptHint = () => {
+const LoadingOverlay = () => {
+    return (
+        <div className="fixed inset-0 z-40 bg-[#030014] flex items-center justify-center">
+            <div className="text-center">
+                <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                <p className="text-white text-sm">Preparing game...</p>
+            </div>
+        </div>
+    );
+};
+
+interface InstallPromptHintProps {
+    showContent: boolean;
+    onShowContent: () => void;
+}
+
+const InstallPromptHint = ({ showContent, onShowContent }: InstallPromptHintProps) => {
     const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null);
-    const [showHint, setShowHint] = useState(false);
 
     useEffect(() => {
-        const handler = (e: Event) => {
+        let handler: ((e: Event) => void) | null = null;
+
+        handler = (e: Event) => {
             e.preventDefault();
-            setDeferredPrompt(e);
-            setShowHint(true);
+            setDeferredPrompt(e as any);
         };
+
         window.addEventListener('beforeinstallprompt', handler);
-        return () => window.removeEventListener('beforeinstallprompt', handler);
+
+        return () => {
+            if (handler) window.removeEventListener('beforeinstallprompt', handler);
+        };
     }, []);
 
-    if (!showHint) return null;
+    const handleInstall = async () => {
+        if (deferredPrompt) {
+            try {
+                (deferredPrompt as any).prompt();
+                const { outcome } = await (deferredPrompt as any).userChoice;
+                if (outcome !== 'accepted') return;
+            } catch {
+                // continue anyway
+            }
+        }
+        onShowContent();
+    };
+
+    const handleSkip = () => {
+        onShowContent();
+    };
+
+    if (showContent) return null;
+
+    const btnStyle = "px-4 py-2 bg-white text-purple-700 font-medium rounded-lg hover:bg-purple-50 transition-colors";
 
     return (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-purple-600/90 backdrop-blur-sm rounded-lg">
-            <div className="flex items-center gap-3">
-                <span className="text-white text-sm">Tap below to install ArkeA</span>
-                <button
-                    onClick={async () => {
-                        if (deferredPrompt) {
-                            (deferredPrompt as any).prompt();
-                            const { outcome } = await (deferredPrompt as any).userChoice;
-                            if (outcome === 'accepted') {
-                                setShowHint(false);
-                            }
-                            setDeferredPrompt(null);
-                        }
-                    }}
-                    className="px-3 py-1 bg-white text-purple-700 text-sm font-medium rounded hover:bg-purple-50 transition-colors"
+        <div className="fixed inset-0 z-50 bg-[#030014]/95 flex items-center justify-center p-4">
+            <div className="text-center max-w-sm">
+                <h2 className="text-2xl font-bold text-white mb-2">ArkeA</h2>
+                <p className="text-purple-200 text-sm mb-6">Install to play offline as a native app</p>
+                <button onClick={handleInstall} className={btnStyle}>
+                    Install App
+                </button>
+                <button 
+                    onClick={handleSkip}
+                    className="block mt-4 text-purple-400 text-sm hover:text-white transition-colors"
                 >
-                    Install
+                    Continue without installing
                 </button>
             </div>
         </div>
     );
 };
 
-const StandaloneContent = () => {
+interface StandaloneContentProps {
+    onReady?: () => void;
+}
+
+const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
