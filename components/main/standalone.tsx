@@ -36,8 +36,15 @@ interface InstallPromptHintProps {
 
 const InstallPromptHint = ({ showContent, onShowContent }: InstallPromptHintProps) => {
     const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null);
+    const [isIOS, setIsIOS] = useState(false);
+    const [isInstalling, setIsInstalling] = useState(false);
 
     useEffect(() => {
+        const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+        setIsIOS(iOS);
+
+        if (iOS) return;
+
         let handler: ((e: Event) => void) | null = null;
 
         handler = (e: Event) => {
@@ -53,11 +60,16 @@ const InstallPromptHint = ({ showContent, onShowContent }: InstallPromptHintProp
     }, []);
 
     const handleInstall = async () => {
+        setIsInstalling(true);
+        
         if (deferredPrompt) {
             try {
                 (deferredPrompt as any).prompt();
                 const { outcome } = await (deferredPrompt as any).userChoice;
-                if (outcome !== 'accepted') return;
+                if (outcome !== 'accepted') {
+                    setIsInstalling(false);
+                    return;
+                }
             } catch {
                 // continue anyway
             }
@@ -77,10 +89,23 @@ const InstallPromptHint = ({ showContent, onShowContent }: InstallPromptHintProp
         <div className="fixed inset-0 z-50 bg-[#030014]/95 flex justify-center items-center p-4">
             <div className=" items-center justify-center text-center max-w-sm">
                 <h2 className="text-2xl font-bold text-white mb-2">ArkeA</h2>
-                <p className="text-purple-200 text-sm mb-6">Install to play offline as a native app</p>
-                <button onClick={handleInstall} className={btnStyle}>
-                    Install App
-                </button>
+                <p className="text-purple-200 text-sm mb-6">
+                    {isIOS 
+                        ? "Tap Share → Add to Home Screen to install"
+                        : "Install to play offline as a native app"
+                    }
+                </p>
+                {!isIOS && (
+                    <button onClick={handleInstall} className={btnStyle}>
+                        {isInstalling ? "Installing..." : "Install App"}
+                    </button>
+                )}
+                {isIOS && (
+                    <div className="mt-4 text-purple-300 text-xs">
+                        1. Tap the Share button<br/>
+                        2. Scroll down and tap "Add to Home Screen"
+                    </div>
+                )}
                 <button 
                     onClick={handleSkip}
                     className="block mt-4 mx-auto text-purple-400 text-sm hover:text-white transition-colors"
