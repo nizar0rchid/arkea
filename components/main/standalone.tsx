@@ -74,8 +74,8 @@ const InstallPromptHint = ({ showContent, onShowContent }: InstallPromptHintProp
     const btnStyle = "px-4 py-2 bg-white text-purple-700 font-medium rounded-lg hover:bg-purple-50 transition-colors";
 
     return (
-        <div className="fixed inset-0 z-50 bg-[#030014]/95 flex items-center justify-center p-4">
-            <div className="text-center max-w-sm">
+        <div className="fixed inset-0 z-50 bg-[#030014]/95 flex justify-center items-center p-4">
+            <div className=" items-center justify-center text-center max-w-sm">
                 <h2 className="text-2xl font-bold text-white mb-2">ArkeA</h2>
                 <p className="text-purple-200 text-sm mb-6">Install to play offline as a native app</p>
                 <button onClick={handleInstall} className={btnStyle}>
@@ -83,9 +83,8 @@ const InstallPromptHint = ({ showContent, onShowContent }: InstallPromptHintProp
                 </button>
                 <button 
                     onClick={handleSkip}
-                    className="block mt-4 text-purple-400 text-sm hover:text-white transition-colors"
-                >
-                    Continue without installing
+                    className="block mt-4 mx-auto text-purple-400 text-sm hover:text-white transition-colors"
+                >Continue without installing
                 </button>
             </div>
         </div>
