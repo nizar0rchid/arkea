@@ -132,6 +132,10 @@ interface StandaloneContentProps {
 
 const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isRecording, setIsRecording] = useState(false);
+    const [recordingTime, setRecordingTime] = useState(0);
+    const [recordingError, setRecordingError] = useState<string | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
 
     useEffect(() => {
@@ -147,12 +151,60 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
             }
         };
 
+        const handleMessage = (e: MessageEvent) => {
+            if (e.data?.type === 'recording-status') {
+                switch (e.data.status) {
+                    case 'started':
+                        setIsRecording(true);
+                        setRecordingTime(0);
+                        setRecordingError(null);
+                        break;
+                    case 'stopped':
+                        setIsRecording(false);
+                        setRecordingTime(0);
+                        break;
+                    case 'timeupdate':
+                        setRecordingTime(e.data.data);
+                        break;
+                    case 'download':
+                        const a = document.createElement('a');
+                        a.href = e.data.data;
+                        a.download = `game-recording-${Date.now()}.webm`;
+                        a.click();
+                        break;
+                    case 'error':
+                        setRecordingError(e.data.data);
+                        setIsRecording(false);
+                        setRecordingTime(0);
+                        break;
+                    case 'status':
+                        if (!e.data.data?.supported) {
+                            setRecordingError('Canvas recording not supported');
+                        } else if (!e.data.data?.hasCaptureStream) {
+                            setRecordingError('Screen capture not available');
+                        } else {
+                            setRecordingError(null);
+                        }
+                        break;
+                }
+            }
+        };
+
         document.addEventListener('fullscreenchange', handleFullscreenChange);
-        return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+        window.addEventListener('message', handleMessage);
+
+        setTimeout(() => {
+            iframeRef.current?.contentWindow?.postMessage({ type: 'recording-command', command: 'status' }, '*');
+        }, 2000);
+
+        return () => {
+            document.removeEventListener('fullscreenchange', handleFullscreenChange);
+            window.removeEventListener('message', handleMessage);
+        };
     }, []);
 
     const toggleFullscreen = async () => {
-        const container = iframeRef.current?.parentElement;
+        const container = containerRef.current;
         if (!document.fullscreenElement) {
             try {
                 await container?.requestFullscreen();
@@ -164,78 +216,13 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
         }
     };
 
-const [isRecording, setIsRecording] = useState(false);
-    const [recordingTime, setRecordingTime] = useState(0);
-    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-    const chunksRef = useRef<Blob[]>([]);
-    const recordingTimerRef = useRef<NodeJS.Timeout | null>(null);
+    const toggleRecording = () => {
+        if (!iframeRef.current?.contentWindow) return;
 
-    const toggleRecording = async () => {
         if (isRecording) {
-            mediaRecorderRef.current?.stop();
-            setIsRecording(false);
-            if (recordingTimerRef.current) {
-                clearInterval(recordingTimerRef.current);
-                setRecordingTime(0);
-            }
-            return;
-        }
-
-        if (!navigator.mediaDevices?.getDisplayMedia) {
-            alert('Screen recording is not supported in this browser. Please use Chrome, Edge, or Safari.');
-            return;
-        }
-
-        try {
-            const stream = await navigator.mediaDevices.getDisplayMedia({
-                video: { cursor: "always" } as MediaTrackConstraints,
-                audio: false,
-                preferCurrentTab: true
-            } as DisplayMediaStreamOptions);
-
-            const mediaRecorder = new MediaRecorder(stream, {
-                mimeType: 'video/webm;codecs=vp9'
-            });
-
-            chunksRef.current = [];
-
-            mediaRecorder.ondataavailable = (e) => {
-                if (e.data.size > 0) {
-                    chunksRef.current.push(e.data);
-                }
-            };
-
-            mediaRecorder.onstop = () => {
-                const blob = new Blob(chunksRef.current, { type: 'video/webm' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `game-recording-${Date.now()}.webm`;
-                a.click();
-                URL.revokeObjectURL(url);
-                stream.getTracks().forEach(track => track.stop());
-            };
-
-            mediaRecorder.start(1000);
-            mediaRecorderRef.current = mediaRecorder;
-            setIsRecording(true);
-            setRecordingTime(0);
-            recordingTimerRef.current = setInterval(() => {
-                setRecordingTime(prev => prev + 1);
-            }, 1000);
-
-            stream.getVideoTracks()[0].onended = () => {
-                if (isRecording) {
-                    mediaRecorder.stop();
-                    setIsRecording(false);
-                    if (recordingTimerRef.current) {
-                        clearInterval(recordingTimerRef.current);
-                        setRecordingTime(0);
-                    }
-                }
-            };
-        } catch (e) {
-            console.error('Recording failed:', e);
+            iframeRef.current.contentWindow.postMessage({ type: 'recording-command', command: 'stop' }, '*');
+        } else {
+            iframeRef.current.contentWindow.postMessage({ type: 'recording-command', command: 'start' }, '*');
         }
     };
 
@@ -243,9 +230,10 @@ const [isRecording, setIsRecording] = useState(false);
         <div className="relative w-full h-screen">
             <div
                 className="relative w-full h-full"
-                ref={iframeRef as any}
+                ref={containerRef}
             >
                 <iframe
+                    ref={iframeRef}
                     src="/game-content/index.html"
                     className="w-full h-full"
                     allow="fullscreen"
@@ -265,28 +253,33 @@ const [isRecording, setIsRecording] = useState(false);
                         </svg>
                     )}
                 </button>
-            <button
-                onClick={toggleRecording}
-                className={`absolute top-2 right-2 sm:top-4 sm:right-4 p-2 sm:p-3 rounded-lg transition-colors duration-200 backdrop-blur-sm z-10 flex items-center gap-1 sm:gap-2 ${
-                    isRecording
-                        ? 'bg-red-600/80 hover:bg-red-700 animate-pulse'
-                        : 'bg-gray-600/80 hover:bg-gray-700'
-                } text-white`}
-                title={isRecording ? "Stop Recording" : "Start Recording (go fullscreen first for best experience)"}
-            >
-                {isRecording ? (
-                    <>
+                <button
+                    onClick={toggleRecording}
+                    className={`absolute top-2 right-2 sm:top-4 sm:right-4 p-2 sm:p-3 rounded-lg transition-colors duration-200 backdrop-blur-sm z-10 flex items-center gap-1 sm:gap-2 ${
+                        isRecording
+                            ? 'bg-red-600/80 hover:bg-red-700 animate-pulse'
+                            : 'bg-gray-600/80 hover:bg-gray-700'
+                    } text-white`}
+                    title={isRecording ? "Stop Recording" : "Start Recording"}
+                >
+                    {isRecording ? (
+                        <>
+                            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <rect x="6" y="6" width="12" height="12" rx="2" />
+                            </svg>
+                            <span className="text-xs sm:text-sm font-mono">{Math.floor(recordingTime / 60)}:{String(recordingTime % 60).padStart(2, '0')}</span>
+                        </>
+                    ) : (
                         <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
-                            <rect x="6" y="6" width="12" height="12" rx="2" />
+                            <circle cx="12" cy="12" r="8" />
                         </svg>
-                        <span className="text-xs sm:text-sm font-mono">{Math.floor(recordingTime / 60)}:{String(recordingTime % 60).padStart(2, '0')}</span>
-                    </>
-                ) : (
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="8" />
-                    </svg>
+                    )}
+                </button>
+                {recordingError && (
+                    <div className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-4 bg-red-600/90 text-white text-sm px-4 py-2 rounded-lg z-20">
+                        {recordingError}
+                    </div>
                 )}
-            </button>
             </div>
         </div>
     );
