@@ -170,5 +170,6 @@ const GameContent = () => {
                 </button>
             </div>
         </div>
+        </div>
     );
 };
