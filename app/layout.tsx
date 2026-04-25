@@ -10,8 +10,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "ArkeA - Space Portfolio",
-  description: "A space-themed portfolio",
+  title: "ArkeA",
+  description: "ArkeA",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

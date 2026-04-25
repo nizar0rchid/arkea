@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 
 export const Standalone = () => {
     const [showContent, setShowContent] = useState(false);
@@ -88,7 +89,16 @@ const InstallPromptHint = ({ showContent, onShowContent }: InstallPromptHintProp
     return (
         <div className="fixed inset-0 z-50 bg-[#030014]/95 flex justify-center items-center p-4">
             <div className=" items-center justify-center text-center max-w-sm">
-                <h2 className="text-2xl font-bold text-white mb-2">ArkeA</h2>
+                <Image
+                    src="/logo.png"
+                    alt="Logo"
+                    loading="eager"
+                    width={200}
+                    height={200}
+                    draggable={false}
+                    className="mx-auto"
+                />
+
                 <p className="text-purple-200 text-sm mb-6">
                     {isIOS 
                         ? "Tap Share → Add to Home Screen to install"
