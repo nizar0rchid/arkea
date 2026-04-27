@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1777124192|4010559255';
+const CACHE_VERSION = '1777322112|38767993';
 /** @type {string} */
 const CACHE_PREFIX = 'ArkeA-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
