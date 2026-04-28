@@ -1,6 +1,5 @@
 'use client';
 import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 
 export const Standalone = () => {
     const [showContent, setShowContent] = useState(false);
@@ -89,14 +88,10 @@ const InstallPromptHint = ({ showContent, onShowContent }: InstallPromptHintProp
     return (
         <div className="fixed inset-0 z-50 bg-[#030014]/95 flex justify-center items-center p-4">
             <div className=" items-center justify-center text-center max-w-sm">
-                <Image
+                <img
                     src="/logo.png"
                     alt="Logo"
-                    loading="eager"
-                    width={200}
-                    height={200}
-                    draggable={false}
-                    className="mx-auto"
+                    className="mx-auto mb-4 w-48 h-48 object-contain"
                 />
 
                 <p className="text-purple-200 text-sm mb-6">
@@ -132,11 +127,17 @@ interface StandaloneContentProps {
 
 const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isIOS, setIsIOS] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
     const [recordingTime, setRecordingTime] = useState(0);
     const [recordingError, setRecordingError] = useState<string | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
+
+    useEffect(() => {
+        const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+        setIsIOS(iOS);
+    }, []);
 
     useEffect(() => {
         const handleFullscreenChange = () => {
@@ -205,11 +206,39 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
 
     const toggleFullscreen = async () => {
         const container = containerRef.current;
+        
+        if (isIOS) {
+            if (container) {
+                if (!isFullscreen) {
+                    container.style.position = 'fixed';
+                    container.style.top = '0';
+                    container.style.left = '0';
+                    container.style.right = '0';
+                    container.style.bottom = '0';
+                    container.style.zIndex = '9999';
+                    setIsFullscreen(true);
+                } else {
+                    container.style.position = '';
+                    container.style.top = '';
+                    container.style.left = '';
+                    container.style.right = '';
+                    container.style.bottom = '';
+                    container.style.zIndex = '';
+                    setIsFullscreen(false);
+                }
+            }
+            return;
+        }
+        
         if (!document.fullscreenElement) {
             try {
                 await container?.requestFullscreen();
             } catch (e) {
-                console.error('Fullscreen failed:', e);
+                try {
+                    await (container as any)?.webkitRequestFullscreen();
+                } catch (e2) {
+                    console.error('Fullscreen failed:', e2);
+                }
             }
         } else {
             await document.exitFullscreen();

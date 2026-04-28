@@ -12,11 +12,17 @@ export const Game = () => {
 
 const GameContent = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isIOS, setIsIOS] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
     const [recordingTime, setRecordingTime] = useState(0);
     const [recordingError, setRecordingError] = useState<string | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement>(null);
+
+    useEffect(() => {
+        const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+        setIsIOS(iOS);
+    }, []);
 
     useEffect(() => {
         const handleFullscreenChange = () => {
@@ -85,11 +91,39 @@ const GameContent = () => {
 
     const toggleFullscreen = async () => {
         const container = containerRef.current;
+        
+        if (isIOS) {
+            if (container) {
+                if (!isFullscreen) {
+                    container.style.position = 'fixed';
+                    container.style.top = '0';
+                    container.style.left = '0';
+                    container.style.right = '0';
+                    container.style.bottom = '0';
+                    container.style.zIndex = '9999';
+                    setIsFullscreen(true);
+                } else {
+                    container.style.position = '';
+                    container.style.top = '';
+                    container.style.left = '';
+                    container.style.right = '';
+                    container.style.bottom = '';
+                    container.style.zIndex = '';
+                    setIsFullscreen(false);
+                }
+            }
+            return;
+        }
+        
         if (!document.fullscreenElement) {
             try {
                 await container?.requestFullscreen();
             } catch (e) {
-                console.error('Fullscreen failed:', e);
+                try {
+                    await (container as any)?.webkitRequestFullscreen();
+                } catch (e2) {
+                    console.error('Fullscreen failed:', e2);
+                }
             }
         } else {
             await document.exitFullscreen();
