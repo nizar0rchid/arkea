@@ -137,6 +137,7 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
     useEffect(() => {
         const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
         setIsIOS(iOS);
+        console.log('Device iOS:', iOS, 'UA:', navigator.userAgent);
     }, []);
 
     useEffect(() => {
@@ -207,24 +208,31 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
     const toggleFullscreen = async () => {
         const container = containerRef.current;
         
-        if (isIOS) {
-            if (container) {
-                if (!isFullscreen) {
-                    container.style.position = 'fixed';
-                    container.style.top = '0';
-                    container.style.left = '0';
-                    container.style.right = '0';
-                    container.style.bottom = '0';
-                    container.style.zIndex = '9999';
-                    setIsFullscreen(true);
-                } else {
-                    container.style.position = '';
-                    container.style.top = '';
-                    container.style.left = '';
-                    container.style.right = '';
-                    container.style.bottom = '';
-                    container.style.zIndex = '';
-                    setIsFullscreen(false);
+        if (isIOS && container) {
+            console.log('iOS fullscreen toggle, current state:', isFullscreen);
+            if (!isFullscreen) {
+                container.style.setProperty('position', 'fixed');
+                container.style.setProperty('top', '0');
+                container.style.setProperty('left', '0');
+                container.style.setProperty('width', '100vw');
+                container.style.setProperty('height', '100vh');
+                container.style.setProperty('zIndex', '2147483647');
+                document.body.style.setProperty('overflow', 'hidden');
+                setIsFullscreen(true);
+                if (iframeRef.current?.contentWindow) {
+                    iframeRef.current.contentWindow.postMessage({ type: 'fullscreen-enter' }, '*');
+                }
+            } else {
+                container.style.removeProperty('position');
+                container.style.removeProperty('top');
+                container.style.removeProperty('left');
+                container.style.removeProperty('width');
+                container.style.removeProperty('height');
+                container.style.removeProperty('zIndex');
+                document.body.style.removeProperty('overflow');
+                setIsFullscreen(false);
+                if (iframeRef.current?.contentWindow) {
+                    iframeRef.current.contentWindow.postMessage({ type: 'fullscreen-exit' }, '*');
                 }
             }
             return;

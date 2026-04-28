@@ -195,6 +195,9 @@
                     break;
             }
         }
+        if (e.data && (e.data.type === 'fullscreen-enter' || e.data.type === 'fullscreen-exit')) {
+            console.log('RecordingManager: Fullscreen event', e.data.type);
+        }
     });
 
     if (document.readyState === 'loading') {

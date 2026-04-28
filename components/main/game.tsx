@@ -92,25 +92,25 @@ const GameContent = () => {
     const toggleFullscreen = async () => {
         const container = containerRef.current;
         
-        if (isIOS) {
-            if (container) {
-                if (!isFullscreen) {
-                    container.style.position = 'fixed';
-                    container.style.top = '0';
-                    container.style.left = '0';
-                    container.style.right = '0';
-                    container.style.bottom = '0';
-                    container.style.zIndex = '9999';
-                    setIsFullscreen(true);
-                } else {
-                    container.style.position = '';
-                    container.style.top = '';
-                    container.style.left = '';
-                    container.style.right = '';
-                    container.style.bottom = '';
-                    container.style.zIndex = '';
-                    setIsFullscreen(false);
-                }
+        if (isIOS && container) {
+            if (!isFullscreen) {
+                container.style.setProperty('position', 'fixed');
+                container.style.setProperty('top', '0');
+                container.style.setProperty('left', '0');
+                container.style.setProperty('width', '100vw');
+                container.style.setProperty('height', '100vh');
+                container.style.setProperty('zIndex', '2147483647');
+                document.body.style.overflow = 'hidden';
+                setIsFullscreen(true);
+            } else {
+                container.style.removeProperty('position');
+                container.style.removeProperty('top');
+                container.style.removeProperty('left');
+                container.style.removeProperty('width');
+                container.style.removeProperty('height');
+                container.style.removeProperty('zIndex');
+                document.body.style.removeProperty('overflow');
+                setIsFullscreen(false);
             }
             return;
         }
