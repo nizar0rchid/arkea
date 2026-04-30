@@ -107,7 +107,7 @@ const InstallPromptHint = ({ showContent, onShowContent }: InstallPromptHintProp
                 )}
                 {isIOS && (
                     <div className="mt-4 text-purple-300 text-xs">
-                        1. Tap the Share button<br/>
+                        1. Tap the Share button in the browser's address bar<br/>
                         2. Scroll down and tap "Add to Home Screen"
                     </div>
                 )}
