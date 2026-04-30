@@ -111,11 +111,13 @@ const InstallPromptHint = ({ showContent, onShowContent }: InstallPromptHintProp
                         2. Scroll down and tap "Add to Home Screen"
                     </div>
                 )}
-                <button 
-                    onClick={handleSkip}
-                    className="block mt-4 mx-auto text-purple-400 text-sm hover:text-white transition-colors"
-                >Continue without installing
-                </button>
+                {!isIOS && (
+                    <button
+                        onClick={handleSkip}
+                        className="block mt-4 mx-auto text-purple-400 text-sm hover:text-white transition-colors"
+                    >Continue without installing
+                    </button>
+                )}
             </div>
         </div>
     );
