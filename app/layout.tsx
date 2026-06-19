@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Arkea",
     description: "Arkea",
-    url: "https://arkeaspace.com",
+    url: "https://arkeaband.com",
     siteName: "Arkea",
     images: [
       {
