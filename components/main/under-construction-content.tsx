@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from 'next/image'
 
 export const UnderConstructionContent = ({ bg }: { bg: string | null }) => (
   <div className="relative z-10 flex flex-col items-center gap-8 p-8 select-none">
@@ -13,19 +13,19 @@ export const UnderConstructionContent = ({ bg }: { bg: string | null }) => (
       />
       {bg && (
         <div
-          className="absolute inset-0 opacity-40 grayscale contrast-[10] shadow-lg select-none"
+          className="absolute inset-0 opacity-40 shadow-lg contrast-[10] grayscale select-none"
           style={{
             backgroundImage: `url(${bg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            maskImage: "url(/SVG/arkealogo.svg)",
-            maskSize: "contain",
-            maskRepeat: "no-repeat",
-            maskPosition: "center",
-            WebkitMaskImage: "url(/SVG/arkealogo.svg)",
-            WebkitMaskSize: "contain",
-            WebkitMaskRepeat: "no-repeat",
-            WebkitMaskPosition: "center",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            maskImage: 'url(/SVG/arkealogo.svg)',
+            maskSize: 'contain',
+            maskRepeat: 'no-repeat',
+            maskPosition: 'center',
+            WebkitMaskImage: 'url(/SVG/arkealogo.svg)',
+            WebkitMaskSize: 'contain',
+            WebkitMaskRepeat: 'no-repeat',
+            WebkitMaskPosition: 'center',
           }}
         />
       )}
@@ -48,4 +48,4 @@ export const UnderConstructionContent = ({ bg }: { bg: string | null }) => (
       draggable={false}
     />
   </div>
-);
+)

@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next'
 
 export const siteConfig: Metadata = {
-  title: "ArkeA",
-  description: "Welcome to ArkeA",
+  title: 'ArkeA',
+  description: 'Welcome to ArkeA',
   keywords: [
-/*    "reactjs",
+    /*    "reactjs",
     "nextjs",
     "vercel",
     "react",
@@ -35,7 +35,7 @@ export const siteConfig: Metadata = {
     "css",*/
   ] as Array<string>,
   authors: {
-    name: "Nizar Ferchichi",
-    url: "https://github.com/nizar0rchid",
+    name: 'Nizar Ferchichi',
+    url: 'https://github.com/nizar0rchid',
   },
-} as const;
+} as const

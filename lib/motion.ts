@@ -9,7 +9,7 @@ export function slideInFromLeft(delay: number) {
         duration: 0.5,
       },
     },
-  };
+  }
 }
 
 export function slideInFromRight(delay: number) {
@@ -23,7 +23,7 @@ export function slideInFromRight(delay: number) {
         duration: 0.5,
       },
     },
-  };
+  }
 }
 
 export const slideInFromTop = {
@@ -36,4 +36,4 @@ export const slideInFromTop = {
       duration: 0.5,
     },
   },
-};
+}

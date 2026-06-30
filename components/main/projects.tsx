@@ -1,5 +1,5 @@
-import { ProjectCard } from "@/components/sub/project-card";
-import { PROJECTS } from "@/constants";
+import { ProjectCard } from '@/components/sub/project-card'
+import { PROJECTS } from '@/constants'
 
 export const Projects = () => {
   return (
@@ -7,10 +7,10 @@ export const Projects = () => {
       id="projects"
       className="flex flex-col items-center justify-center py-20"
     >
-      <h1 className="text-[40px] font-semibold text-transparent bg-clip-text bg-linear-to-r from-purple-500 to-cyan-500 py-20">
+      <h1 className="bg-linear-to-r from-purple-500 to-cyan-500 bg-clip-text py-20 text-[40px] font-semibold text-transparent">
         My Projects
       </h1>
-      <div className="h-full w-full flex flex-col md:flex-row gap-10 px-10">
+      <div className="flex h-full w-full flex-col gap-10 px-10 md:flex-row">
         {PROJECTS.map((project) => (
           <ProjectCard
             key={project.title}
@@ -22,5 +22,5 @@ export const Projects = () => {
         ))}
       </div>
     </section>
-  );
-};
+  )
+}

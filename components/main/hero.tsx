@@ -1,12 +1,9 @@
-import { HeroContent } from "@/components/sub/hero-content";
-import Image from "next/image";
+import { HeroContent } from '@/components/sub/hero-content'
 
 export const Hero = () => {
-    return (
-        <div className="relative flex flex-col items-center justify-center h-full w-full">
-            <HeroContent />
-
-
-        </div>
-    );
-};
+  return (
+    <div className="relative flex h-full w-full flex-col items-center justify-center">
+      <HeroContent />
+    </div>
+  )
+}

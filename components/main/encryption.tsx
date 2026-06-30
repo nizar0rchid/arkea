@@ -1,28 +1,28 @@
-"use client";
+'use client'
 
-import { motion } from "framer-motion";
-import Image from "next/image";
+import { motion } from 'framer-motion'
+import Image from 'next/image'
 
-import { slideInFromTop } from "@/lib/motion";
+import { slideInFromTop } from '@/lib/motion'
 
 export const Encryption = () => {
   return (
-    <div className="flex flex-row relative items-center justify-center min-h-screen w-full h-full -z-20">
-      <div className="absolute w-auto h-auto top-0 z-5">
+    <div className="relative -z-20 flex h-full min-h-screen w-full flex-row items-center justify-center">
+      <div className="absolute top-0 z-5 h-auto w-auto">
         <motion.div
           variants={slideInFromTop}
-          className="text-[40px] font-medium text-center text-gray-200"
+          className="text-center text-[40px] font-medium text-gray-200"
         >
-          Performance{" "}
-          <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-500 to-cyan-500">
+          Performance{' '}
+          <span className="bg-linear-to-r from-purple-500 to-cyan-500 bg-clip-text text-transparent">
             &
-          </span>{" "}
+          </span>{' '}
           security.
         </motion.div>
       </div>
 
-      <div className="flex flex-col items-center justify-center translate-y-[-50px] absolute z-20 w-auto h-auto">
-        <div className="flex flex-col items-center group cursor-pointer w-auto h-auto">
+      <div className="absolute z-20 flex h-auto w-auto translate-y-[-50px] flex-col items-center justify-center">
+        <div className="group flex h-auto w-auto cursor-pointer flex-col items-center">
           <Image
             src="/lock-top.png"
             alt="Lock top"
@@ -39,29 +39,29 @@ export const Encryption = () => {
           />
         </div>
 
-        <div className="Welcome-box px-[15px] py-[4px] z-20 border my-[20px] border-[#7042F88B] opacity-[0.9]">
+        <div className="Welcome-box z-20 my-[20px] border border-[#7042F88B] px-[15px] py-[4px] opacity-[0.9]">
           <h1 className="Welcome-text text-[12px]">Encryption</h1>
         </div>
       </div>
 
-      <div className="absolute z-20 bottom-[10px] px-[5px]">
-        <div className="cursive text-[20px] font-medium text-center text-gray-300">
+      <div className="absolute bottom-[10px] z-20 px-[5px]">
+        <div className="cursive text-center text-[20px] font-medium text-gray-300">
           Secure your data with end-to-end encryption.
         </div>
       </div>
 
-      <div className="w-full flex items-start justify-center absolute">
+      <div className="absolute flex w-full items-start justify-center">
         <video
           loop
           muted
           autoPlay
           playsInline
           preload="false"
-          className="w-full h-auto"
+          className="h-auto w-full"
         >
           <source src="/videos/encryption-bg.webm" type="video/webm" />
         </video>
       </div>
     </div>
-  );
-};
+  )
+}

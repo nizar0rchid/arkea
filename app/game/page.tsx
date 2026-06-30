@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation'
 
 export default function GamePage() {
-    redirect("/standalone-game");
+  redirect('/standalone-game')
 }
