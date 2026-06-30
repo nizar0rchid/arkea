@@ -4,6 +4,7 @@ import { Unbounded } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/main/navbar'
 import { RootBackground } from '@/components/home/rootBackground'
+import { Footer } from '@/components/main/footer'
 
 const unbounded = Unbounded({ subsets: ['latin'] })
 
@@ -39,9 +40,8 @@ export default function DevLayout({ children }: { children: React.ReactNode }) {
         <Navbar />
 
         {children}
-        {/*
-      <Footer />
-*/}
+
+        <Footer />
       </body>
     </html>
   )

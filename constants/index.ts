@@ -206,26 +206,6 @@ export const PROJECTS = [
 ] as const
 
 export const FOOTER_DATA = [
-  // {
-  //   title: "Community",
-  //   data: [
-  //     {
-  //       name: "YouTube",
-  //       icon: FaYoutube,
-  //       link: "https://youtube.com",
-  //     },
-  //     {
-  //       name: "GitHub",
-  //       icon: RxGithubLogo,
-  //       link: "https://github.com",
-  //     },
-  //     {
-  //       name: "Discord",
-  //       icon: RxDiscordLogo,
-  //       link: "https://discord.com",
-  //     },
-  //   ],
-  // },
   {
     title: 'Social Media',
     data: [
@@ -241,7 +221,7 @@ export const FOOTER_DATA = [
       },
       {
         name: 'X',
-        icon: FaX,
+        icon: FaXTwitter,
         link: 'https://x.com/arkeaband',
       },
       {
@@ -267,7 +247,7 @@ export const FOOTER_DATA = [
       {
         name: 'Contact',
         icon: null,
-        link: 'mailto:arkeaband@gmail.com',
+        link: 'mailto:contact@arkeaband.com',
       },
     ],
   },
