@@ -1,104 +1,36 @@
-import { FaYoutube, FaFacebook } from "react-icons/fa";
+import {FaYoutube, FaFacebook, FaTiktok} from "react-icons/fa";
 import {
-  RxDiscordLogo,
-  RxGithubLogo,
   RxInstagramLogo,
-  RxTwitterLogo,
-  RxLinkedinLogo,
 } from "react-icons/rx";
-
-export const SKILL_DATA = [
-  {
-    skill_name: "HTML",
-    image: "html.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "CSS",
-    image: "css.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "JavaScript",
-    image: "js.png",
-    width: 65,
-    height: 65,
-  },
-  {
-    skill_name: "Tailwind CSS",
-    image: "tailwind.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "React",
-    image: "react.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Redux",
-    image: "redux.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "React Query",
-    image: "reactquery.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "TypeScript",
-    image: "ts.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Next.js 14",
-    image: "next.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Framer Motion",
-    image: "framer.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Stripe",
-    image: "stripe.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Node.js",
-    image: "node.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "MongoDB",
-    image: "mongodb.png",
-    width: 40,
-    height: 40,
-  },
-] as const;
+import {FaX, FaXTwitter} from "react-icons/fa6";
 
 export const SOCIALS = [
-  {
-    name: "Instagram",
-    icon: RxInstagramLogo,
-    link: "https://instagram.com/arkeaband",
-  },
-  {
-    name: "Facebook",
-    icon: FaFacebook,
-    link: "https://facebook.com/profile.php?id=61573737171853",
-  },
+    {
+        name: "Instagram",
+        icon: RxInstagramLogo,
+        link: "https://instagram.com/arkeaband",
+    },
+    {
+        name: "Facebook",
+        icon: FaFacebook,
+        link: "https://facebook.com/profile.php?id=61573737171853",
+    },
+    {
+        name: "X",
+        icon: FaXTwitter,
+        link: "https://x.com/arkeaband",
+    },
+    {
+        name: "TikTok",
+        icon: FaTiktok,
+        link: "https://www.tiktok.com/@arkeaband",
+    },
+    {
+        name: "Youtube",
+        icon: FaYoutube,
+        link: "https://www.youtube.com/@arkeaband",
+    },
+
 ] as const;
 
 export const FRONTEND_SKILL = [
@@ -309,7 +241,23 @@ export const FOOTER_DATA = [
         name: "Facebook",
         icon: FaFacebook,
         link: "https://facebook.com/profile.php?id=61573737171853",
-      }
+      },
+        {
+            name: "X",
+            icon: FaX,
+            link: "https://x.com/arkeaband",
+        },
+        {
+            name: "TikTok",
+            icon: FaTiktok,
+            link: "https://www.tiktok.com/@arkeaband",
+        },
+        {
+            name: "Youtube",
+            icon: FaYoutube,
+            link: "https://www.youtube.com/@arkeaband",
+        },
+
     ],
   },
   {
@@ -335,16 +283,16 @@ export const NAV_LINKS = [
     link: "/",
   },
   {
-    title: "Shop",
-    link: "#skills",
+    title: "Music",
+    link: "#music",
   },
   {
     title: "Game",
     link: "/game",
   },
     {
-        title: "Listen",
-        link: "#listen",
+        title: "Merch",
+        link: "#merch",
     },
     {
         title: "Contact",

@@ -11,7 +11,7 @@ export const UnderConstructionBg = ({ bg }: { bg: string | null }) => (
       style={{
         backgroundImage: bg ? `url(${bg})` : undefined,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "top",
         animation: "slow-zoom 12s linear infinite alternate",
       }}
     />

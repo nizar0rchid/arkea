@@ -156,7 +156,7 @@ const GameContent = () => {
                     />
                     <button
                         onClick={toggleFullscreen}
-                        className="absolute top-2 left-2 sm:top-4 sm:left-4 p-2 sm:p-3 bg-purple-600/80 hover:bg-purple-700 text-white rounded-lg transition-colors duration-200 backdrop-blur-sm z-10"
+                        className="absolute top-2 left-2 sm:top-4 sm:left-4 p-2 sm:p-3 bg-purple-600/80 hover:bg-purple-700 text-white rounded-lg transition-colors duration-200 backdrop-blur-xs z-10"
                         title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
                     >
                         {isFullscreen ? (
@@ -171,7 +171,7 @@ const GameContent = () => {
                     </button>
                     <button
                         onClick={toggleRecording}
-                        className={`absolute top-2 right-2 sm:top-4 sm:right-4 p-2 sm:p-3 rounded-lg transition-colors duration-200 backdrop-blur-sm z-10 flex items-center gap-1 sm:gap-2 ${
+                        className={`absolute top-2 right-2 sm:top-4 sm:right-4 p-2 sm:p-3 rounded-lg transition-colors duration-200 backdrop-blur-xs z-10 flex items-center gap-1 sm:gap-2 ${
                             isRecording
                                 ? 'bg-red-600/80 hover:bg-red-700 animate-pulse'
                                 : 'bg-gray-600/80 hover:bg-gray-700'

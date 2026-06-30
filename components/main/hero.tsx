@@ -1,18 +1,12 @@
 import { HeroContent } from "@/components/sub/hero-content";
+import Image from "next/image";
 
 export const Hero = () => {
-  return (
-    <div className="relative flex flex-col h-full w-full">
-    {/*  <video
-        autoPlay
-        muted
-        loop
-        className="rotate-180 absolute top-[-340px] left-0 w-full h-full object-cover -z-20 opacity-35"
-      >
-        <source src="/videos/blackhole.webm" type="video/webm" />
-      </video>*/}
+    return (
+        <div className="relative flex flex-col items-center justify-center h-full w-full">
+            <HeroContent />
 
-      <HeroContent />
-    </div>
-  );
+
+        </div>
+    );
 };
