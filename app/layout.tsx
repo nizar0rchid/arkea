@@ -33,9 +33,11 @@ export const metadata: Metadata = {
   },
 }
 
-export default function DevLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body className={`${unbounded.className} bg-background min-h-screen`}>
         <RootBackground />
         <Navbar />

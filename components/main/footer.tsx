@@ -1,38 +1,109 @@
-import Link from 'next/link'
+'use client'
 
-import { FOOTER_DATA } from '@/constants'
+import Link from 'next/link'
+import Image from 'next/image'
+
+import { SOCIALS } from '@/constants'
 
 export const Footer = () => {
   return (
-    <div className="bg-background z-50 w-full p-4 text-gray-200 backdrop-blur-sm sm:p-6 md:p-8">
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center">
-        <div className="flex w-full flex-row flex-wrap items-center justify-center gap-6 sm:gap-8 md:justify-around">
-          {FOOTER_DATA.map((column) => (
-            <div
-              key={column.title}
-              className="flex min-w-[150px] flex-col items-center justify-start sm:min-w-[180px] md:min-w-[200px]"
-            >
-              <h3 className="text-base font-bold sm:text-lg">{column.title}</h3>
-              {column.data.map(({ icon: Icon, name, link }) => (
-                <Link
-                  key={`${column.title}-${name}`}
-                  href={link}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="my-3 flex flex-row items-center sm:my-4"
-                >
-                  {Icon && <Icon />}
-                  <span className="ml-1.5 text-sm sm:text-base">{name}</span>
-                </Link>
-              ))}
-            </div>
-          ))}
+    <footer className="bg-background w-full px-6 py-12 text-gray-200 sm:px-8 md:px-12">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 md:flex-row md:items-start md:justify-between">
+        {/* Left side: Logo + Social Icons */}
+        <div className="flex flex-col gap-6">
+          <Image
+            src="/logo.png"
+            alt="ArkeA"
+            width={200}
+            height={70}
+            className="h-auto w-[150px] sm:w-[180px]"
+          />
+          <div className="flex flex-row gap-4">
+            {SOCIALS.map(({ link, name, icon: Icon }) => (
+              <Link
+                key={name}
+                href={link}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <Icon className="h-6 w-6 text-gray-400 transition hover:text-white" />
+              </Link>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-6 mb-4 text-center text-sm sm:mt-8 sm:mb-0 sm:text-base">
-          &copy; ArkeA {new Date().getFullYear()}. All rights reserved.
+        {/* Right side: Columns */}
+        <div className="flex flex-col gap-8 sm:flex-row sm:gap-12 md:gap-16">
+          {/* Explore */}
+          <div className="flex flex-col gap-3">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400">
+              Explore
+            </h3>
+            <div className="flex flex-col gap-2">
+              <Link
+                href="#music"
+                className="text-sm text-gray-300 transition hover:text-white"
+              >
+                Music
+              </Link>
+              <Link
+                href="/game"
+                className="text-sm text-gray-300 transition hover:text-white"
+              >
+                Game
+              </Link>
+              <Link
+                href="#merch"
+                className="text-sm text-gray-300 transition hover:text-white"
+              >
+                Merch
+              </Link>
+              <Link
+                href="#contact"
+                className="text-sm text-gray-300 transition hover:text-white"
+              >
+                Contact
+              </Link>
+            </div>
+          </div>
+
+          {/* Booking & Get In Touch stacked */}
+          <div className="flex flex-col gap-6">
+            {/* Booking */}
+            <div className="flex flex-col gap-3">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400">
+                Booking
+              </h3>
+              <Link
+                href="mailto:booking@arkeaband.com"
+                className="text-sm text-gray-300 transition hover:text-white"
+              >
+                booking@arkeaband.com
+              </Link>
+            </div>
+
+            {/* Get In Touch */}
+            <div className="flex flex-col gap-3">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400">
+                Get In Touch
+              </h3>
+              <Link
+                href="mailto:contact@arkeaband.com"
+                className="text-sm text-gray-300 transition hover:text-white"
+              >
+                contact@arkeaband.com
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Copyright */}
+      <div className="mx-auto mt-12 max-w-7xl border-t border-gray-800 pt-8">
+        <p className="text-sm text-gray-500">
+          © {new Date().getFullYear()} ArkeA. All rights reserved.
+        </p>
+      </div>
+    </footer>
   )
 }

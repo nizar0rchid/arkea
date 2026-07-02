@@ -1,14 +1,54 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { NAV_LINKS, SOCIALS } from '@/constants'
 
-export const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+const NavLink = ({ title, link }: { title: string; link: string }) => {
+  const isHashLink = link.startsWith('#')
+
+  if (isHashLink) {
+    return (
+      <a
+        href={link}
+        className="cursor-pointer font-bold transition hover:text-[rgb(112,66,248)]"
+      >
+        {title}
+      </a>
+    )
+  }
 
   return (
-    <div className="bg-background fixed top-0 z-50 h-[65px] w-full px-10">
+    <Link
+      href={link}
+      className="cursor-pointer font-bold transition hover:text-[rgb(112,66,248)]"
+    >
+      {title}
+    </Link>
+  )
+}
+
+export const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
+    <div
+      className={`fixed top-0 z-50 h-[65px] w-full px-4 transition-all duration-300 md:px-10 ${
+        isScrolled
+          ? 'bg-background/80 shadow-lg backdrop-blur-lg'
+          : 'bg-background'
+      }`}
+    >
       {/* Navbar Container */}
       <div className="grid h-full w-full grid-cols-3 items-center">
         {/* Logo + Name (left) */}
@@ -30,13 +70,7 @@ export const Navbar = () => {
         <div className="hidden justify-self-center md:flex">
           <div className="flex items-center justify-center gap-6 rounded-full border-[rgba(112,66,248,0.38)] bg-[rgba(3,0,20,0.37)] px-6 py-[10px] whitespace-nowrap text-gray-200">
             {NAV_LINKS.map((link) => (
-              <Link
-                key={link.title}
-                href={link.link}
-                className="cursor-pointer font-bold transition hover:text-[rgb(112,66,248)]"
-              >
-                {link.title}
-              </Link>
+              <NavLink key={link.title} title={link.title} link={link.link} />
             ))}
           </div>
         </div>
@@ -70,14 +104,9 @@ export const Navbar = () => {
           {/* Links */}
           <div className="flex flex-col items-center gap-4">
             {NAV_LINKS.map((link) => (
-              <Link
-                key={link.title}
-                href={link.link}
-                className="cursor-pointer text-center font-bold transition hover:text-[rgb(112,66,248)]"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.title}
-              </Link>
+              <div key={link.title} onClick={() => setIsMobileMenuOpen(false)}>
+                <NavLink title={link.title} link={link.link} />
+              </div>
             ))}
           </div>
 
