@@ -36,7 +36,7 @@ export const Footer = () => {
         <div className="flex flex-col gap-8 sm:flex-row sm:gap-12 md:gap-16">
           {/* Explore */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400">
+            <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
               Explore
             </h3>
             <div className="flex flex-col gap-2">
@@ -71,7 +71,7 @@ export const Footer = () => {
           <div className="flex flex-col gap-6">
             {/* Booking */}
             <div className="flex flex-col gap-3">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400">
+              <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
                 Booking
               </h3>
               <Link
@@ -84,7 +84,7 @@ export const Footer = () => {
 
             {/* Get In Touch */}
             <div className="flex flex-col gap-3">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400">
+              <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
                 Get In Touch
               </h3>
               <Link

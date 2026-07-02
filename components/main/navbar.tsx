@@ -104,9 +104,12 @@ export const Navbar = () => {
           {/* Links */}
           <div className="flex flex-col items-center gap-4">
             {NAV_LINKS.map((link) => (
-              <div key={link.title} onClick={() => setIsMobileMenuOpen(false)}>
+              <button
+                key={link.title}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 <NavLink title={link.title} link={link.link} />
-              </div>
+              </button>
             ))}
           </div>
 
