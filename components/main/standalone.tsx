@@ -134,6 +134,7 @@ interface StandaloneContentProps {
   onReady?: () => void
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isIOS] = useState(detectIOS)
@@ -171,12 +172,13 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
           case 'timeupdate':
             setRecordingTime(e.data.data)
             break
-          case 'download':
+          case 'download': {
             const a = document.createElement('a')
             a.href = e.data.data
             a.download = `game-recording-${Date.now()}.webm`
             a.click()
             break
+          }
           case 'error':
             setRecordingError(e.data.data)
             setIsRecording(false)
@@ -254,10 +256,11 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
       try {
         await container?.requestFullscreen()
       } catch (e) {
+        console.error(e)
         try {
           await (container as any)?.webkitRequestFullscreen()
-        } catch (e2) {
-          console.error('Fullscreen failed:', e2)
+        } catch (error_) {
+          console.error('Fullscreen failed:', error_)
         }
       }
     } else {
@@ -285,6 +288,7 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
     <div className="relative h-screen w-full">
       <div className="relative h-full w-full" ref={containerRef}>
         <iframe
+          title="ArkeA - Trial Of The Elements"
           ref={iframeRef}
           src="/game-content/index.html"
           className="h-full w-full"

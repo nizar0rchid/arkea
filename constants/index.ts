@@ -1,6 +1,6 @@
 import { FaYoutube, FaFacebook, FaTiktok } from 'react-icons/fa'
 import { RxInstagramLogo } from 'react-icons/rx'
-import { FaX, FaXTwitter } from 'react-icons/fa6'
+import { FaXTwitter } from 'react-icons/fa6'
 
 export const SOCIALS = [
   {

@@ -19,11 +19,7 @@ export const HeroContent = () => {
 
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-center">
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        className="z-20 w-full px-4 sm:px-6 md:px-10"
-      >
+      <motion.div initial="hidden" animate="visible" className="z-20 w-full">
         <motion.div
           variants={slideInFromLeft(0.5)}
           className="relative h-[260px] w-full overflow-hidden sm:h-[340px] md:h-[420px]"

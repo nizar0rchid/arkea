@@ -66,7 +66,7 @@ export const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="bg-background -300 absolute top-[65px] left-0 flex w-full flex-col items-center p-5 md:hidden">
+        <div className="bg-background absolute top-[65px] left-0 flex w-full flex-col items-center p-5 md:hidden">
           {/* Links */}
           <div className="flex flex-col items-center gap-4">
             {NAV_LINKS.map((link) => (

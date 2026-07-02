@@ -11,18 +11,13 @@ export const Game = () => {
 
 const GameContent = () => {
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [isIOS, setIsIOS] = useState(false)
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
   const [isRecording, setIsRecording] = useState(false)
   const [recordingTime, setRecordingTime] = useState(0)
   const [recordingError, setRecordingError] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
-
-  useEffect(() => {
-    const iOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
-    setIsIOS(iOS)
-  }, [])
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -52,12 +47,13 @@ const GameContent = () => {
           case 'timeupdate':
             setRecordingTime(e.data.data)
             break
-          case 'download':
+          case 'download': {
             const a = document.createElement('a')
             a.href = e.data.data
             a.download = `game-recording-${Date.now()}.webm`
             a.click()
             break
+          }
           case 'error':
             setRecordingError(e.data.data)
             setIsRecording(false)
@@ -66,10 +62,10 @@ const GameContent = () => {
           case 'status':
             if (!e.data.data?.supported) {
               setRecordingError('Canvas recording not supported')
-            } else if (!e.data.data?.hasCaptureStream) {
-              setRecordingError('Screen capture not available')
-            } else {
+            } else if (e.data.data?.hasCaptureStream) {
               setRecordingError(null)
+            } else {
+              setRecordingError('Screen capture not available')
             }
             break
         }
@@ -122,10 +118,11 @@ const GameContent = () => {
       try {
         await container?.requestFullscreen()
       } catch (e) {
+        console.error(e)
         try {
           await (container as any)?.webkitRequestFullscreen()
-        } catch (e2) {
-          console.error('Fullscreen failed:', e2)
+        } catch (error_) {
+          console.error('Fullscreen failed:', error_)
         }
       }
     } else {
@@ -154,6 +151,7 @@ const GameContent = () => {
       <div className="relative w-full max-w-5xl">
         <div className="relative w-full" ref={containerRef}>
           <iframe
+            title="ArkeA - Trial Of The Elements"
             ref={iframeRef}
             src="/game-content/index.html"
             className="relative z-0 aspect-video w-full"

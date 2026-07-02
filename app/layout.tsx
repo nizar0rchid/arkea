@@ -3,8 +3,8 @@ import { Unbounded } from 'next/font/google'
 
 import './globals.css'
 import { Navbar } from '@/components/main/navbar'
-import { RootBackground } from '@/components/home/rootBackground'
 import { Footer } from '@/components/main/footer'
+import { RootBackground } from '@/components/home/rootBackground'
 
 const unbounded = Unbounded({ subsets: ['latin'] })
 
@@ -37,10 +37,9 @@ export default function DevLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${unbounded.className} bg-background min-h-screen`}>
+        <RootBackground />
         <Navbar />
-
-        {children}
-
+        <main className="px-4 sm:px-6 md:px-10">{children}</main>
         <Footer />
       </body>
     </html>

@@ -7,7 +7,7 @@ export const UnderConstructionBg = ({ bg }: { bg: string | null }) => (
   <>
     <style>{keyframes}</style>
     <div
-      className="absolute inset-0 opacity-30"
+      className="fixed inset-0 -z-50 opacity-30"
       style={{
         backgroundImage: bg ? `url(${bg})` : undefined,
         backgroundSize: 'cover',
