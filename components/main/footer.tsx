@@ -7,9 +7,11 @@ import { SOCIALS } from '@/constants'
 
 export const Footer = () => {
   return (
-    <footer className="bg-background w-full px-6 py-12 text-gray-200 sm:px-8 md:px-12">
+    <footer
+      id="contact"
+      className="bg-background w-full px-6 py-12 text-gray-200 sm:px-8 md:px-12"
+    >
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 md:flex-row md:items-start md:justify-between">
-        {/* Left side: Logo + Social Icons */}
         <div className="flex flex-col gap-6">
           <Image
             src="/logo.png"
@@ -26,15 +28,13 @@ export const Footer = () => {
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                <Icon className="h-6 w-6 text-gray-400 transition hover:text-white" />
+                <Icon className="hover:text-primary h-6 w-6 text-gray-400 transition" />
               </Link>
             ))}
           </div>
         </div>
 
-        {/* Right side: Columns */}
         <div className="flex flex-col gap-8 sm:flex-row sm:gap-12 md:gap-16">
-          {/* Explore */}
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
               Explore
@@ -42,54 +42,51 @@ export const Footer = () => {
             <div className="flex flex-col gap-2">
               <Link
                 href="#music"
-                className="text-sm text-gray-300 transition hover:text-white"
+                className="hover:text-primary text-sm text-gray-300 transition"
               >
                 Music
               </Link>
               <Link
                 href="/game"
-                className="text-sm text-gray-300 transition hover:text-white"
+                className="hover:text-primary text-sm text-gray-300 transition"
               >
                 Game
               </Link>
               <Link
                 href="#merch"
-                className="text-sm text-gray-300 transition hover:text-white"
+                className="hover:text-primary text-sm text-gray-300 transition"
               >
                 Merch
               </Link>
               <Link
                 href="#contact"
-                className="text-sm text-gray-300 transition hover:text-white"
+                className="hover:text-primary text-sm text-gray-300 transition"
               >
                 Contact
               </Link>
             </div>
           </div>
 
-          {/* Booking & Get In Touch stacked */}
           <div className="flex flex-col gap-6">
-            {/* Booking */}
             <div className="flex flex-col gap-3">
               <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
                 Booking
               </h3>
               <Link
                 href="mailto:booking@arkeaband.com"
-                className="text-sm text-gray-300 transition hover:text-white"
+                className="hover:text-primary text-sm text-gray-300 transition"
               >
                 booking@arkeaband.com
               </Link>
             </div>
 
-            {/* Get In Touch */}
             <div className="flex flex-col gap-3">
               <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
                 Get In Touch
               </h3>
               <Link
                 href="mailto:contact@arkeaband.com"
-                className="text-sm text-gray-300 transition hover:text-white"
+                className="hover:text-primary text-sm text-gray-300 transition"
               >
                 contact@arkeaband.com
               </Link>
@@ -98,10 +95,9 @@ export const Footer = () => {
         </div>
       </div>
 
-      {/* Copyright */}
-      <div className="mx-auto mt-12 max-w-7xl border-t border-gray-800 pt-8">
+      <div className="border-border/30 mx-auto mt-12 max-w-7xl border-t pt-8">
         <p className="text-sm text-gray-500">
-          © {new Date().getFullYear()} ArkeA. All rights reserved.
+          &copy; {new Date().getFullYear()} ArkeA. All rights reserved.
         </p>
       </div>
     </footer>

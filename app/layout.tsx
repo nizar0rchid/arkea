@@ -40,6 +40,7 @@ export default function RootLayout({
     <html lang="en" data-scroll-behavior="smooth">
       <body className={`${unbounded.className} bg-background min-h-screen`}>
         <RootBackground />
+        <div className="grain-overlay" />
         <Navbar />
         <main className="px-4 sm:px-6 md:px-10">{children}</main>
         <Footer />

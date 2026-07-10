@@ -5,7 +5,7 @@ export function slideInFromLeft(delay: number) {
       x: 0,
       opacity: 1,
       transition: {
-        delay: delay,
+        delay,
         duration: 0.5,
       },
     },
@@ -19,7 +19,7 @@ export function slideInFromRight(delay: number) {
       x: 0,
       opacity: 1,
       transition: {
-        delay: delay,
+        delay,
         duration: 0.5,
       },
     },
@@ -34,6 +34,41 @@ export const slideInFromTop = {
     transition: {
       delay: 0.5,
       duration: 0.5,
+    },
+  },
+}
+
+export function fadeInUp(delay: number = 0) {
+  return {
+    hidden: { y: 60, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        delay,
+        duration: 0.6,
+        ease: 'easeOut' as const,
+      },
+    },
+  }
+}
+
+export const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+}
+
+export const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
     },
   },
 }
