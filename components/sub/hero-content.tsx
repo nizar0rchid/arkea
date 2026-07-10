@@ -68,7 +68,7 @@ export const HeroContent = () => {
               width={255}
               height={80}
               className="h-auto max-w-[140px] object-contain sm:max-w-[190px] md:max-w-[255px]"
-              style={{ width: 'auto', height: 'auto' }}
+              style={{ width: '100%', height: 'auto' }}
             />
             <Image
               src="/home/hero/herotitle.png"
@@ -76,7 +76,7 @@ export const HeroContent = () => {
               width={589}
               height={80}
               className="h-auto max-w-[260px] object-contain sm:max-w-[420px] md:max-w-[589px]"
-              style={{ width: 'auto', height: 'auto' }}
+              style={{ width: '100%', height: 'auto' }}
             />
             <p className="mt-4 max-w-[280px] text-xs leading-relaxed text-white sm:max-w-sm sm:text-sm md:max-w-md md:text-base">
               Every Element hides a Trial. Every Trial reveals a Secret. Explore
