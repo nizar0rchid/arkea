@@ -48,7 +48,7 @@ export const HeroContent = () => {
                   fill
                   sizes="50vw"
                   draggable={false}
-                  className="animate-float object-contain object-right-bottom opacity-70"
+                  className="animate-float object-contain object-right-bottom  "
                   style={{
                     transform: 'scale(0.85)',
                     transformOrigin: 'bottom right',
@@ -60,7 +60,7 @@ export const HeroContent = () => {
 
           <motion.div
             variants={slideInFromTop}
-            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 px-4 text-center sm:gap-8 sm:px-6 md:gap-4"
+            className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 px-4 text-center sm:gap-6 sm:px-4 md:gap-2"
           >
             <Image
               src="/home/hero/herologo.png"
@@ -73,9 +73,9 @@ export const HeroContent = () => {
             <Image
               src="/home/hero/herotitle.png"
               alt="Title"
-              width={589}
+              width={420}
               height={80}
-              className="h-auto max-w-[260px] object-contain sm:max-w-[420px] md:max-w-[589px]"
+              className="h-auto max-w-[260px] object-contain sm:max-w-[420px] md:max-w-[420px]"
               style={{ width: '100%', height: 'auto' }}
             />
             <p className="mt-4 max-w-[280px] text-xs leading-relaxed text-white sm:max-w-sm sm:text-sm md:max-w-md md:text-base">

@@ -2,17 +2,20 @@ import Image from 'next/image'
 
 const ITEMS = [
   {
-    title: 'Trial Tee',
+    title: 'Logo Shirt',
+    image: '/home/merch/logoshirt.webp',
     desc: 'Black oversized tee with embroidered logo',
     price: '35€',
   },
   {
-    title: 'Elements Tee',
+    title: 'Elemental Short',
+    image: '/home/merch/elemtalshort.webp',
     desc: 'Purple scoop-neck with foil print',
     price: '40€',
   },
   {
-    title: 'Pablob Tee',
+    title: 'Hoodie',
+    image: '/home/merch/hoodie.webp',
     desc: 'White crew with game-art back print',
     price: '38€',
   },
@@ -28,14 +31,14 @@ export const MerchContent = () => {
             className="group border-primary/20 bg-card hover:border-primary/50 hover:shadow-primary/20 relative overflow-hidden rounded-xl border transition-all duration-500 hover:shadow-[0_0_25px_-5px]"
           >
             <div className="from-background to-primary/10 aspect-[3/4] overflow-hidden bg-gradient-to-br">
-              <div className="flex h-full w-full items-center justify-center p-6">
+              <div className="flex h-full w-full items-center justify-center">
                 <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-105">
                   <Image
-                    src="/emblm.png"
+                    src={item.image}
                     alt={item.title}
                     fill
                     sizes="(max-width: 640px) 50vw, 33vw"
-                    className="object-contain p-4 opacity-80"
+                    className="object-cover"
                   />
                 </div>
               </div>

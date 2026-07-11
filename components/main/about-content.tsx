@@ -11,11 +11,11 @@ export const AboutContent = () => {
           <div className="shrink-0">
             <div className="border-primary/30 relative h-32 w-32 overflow-hidden rounded-full border-2 sm:h-40 sm:w-40">
               <Image
-                src="/logo.png"
+                  src="/SVG/pad-emblem.svg"
                 alt="ArkeA"
                 fill
-                sizes="160px"
-                className="object-contain p-2"
+                sizes="140px"
+                className="object-contain p-4"
               />
             </div>
           </div>
