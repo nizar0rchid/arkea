@@ -32,7 +32,7 @@ const LoadingOverlay = () => {
 function detectIOS() {
   if (typeof navigator === 'undefined') return false
   return (
-    /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+    /iPad|iPhone|iPod/.test(navigator.userAgent) && !(globalThis as any).MSStream
   )
 }
 
@@ -46,8 +46,12 @@ const InstallPromptHint = ({
   onShowContent,
 }: InstallPromptHintProps) => {
   const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null)
-  const [isIOS] = useState(detectIOS)
+  const [isIOS, setIsIOS] = useState(false)
   const [isInstalling, setIsInstalling] = useState(false)
+
+  useEffect(() => {
+    setIsIOS(detectIOS())
+  }, [])
 
   useEffect(() => {
     if (isIOS) return
@@ -137,8 +141,12 @@ interface StandaloneContentProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [isIOS] = useState(detectIOS)
+  const [isIOS, setIsIOS] = useState(false)
   const [isRecording, setIsRecording] = useState(false)
+
+  useEffect(() => {
+    setIsIOS(detectIOS())
+  }, [])
   const [recordingTime, setRecordingTime] = useState(0)
   const [recordingError, setRecordingError] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -285,7 +293,7 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
   }
 
   return (
-    <div className="relative h-screen w-full">
+    <div className="relative h-screen w-full mt-16  ">
       <div className="relative h-full w-full" ref={containerRef}>
         <iframe
           title="ArkeA - Trial Of The Elements"
