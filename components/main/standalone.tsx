@@ -1,6 +1,11 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
 
+const GAME_VERSION =
+  process.env.NEXT_PUBLIC_GAME_VERSION ?? 'v0' // auto-bumped from the pck hash at build time
+
+const YOUTUBE_VIDEO_ID = 'VfpG6hdz-Tg' // TODO: replace with the reward video id
+
 export const Standalone = () => {
   const [showContent, setShowContent] = useState(false)
 
@@ -149,6 +154,8 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
   }, [])
   const [recordingTime, setRecordingTime] = useState(0)
   const [recordingError, setRecordingError] = useState<string | null>(null)
+  const [showRewardVideo, setShowRewardVideo] = useState(false)
+  const [hasWon, setHasWon] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
@@ -166,6 +173,19 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
     }
 
     const handleMessage = (e: MessageEvent) => {
+      if (e.data?.type === 'claim-reward') {
+        console.log('Claim reward received from game:', e.data)
+        console.log(
+          '[standalone] Switching to reward video. COEP:',
+          self.crossOriginIsolated,
+          'YT id:',
+          YOUTUBE_VIDEO_ID,
+        )
+        setHasWon(true)
+        setShowRewardVideo(true)
+        return
+      }
+
       if (e.data?.type === 'recording-status') {
         switch (e.data.status) {
           case 'started':
@@ -295,16 +315,29 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
   return (
     <div className="relative h-screen w-full mt-16  ">
       <div className="relative h-full w-full" ref={containerRef}>
-        <iframe
-          title="ArkeA - Trial Of The Elements"
-          ref={iframeRef}
-          src="/game-content/index.html"
-          className="h-full w-full"
-          allow="fullscreen"
-        />
+        {showRewardVideo ? (
+          <iframe
+            title="ArkeA Reward"
+            src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1`}
+            className="h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+            onLoad={() => console.log('[standalone] YouTube iframe loaded:', YOUTUBE_VIDEO_ID)}
+            onError={(e) => console.log('[standalone] YouTube iframe error:', e)}
+          />
+        ) : (
+          <iframe
+            title="ArkeA - Trial Of The Elements"
+            ref={iframeRef}
+            src={`/game-content/index.html?v=${GAME_VERSION}`}
+            className="h-full w-full"
+            allow="fullscreen"
+          />
+        )}
         <button
           onClick={toggleFullscreen}
-          className="absolute top-2 left-2 z-10 rounded-lg bg-purple-600/80 p-2 text-white backdrop-blur-xs transition-colors duration-200 hover:bg-purple-700 sm:top-4 sm:left-4 sm:p-3"
+          className={`absolute top-2 left-2 z-10 rounded-lg bg-purple-600/80 p-2 text-white backdrop-blur-xs transition-colors duration-200 hover:bg-purple-700 sm:top-4 sm:left-4 sm:p-3 ${
+            showRewardVideo ? 'hidden' : ''
+          }`}
           title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
         >
           {isFullscreen ? (
@@ -343,7 +376,7 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
             isRecording
               ? 'animate-pulse bg-red-600/80 hover:bg-red-700'
               : 'bg-gray-600/80 hover:bg-gray-700'
-          } text-white`}
+          } text-white ${showRewardVideo ? 'hidden' : ''}`}
           title={isRecording ? 'Stop Recording' : 'Start Recording'}
         >
           {isRecording ? (
@@ -370,6 +403,14 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
             </svg>
           )}
         </button>
+        {hasWon && (
+          <button
+            onClick={() => setShowRewardVideo((v) => !v)}
+            className="absolute top-2 left-1/2 z-10 -translate-x-1/2 rounded-lg bg-purple-600/80 px-4 py-2 text-sm font-semibold text-white backdrop-blur-xs transition-colors duration-200 hover:bg-purple-700 sm:top-4"
+          >
+            {showRewardVideo ? 'Back to Game' : 'Watch Video'}
+          </button>
+        )}
         {recordingError && (
           <div className="absolute right-4 bottom-4 left-4 z-20 rounded-lg bg-red-600/90 px-4 py-2 text-sm text-white sm:right-4 sm:left-auto">
             {recordingError}
