@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 const GAME_VERSION =
   process.env.NEXT_PUBLIC_GAME_VERSION ?? 'v0' // auto-bumped from the pck hash at build time
 
-const YOUTUBE_VIDEO_ID = 'zCRqM20sTLs' // TODO: replace with the reward video id
+const YOUTUBE_VIDEO_ID = 'VfpG6hdz-Tg' // TODO: replace with the reward video id
 
 export const Standalone = () => {
   const [showContent, setShowContent] = useState(false)
