@@ -46,7 +46,14 @@ const nextConfig = {
     async headers() {
         return [
             {
-                source: "/(.*)",
+                source: "/standalone-game/:path*",
+                headers: [
+                    { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+                    { key: "Cross-Origin-Embedder-Policy", value: "credentialless" },
+                ],
+            },
+            {
+                source: "/game-content/:path*",
                 headers: [
                     { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
                     { key: "Cross-Origin-Embedder-Policy", value: "credentialless" },

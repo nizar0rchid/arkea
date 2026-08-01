@@ -6,6 +6,8 @@ const GAME_VERSION =
 
 const YOUTUBE_VIDEO_ID = 'VfpG6hdz-Tg' // TODO: replace with the reward video id
 
+const REWARD_VIDEO_URL = `/reward-video?v=${YOUTUBE_VIDEO_ID}`
+
 export const Standalone = () => {
   const [showContent, setShowContent] = useState(false)
 
@@ -318,11 +320,11 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
         {showRewardVideo ? (
           <iframe
             title="ArkeA Reward"
-            src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1`}
+            src={REWARD_VIDEO_URL}
             className="h-full w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-            onLoad={() => console.log('[standalone] YouTube iframe loaded:', YOUTUBE_VIDEO_ID)}
-            onError={(e) => console.log('[standalone] YouTube iframe error:', e)}
+            allow="fullscreen"
+            onLoad={() => console.log('[standalone] Reward iframe loaded')}
+            onError={(e) => console.log('[standalone] Reward iframe error:', e)}
           />
         ) : (
           <iframe
