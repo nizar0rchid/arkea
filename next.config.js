@@ -3,20 +3,26 @@ const withPWA = require("@ducanh2912/next-pwa").default({
     register: true,
     skipWaiting: true,
     disable: process.env.NODE_ENV === "development",
-    runtimeCaching: [
-        {
-            urlPattern: /^https:\/\/.*game-content\/.*$/i,
-            handler: "NetworkFirst",
-            options: {
-                cacheName: "game-content-cache",
-                networkTimeoutSeconds: 10,
-                expiration: {
-                    maxEntries: 50,
-                    maxAgeSeconds: 60 * 60 * 24 * 30,
+    workboxOptions: {
+        runtimeCaching: [
+            {
+                urlPattern: /^https:\/\/.*(youtube\.com|youtu\.be|googlevideo\.com)\/.*$/i,
+                handler: "NetworkOnly",
+            },
+            {
+                urlPattern: /^https:\/\/.*game-content\/.*$/i,
+                handler: "NetworkFirst",
+                options: {
+                    cacheName: "game-content-cache",
+                    networkTimeoutSeconds: 10,
+                    expiration: {
+                        maxEntries: 50,
+                        maxAgeSeconds: 60 * 60 * 24 * 30,
+                    },
                 },
             },
-        },
-    ],
+        ],
+    },
 });
 
 const fs = require("fs");
