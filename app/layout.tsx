@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import { Unbounded } from 'next/font/google'
 
 import './globals.css'
-import { LayoutChrome } from '@/components/main/layout-chrome'
+import { Navbar } from '@/components/main/navbar'
+import { Footer } from '@/components/main/footer'
 import { RootBackground } from '@/components/home/rootBackground'
 
 const unbounded = Unbounded({ subsets: ['latin'] })
@@ -40,7 +41,9 @@ export default function RootLayout({
       <body className={`${unbounded.className} bg-background min-h-screen`}>
         <RootBackground />
         <div className="grain-overlay" />
-        <LayoutChrome>{children}</LayoutChrome>
+        <Navbar />
+        <main className="px-4 sm:px-6 md:px-10">{children}</main>
+        <Footer />
       </body>
     </html>
   )

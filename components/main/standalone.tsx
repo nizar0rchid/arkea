@@ -4,9 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 const GAME_VERSION =
   process.env.NEXT_PUBLIC_GAME_VERSION ?? 'v0' // auto-bumped from the pck hash at build time
 
-const YOUTUBE_VIDEO_ID = 'VfpG6hdz-Tg' // TODO: replace with the reward video id
-
-const REWARD_VIDEO_URL = `/reward-video?v=${YOUTUBE_VIDEO_ID}`
+const YOUTUBE_VIDEO_ID = 'zCRqM20sTLs' // TODO: replace with the reward video id
 
 export const Standalone = () => {
   const [showContent, setShowContent] = useState(false)
@@ -161,10 +159,23 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
+  // Manual test hook: run `testRewardVideo()` in the console to show the reward video without winning
+  useEffect(() => {
+    ;(window as any).testRewardVideo = () => {
+      console.log('[test] manually showing reward video')
+      setHasWon(true)
+      setShowRewardVideo(true)
+    }
+    return () => {
+      delete (window as any).testRewardVideo
+    }
+  }, [])
+
   useEffect(() => {
     const handleFullscreenChange = () => {
       const fs = !!document.fullscreenElement
       setIsFullscreen(fs)
+
 
       if (iframeRef.current?.contentWindow) {
         iframeRef.current.contentWindow.postMessage(
@@ -314,17 +325,83 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
     }
   }
 
+  useEffect(() => {
+    if (!showRewardVideo) return
+
+    const frame = document.querySelector<HTMLIFrameElement>(
+      'iframe[title="YouTube video player"]',
+    )
+    console.log('[diag] YouTube iframe DOM:', {
+      found: !!frame,
+      src: frame?.getAttribute('src'),
+      credentiallessAttr: frame?.getAttribute('credentialless'),
+      allow: frame?.getAttribute('allow'),
+      sandbox: frame?.getAttribute('sandbox'),
+    })
+    console.log('[diag] crossOriginIsolated:', self.crossOriginIsolated)
+    const logPerf = (tag: string) => {
+      const entries = performance
+        .getEntriesByType('resource')
+        .filter((e: any) => e.name.includes('youtube.com') || e.name.includes('googlevideo.com'))
+        .map((e: any) => ({ name: e.name.slice(0, 150), initiator: e.initiatorType, dur: Math.round(e.duration) }))
+      console.log(`[diag] performance entries (youtube) [${tag}]:`, entries)
+    }
+    logPerf('on-mount')
+    frame?.addEventListener('load', () => {
+      console.log('[diag] frame load event captured')
+      setTimeout(() => logPerf('after-load-1s'), 1000)
+    })
+
+    ;(window as any).checkYoutubeNetwork = async () => {
+      console.log('[diag] testing direct fetch to youtube.com...')
+      try {
+        const res = await fetch('https://www.youtube.com/', { mode: 'no-cors' })
+        console.log('[diag] fetch youtube.com ok:', res.type, res.status)
+      } catch (e) {
+        console.log('[diag] fetch youtube.com FAILED:', String(e))
+      }
+    }
+
+    const onResourceError = (ev: Event) => {
+      const t = ev.target as HTMLElement
+      if (t && (t as any).tagName === 'LINK' || (t as any).tagName === 'SCRIPT') {
+        console.log('[diag] resource failed to load:', {
+          tag: (t as any).tagName,
+          src: (t as any).src || (t as any).href,
+        })
+      }
+    }
+    const onGlobalError = (ev: ErrorEvent) => {
+      console.log('[diag] global error:', ev.message)
+    }
+    const onUnhandledRejection = (ev: PromiseRejectionEvent) => {
+      console.log('[diag] unhandled rejection:', String(ev.reason))
+    }
+
+    window.addEventListener('error', onResourceError, true)
+    window.addEventListener('error', onGlobalError)
+    window.addEventListener('unhandledrejection', onUnhandledRejection)
+    return () => {
+      window.removeEventListener('error', onResourceError, true)
+      window.removeEventListener('error', onGlobalError)
+      window.removeEventListener('unhandledrejection', onUnhandledRejection)
+      delete (window as any).checkYoutubeNetwork
+    }
+  }, [showRewardVideo])
+
   return (
     <div className="relative h-screen w-full mt-16  ">
       <div className="relative h-full w-full" ref={containerRef}>
         {showRewardVideo ? (
           <iframe
-            title="ArkeA Reward"
-            src={REWARD_VIDEO_URL}
+            title="YouTube video player"
+            src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?si=n9GlBkShwoD8LxJg&autoplay=1`}
             className="h-full w-full"
-            allow="fullscreen"
-            onLoad={() => console.log('[standalone] Reward iframe loaded')}
-            onError={(e) => console.log('[standalone] Reward iframe error:', e)}
+            {...{ credentialless: 'true' } as React.DetailedHTMLProps<React.IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement>}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+            referrerPolicy="strict-origin-when-cross-origin"
+            onLoad={() => console.log('[standalone] YouTube iframe loaded:', YOUTUBE_VIDEO_ID)}
+            onError={(e) => console.log('[standalone] YouTube iframe error:', e)}
           />
         ) : (
           <iframe
