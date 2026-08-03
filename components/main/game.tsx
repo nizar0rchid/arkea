@@ -160,7 +160,7 @@ const GameContent = () => {
           />
           <button
             onClick={toggleFullscreen}
-            className="absolute top-2 left-2 z-10 rounded-lg bg-purple-600/80 p-2 text-white backdrop-blur-xs transition-colors duration-200 hover:bg-purple-700 sm:top-4 sm:left-4 sm:p-3"
+            className="bg-primary hover:bg-primary-50 absolute top-2 left-2 z-10 rounded-lg p-2 text-white backdrop-blur-xs transition-colors duration-200 sm:top-4 sm:left-4 sm:p-3"
             title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
           >
             {isFullscreen ? (

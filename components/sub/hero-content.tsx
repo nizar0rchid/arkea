@@ -48,7 +48,7 @@ export const HeroContent = () => {
                   fill
                   sizes="50vw"
                   draggable={false}
-                  className="animate-float object-contain object-right-bottom  "
+                  className="animate-float object-contain object-right-bottom"
                   style={{
                     transform: 'scale(0.85)',
                     transformOrigin: 'bottom right',

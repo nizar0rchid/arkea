@@ -8,7 +8,6 @@ import { MerchContent } from '@/components/main/merch-content'
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center pt-[75px]">
-
       <Hero />
 
       <SectionDivider />

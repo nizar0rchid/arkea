@@ -73,6 +73,10 @@ export default [
 
             "react/react-in-jsx-scope": "off",
             "@typescript-eslint/no-explicit-any": "off",
+            "react/no-unknown-property": [
+                "error",
+                { "ignore": ["credentialless"] },
+            ],
 
             "prettier/prettier": [
                 "error",

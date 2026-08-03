@@ -65,6 +65,13 @@ const nextConfig = {
                     { key: "Cross-Origin-Embedder-Policy", value: "credentialless" },
                 ],
             },
+            {
+                source: "/reward-video/:path*",
+                headers: [
+                    { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+                    { key: "Cross-Origin-Embedder-Policy", value: "credentialless" },
+                ],
+            },
         ];
     },
     allowedDevOrigins: ["10.186.146.33"],

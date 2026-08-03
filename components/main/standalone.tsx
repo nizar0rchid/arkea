@@ -1,10 +1,7 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 
-const GAME_VERSION =
-  process.env.NEXT_PUBLIC_GAME_VERSION ?? 'v0' // auto-bumped from the pck hash at build time
-
-const YOUTUBE_VIDEO_ID = 'VfpG6hdz-Tg' // TODO: replace with the reward video id
+const GAME_VERSION = process.env.NEXT_PUBLIC_GAME_VERSION ?? 'v0' // auto-bumped from the pck hash at build time
 
 export const Standalone = () => {
   const [showContent, setShowContent] = useState(false)
@@ -27,7 +24,7 @@ const LoadingOverlay = () => {
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center bg-[#030014]">
       <div className="text-center">
-        <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-purple-500 border-t-transparent" />
+        <div className="border-primary mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-t-transparent" />
         <p className="text-sm text-white">Preparing game...</p>
       </div>
     </div>
@@ -37,9 +34,17 @@ const LoadingOverlay = () => {
 function detectIOS() {
   if (typeof navigator === 'undefined') return false
   return (
-    /iPad|iPhone|iPod/.test(navigator.userAgent) && !(globalThis as any).MSStream
+    /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+    !(globalThis as any).MSStream
   )
 }
+
+const useIsIOS = () =>
+  useSyncExternalStore(
+    () => () => {},
+    () => detectIOS(),
+    () => false,
+  )
 
 interface InstallPromptHintProps {
   showContent: boolean
@@ -51,12 +56,8 @@ const InstallPromptHint = ({
   onShowContent,
 }: InstallPromptHintProps) => {
   const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null)
-  const [isIOS, setIsIOS] = useState(false)
+  const isIOS = useIsIOS()
   const [isInstalling, setIsInstalling] = useState(false)
-
-  useEffect(() => {
-    setIsIOS(detectIOS())
-  }, [])
 
   useEffect(() => {
     if (isIOS) return
@@ -98,7 +99,7 @@ const InstallPromptHint = ({
   if (showContent) return null
 
   const btnStyle =
-    'px-4 py-2 bg-white text-purple-700 font-medium rounded-lg hover:bg-purple-50 transition-colors'
+    'px-4 py-2 bg-white text-primary font-medium rounded-lg hover:bg-primary-50 transition-colors'
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#030014]/95 p-4">
@@ -109,7 +110,7 @@ const InstallPromptHint = ({
           className="mx-auto mb-4 h-48 w-48 object-contain"
         />
 
-        <p className="mb-6 text-sm text-purple-200">
+        <p className="text-primary/70 mb-6 text-sm">
           {isIOS
             ? 'Tap Share → Add to Home Screen to install'
             : 'Install to play offline as a native app'}
@@ -120,20 +121,19 @@ const InstallPromptHint = ({
           </button>
         )}
         {isIOS && (
-          <div className="mt-4 text-xs text-purple-300">
+          <div className="text-primary/60 mt-4 text-xs">
             1. Tap the Share button in the browser&#39;s address bar
             <br />
             2. Scroll down and tap &ldquo;Add to Home Screen&ldquo;
           </div>
         )}
-        {!isIOS && (
-          <button
-            onClick={handleSkip}
-            className="mx-auto mt-4 block text-sm text-purple-400 transition-colors hover:text-white"
-          >
-            Continue without installing
-          </button>
-        )}
+
+        <button
+          onClick={handleSkip}
+          className="text-primary mx-auto mt-4 block text-sm transition-colors hover:text-white"
+        >
+          Continue without installing
+        </button>
       </div>
     </div>
   )
@@ -146,15 +146,12 @@ interface StandaloneContentProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [isIOS, setIsIOS] = useState(false)
+  const isIOS = useIsIOS()
   const [isRecording, setIsRecording] = useState(false)
-
-  useEffect(() => {
-    setIsIOS(detectIOS())
-  }, [])
   const [recordingTime, setRecordingTime] = useState(0)
   const [recordingError, setRecordingError] = useState<string | null>(null)
   const [showRewardVideo, setShowRewardVideo] = useState(false)
+  const [rewardVideoSrc, setRewardVideoSrc] = useState<string>('')
   const [hasWon, setHasWon] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -165,6 +162,7 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
       console.log('[test] manually showing reward video')
       setHasWon(true)
       setShowRewardVideo(true)
+      setRewardVideoSrc(`/reward-video?v=${Date.now()}`)
     }
     return () => {
       delete (window as any).testRewardVideo
@@ -175,7 +173,6 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
     const handleFullscreenChange = () => {
       const fs = !!document.fullscreenElement
       setIsFullscreen(fs)
-
 
       if (iframeRef.current?.contentWindow) {
         iframeRef.current.contentWindow.postMessage(
@@ -191,11 +188,10 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
         console.log(
           '[standalone] Switching to reward video. COEP:',
           self.crossOriginIsolated,
-          'YT id:',
-          YOUTUBE_VIDEO_ID,
         )
         setHasWon(true)
         setShowRewardVideo(true)
+        setRewardVideoSrc(`/reward-video?v=${Date.now()}`)
         return
       }
 
@@ -325,83 +321,17 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
     }
   }
 
-  useEffect(() => {
-    if (!showRewardVideo) return
-
-    const frame = document.querySelector<HTMLIFrameElement>(
-      'iframe[title="YouTube video player"]',
-    )
-    console.log('[diag] YouTube iframe DOM:', {
-      found: !!frame,
-      src: frame?.getAttribute('src'),
-      credentiallessAttr: frame?.getAttribute('credentialless'),
-      allow: frame?.getAttribute('allow'),
-      sandbox: frame?.getAttribute('sandbox'),
-    })
-    console.log('[diag] crossOriginIsolated:', self.crossOriginIsolated)
-    const logPerf = (tag: string) => {
-      const entries = performance
-        .getEntriesByType('resource')
-        .filter((e: any) => e.name.includes('youtube.com') || e.name.includes('googlevideo.com'))
-        .map((e: any) => ({ name: e.name.slice(0, 150), initiator: e.initiatorType, dur: Math.round(e.duration) }))
-      console.log(`[diag] performance entries (youtube) [${tag}]:`, entries)
-    }
-    logPerf('on-mount')
-    frame?.addEventListener('load', () => {
-      console.log('[diag] frame load event captured')
-      setTimeout(() => logPerf('after-load-1s'), 1000)
-    })
-
-    ;(window as any).checkYoutubeNetwork = async () => {
-      console.log('[diag] testing direct fetch to youtube.com...')
-      try {
-        const res = await fetch('https://www.youtube.com/', { mode: 'no-cors' })
-        console.log('[diag] fetch youtube.com ok:', res.type, res.status)
-      } catch (e) {
-        console.log('[diag] fetch youtube.com FAILED:', String(e))
-      }
-    }
-
-    const onResourceError = (ev: Event) => {
-      const t = ev.target as HTMLElement
-      if (t && (t as any).tagName === 'LINK' || (t as any).tagName === 'SCRIPT') {
-        console.log('[diag] resource failed to load:', {
-          tag: (t as any).tagName,
-          src: (t as any).src || (t as any).href,
-        })
-      }
-    }
-    const onGlobalError = (ev: ErrorEvent) => {
-      console.log('[diag] global error:', ev.message)
-    }
-    const onUnhandledRejection = (ev: PromiseRejectionEvent) => {
-      console.log('[diag] unhandled rejection:', String(ev.reason))
-    }
-
-    window.addEventListener('error', onResourceError, true)
-    window.addEventListener('error', onGlobalError)
-    window.addEventListener('unhandledrejection', onUnhandledRejection)
-    return () => {
-      window.removeEventListener('error', onResourceError, true)
-      window.removeEventListener('error', onGlobalError)
-      window.removeEventListener('unhandledrejection', onUnhandledRejection)
-      delete (window as any).checkYoutubeNetwork
-    }
-  }, [showRewardVideo])
-
   return (
-    <div className="relative h-screen w-full mt-16  ">
+    <div className="relative mt-16 h-screen w-full">
       <div className="relative h-full w-full" ref={containerRef}>
         {showRewardVideo ? (
           <iframe
-            title="YouTube video player"
-            src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?si=n9GlBkShwoD8LxJg&autoplay=1`}
+            title="ArkeA Reward"
+            src={rewardVideoSrc}
             className="h-full w-full"
-            {...{ credentialless: 'true' } as React.DetailedHTMLProps<React.IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement>}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-            referrerPolicy="strict-origin-when-cross-origin"
-            onLoad={() => console.log('[standalone] YouTube iframe loaded:', YOUTUBE_VIDEO_ID)}
-            onError={(e) => console.log('[standalone] YouTube iframe error:', e)}
+            onLoad={() => console.log('[standalone] Reward iframe loaded')}
+            onError={(e) => console.log('[standalone] Reward iframe error:', e)}
           />
         ) : (
           <iframe
@@ -414,7 +344,7 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
         )}
         <button
           onClick={toggleFullscreen}
-          className={`absolute top-2 left-2 z-10 rounded-lg bg-purple-600/80 p-2 text-white backdrop-blur-xs transition-colors duration-200 hover:bg-purple-700 sm:top-4 sm:left-4 sm:p-3 ${
+          className={`bg-primary hover:bg-primary-50 absolute top-2 left-2 z-10 rounded-lg p-2 text-white backdrop-blur-xs transition-colors duration-200 sm:top-4 sm:left-4 sm:p-3 ${
             showRewardVideo ? 'hidden' : ''
           }`}
           title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
@@ -484,8 +414,13 @@ const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
         </button>
         {hasWon && (
           <button
-            onClick={() => setShowRewardVideo((v) => !v)}
-            className="absolute top-2 left-1/2 z-10 -translate-x-1/2 rounded-lg bg-purple-600/80 px-4 py-2 text-sm font-semibold text-white backdrop-blur-xs transition-colors duration-200 hover:bg-purple-700 sm:top-4"
+            onClick={() => {
+              setShowRewardVideo((v) => {
+                if (!v) setRewardVideoSrc(`/reward-video?v=${Date.now()}`)
+                return !v
+              })
+            }}
+            className="bg-primary absolute top-2 left-1/2 z-10 -translate-x-1/2 cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold text-white backdrop-blur-xs transition-colors duration-200 sm:top-4"
           >
             {showRewardVideo ? 'Back to Game' : 'Watch Video'}
           </button>
