@@ -34,7 +34,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8 sm:flex-row sm:gap-12 md:gap-16">
+        <div className="flex flex-1 flex-col gap-8 sm:flex-row sm:justify-between md:gap-16 lg:max-w-3xl">
           <div className="flex flex-col gap-3">
             <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
               Explore
@@ -67,30 +67,28 @@ export const Footer = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-3">
-              <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
-                Booking
-              </h3>
-              <Link
-                href="mailto:booking@arkeaband.com"
-                className="hover:text-primary text-sm text-gray-300 transition"
-              >
-                booking@arkeaband.com
-              </Link>
-            </div>
+          <div className="flex flex-col gap-3">
+            <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
+              Booking
+            </h3>
+            <Link
+              href="mailto:booking@arkeaband.com"
+              className="hover:text-primary text-sm text-gray-300 transition"
+            >
+              booking@arkeaband.com
+            </Link>
+          </div>
 
-            <div className="flex flex-col gap-3">
-              <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
-                Get In Touch
-              </h3>
-              <Link
-                href="mailto:contact@arkeaband.com"
-                className="hover:text-primary text-sm text-gray-300 transition"
-              >
-                contact@arkeaband.com
-              </Link>
-            </div>
+          <div className="flex flex-col gap-3">
+            <h3 className="text-sm font-bold tracking-wider text-gray-400 uppercase">
+              Get In Touch
+            </h3>
+            <Link
+              href="mailto:contact@arkeaband.com"
+              className="hover:text-primary text-sm text-gray-300 transition"
+            >
+              contact@arkeaband.com
+            </Link>
           </div>
         </div>
       </div>

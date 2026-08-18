@@ -4,6 +4,7 @@ import { SectionDivider } from '@/components/main/section-divider'
 import { AboutContent } from '@/components/main/about-content'
 import { MusicContent } from '@/components/main/music-content'
 import { MerchContent } from '@/components/main/merch-content'
+import { Newsletter } from '@/components/main/newsletter'
 
 export default function Home() {
   return (
@@ -44,6 +45,7 @@ export default function Home() {
         variant="fadeUp"
       >
         <MerchContent />
+        <Newsletter />
       </InfoSection>
     </main>
   )

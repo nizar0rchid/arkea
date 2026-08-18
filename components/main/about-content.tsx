@@ -9,7 +9,7 @@ export const AboutContent = () => {
 
         <div className="relative flex flex-col items-center gap-6 md:flex-row md:items-start md:gap-10">
           <div className="shrink-0">
-            <div className="border-primary/30 relative h-32 w-32 overflow-hidden rounded-full border-2 sm:h-40 sm:w-40">
+            <div className="border-primary/30 relative h-32 w-32 overflow-hidden rounded-full border-2 sm:h-50 sm:w-50">
               <Image
                 src="/SVG/pad-emblem.svg"
                 alt="ArkeA"

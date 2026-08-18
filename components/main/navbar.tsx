@@ -77,7 +77,13 @@ export const Navbar = () => {
             }
           }
 
-          setActiveSection(current)
+          const nearBottom =
+            window.scrollY + window.innerHeight >=
+            document.documentElement.scrollHeight - 50
+
+          setActiveSection(
+            nearBottom ? offsets[offsets.length - 1].id : current,
+          )
           ticking = false
         })
         ticking = true

@@ -40,7 +40,7 @@ export const InfoSection = ({
         whileInView="visible"
         viewport={{ once: true, margin: '-80px' }}
         variants={sectionVariant}
-        className={`relative z-20 mx-auto flex w-full max-w-5xl flex-col px-4 py-20 sm:px-6 md:px-8 ${
+        className={`relative z-20 mx-auto flex w-full flex-col px-4 py-20 sm:px-6 md:px-8 ${
           align === 'center' ? 'items-center' : 'items-start'
         }`}
       >

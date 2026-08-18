@@ -67,7 +67,7 @@ export const HeroContent = () => {
               alt="Logo"
               width={255}
               height={80}
-              className="h-auto max-w-[140px] object-contain sm:max-w-[190px] md:max-w-[255px]"
+              className="h-auto max-w-[140px] object-contain sm:max-w-[190px] md:max-w-[220px]"
               style={{ width: '100%', height: 'auto' }}
             />
             <Image
