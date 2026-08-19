@@ -23,42 +23,50 @@ const ITEMS = [
 
 export const MerchContent = () => {
   return (
-    <div className="mx-auto max-w-4xl">
-      <div className="grid gap-6 sm:grid-cols-3">
-        {ITEMS.map((item) => (
-          <div
-            key={item.title}
-            className="group border-primary/20 bg-card hover:border-primary/50 hover:shadow-primary/20 relative overflow-hidden rounded-xl border transition-all duration-500 hover:shadow-[0_0_25px_-5px]"
-          >
-            <div className="from-background to-primary/10 aspect-[3/4] overflow-hidden bg-gradient-to-br">
-              <div className="flex h-full w-full items-center justify-center">
-                <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-105">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                </div>
-              </div>
+    <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-3 md:gap-8">
+      {ITEMS.map((item) => (
+        <div
+          key={item.title}
+          className="border-border bg-card group hover:border-primary/50 flex flex-col border transition-colors duration-300"
+        >
+          <div className="relative aspect-[4/5] w-full overflow-hidden">
+            <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-[1.03]">
+              <Image
+                src={item.image}
+                alt={item.title}
+                fill
+                sizes="(max-width: 640px) 50vw, 33vw"
+                className="object-cover object-center"
+              />
             </div>
 
-            <div className="flex flex-col gap-1.5 p-4">
-              <div className="flex items-center justify-between">
-                <h4 className="text-sm font-bold text-white">{item.title}</h4>
-                <span className="text-primary text-xs font-semibold">
-                  {item.price}
-                </span>
-              </div>
-              <p className="text-xs text-gray-400">{item.desc}</p>
-              <span className="border-primary/30 text-primary mt-2 inline-block self-start rounded-full border px-3 py-0.5 text-[10px] font-semibold tracking-wider uppercase">
-                Coming Soon
+            <span className="text-primary border-primary/30 bg-background/70 absolute top-3 left-3 border px-2.5 py-1 font-mono text-[10px] tracking-[0.15em] uppercase backdrop-blur-sm">
+              Soon
+            </span>
+
+            <Image
+              src="/SVG/pad-emblem.svg"
+              alt=""
+              width={120}
+              height={120}
+              draggable={false}
+              className="pointer-events-none absolute right-3 bottom-3 h-auto w-12 opacity-25"
+            />
+          </div>
+
+          <div className="border-border flex flex-col gap-2 border-t p-4">
+            <div className="flex items-baseline justify-between gap-3">
+              <h4 className="font-unbounded text-foreground text-sm font-bold">
+                {item.title}
+              </h4>
+              <span className="text-primary font-mono text-sm">
+                {item.price}
               </span>
             </div>
+            <p className="text-muted-foreground text-xs">{item.desc}</p>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   )
 }

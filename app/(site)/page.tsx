@@ -1,52 +1,31 @@
 import { Hero } from '@/components/main/hero'
 import { InfoSection } from '@/components/main/info-section'
-import { SectionDivider } from '@/components/main/section-divider'
 import { AboutContent } from '@/components/main/about-content'
 import { MusicContent } from '@/components/main/music-content'
+import { GameSection } from '@/components/main/game-section'
 import { MerchContent } from '@/components/main/merch-content'
 import { Newsletter } from '@/components/main/newsletter'
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center pt-[75px]">
+    <main className="flex min-h-screen flex-col items-center pt-[65px]">
       <Hero />
 
-      <SectionDivider />
+      <GameSection />
 
-      <InfoSection
-        id="about"
-        heading="About"
-        title="The Awakening of ArkeA"
-        description="Forged in the underground, ArkeA blends crushing riffs with atmospheric storytelling. Each song is a gateway to a universe where myth and metal collide."
-        variant="fadeUp"
-      >
+      <InfoSection id="about" index="01" title="The Awakening of ArkeA">
         <AboutContent />
       </InfoSection>
 
-      <SectionDivider />
-
-      <InfoSection
-        id="music"
-        heading="Music"
-        title="Latest Release"
-        description="Our debut EP — a sonic journey through the four elemental trials. Coming soon."
-        variant="slideLeft"
-      >
+      <InfoSection id="music" index="02" title="Latest Release">
         <MusicContent />
       </InfoSection>
 
-      <SectionDivider />
-
-      <InfoSection
-        id="merch"
-        heading="Merch"
-        title="Wear The Trials"
-        description="Limited drops, made for the road."
-        variant="fadeUp"
-      >
+      <InfoSection id="merch" index="03" title="Wear The Trials">
         <MerchContent />
-        <Newsletter />
       </InfoSection>
+
+      <Newsletter />
     </main>
   )
 }

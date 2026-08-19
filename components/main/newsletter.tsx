@@ -1,9 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { fadeInUp } from '@/lib/motion'
 
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
@@ -24,30 +21,26 @@ export const Newsletter = () => {
   }
 
   return (
-    <motion.div
-      variants={fadeInUp(0.4)}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      className="border-primary/20 bg-card hover:border-primary/50 mx-auto mt-10 w-full rounded-xl border px-6 py-8 transition-all duration-500 sm:px-10"
-    >
-      <div className="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
-        <div className="w-full text-left">
-          <h4 className="text-lg font-bold text-white sm:text-xl">
+    <section className="bg-card border-border flex w-full flex-col items-center border-y py-14 sm:py-16">
+      <div className="flex w-full flex-col items-start gap-8 px-6 md:flex-row md:items-center md:justify-between md:gap-12">
+        <div className="max-w-md">
+          <h4 className="font-unbounded text-foreground text-xl font-bold sm:text-2xl">
             Join The Trials
           </h4>
-          <p className="mt-2 text-sm text-gray-400">
+          <p className="text-muted-foreground mt-2 text-sm">
             First access to new music, merch drops &amp; game updates. No spam.
           </p>
+        </div>
 
+        <div className="w-full max-w-md">
           {status === 'success' ? (
-            <p className="text-primary mt-5 text-sm font-semibold">
+            <p className="text-primary font-mono text-sm">
               You&apos;re in — welcome to the ArkeA universe.
             </p>
           ) : (
             <form
               onSubmit={handleSubmit}
-              className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center"
+              className="flex flex-col gap-3 sm:flex-row sm:items-center"
             >
               <input
                 type="email"
@@ -55,12 +48,12 @@ export const Newsletter = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="border-primary/30 focus:border-primary h-11 w-full rounded-lg border bg-black/30 px-4 text-sm text-white transition-colors outline-none placeholder:text-gray-500 sm:max-w-xs"
+                className="border-border text-foreground focus:border-primary placeholder:text-dim bg-card h-11 w-full flex-1 rounded-sm border px-4 text-sm transition-colors outline-none"
               />
               <button
                 type="submit"
                 disabled={status === 'submitting'}
-                className="button-primary h-11 cursor-pointer rounded-lg px-6 text-sm font-semibold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn-primary h-11 cursor-pointer rounded-sm px-6 text-sm font-semibold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {status === 'submitting' ? 'Subscribing...' : 'Subscribe'}
               </button>
@@ -73,17 +66,7 @@ export const Newsletter = () => {
             </p>
           )}
         </div>
-
-        <div className="border-primary/30 hidden shrink-0 rounded-full border-2 p-2 md:block">
-          <Image
-            src="/SVG/pad-emblem.svg"
-            alt="ArkeA"
-            width={150}
-            height={150}
-            className="h-40 w-40 object-contain"
-          />
-        </div>
       </div>
-    </motion.div>
+    </section>
   )
 }

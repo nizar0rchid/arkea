@@ -1,12 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Unbounded')
-layer(base);
+/* Supporting fonts: Inter (body text), Bebas Neue (display accents), JetBrains Mono (mono). Unbounded is loaded via next/font and stays the main font. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&display=swap')
+  layer(base);
 
 @import 'tailwindcss';
 
 @theme {
+    /* Fonts */
+    --font-display: 'Bebas Neue', 'Unbounded', sans-serif;
+    --font-sans: 'Inter', 'Unbounded', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+    --font-unbounded: 'Unbounded', 'Inter', sans-serif;
+
     /* Colors */
-    --color-background: #0e0c10;
-    --color-foreground: #ffffff;
+    --color-background: #0b0a0c;
+    --color-foreground: #f2ede6;
 
     --color-primary: #712fff;
     --color-primary-foreground: #ffffff;
@@ -15,10 +22,12 @@ layer(base);
     --color-accent: #e59cff;
 
     --color-muted: #1a1625;
-    --color-muted-foreground: #a1a1aa;
+    --color-muted-foreground: #a89f9a;
 
-    --color-card: #0f0c14;
-    --color-border: #9B6BF2;
+    --color-dim: #6b6460;
+
+    --color-card: #141116;
+    --color-border: rgba(242, 237, 230, 0.1);
 
     /* Existing gradients */
     --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
@@ -33,7 +42,6 @@ html.theme-sand {
     --color-primary: #ca8a04;
     --color-accent: #eab308;
     --color-secondary: #fef08a;
-    --color-border: #a16207;
     --color-muted-foreground: #854d0e;
 }
 
@@ -41,23 +49,20 @@ html.theme-ocean {
     --color-primary: #2563eb;
     --color-accent: #0ea5e9;
     --color-secondary: #7dd3fc;
-    --color-border: #1d4ed8;
     --color-muted-foreground: #1e40af;
 }
 
 html.theme-fire {
-    --color-primary: #dc2626;
-    --color-accent: #f97316;
+    --color-primary: #ef4444;
+    --color-accent: #fb923c;
     --color-secondary: #fca5a5;
-    --color-border: #b91c1c;
-    --color-muted-foreground: #991b1b;
+    --color-muted-foreground: #b91c1c;
 }
 
 html.theme-forest {
     --color-primary: #059669;
     --color-accent: #34d399;
     --color-secondary: #6ee7b7;
-    --color-border: #047857;
     --color-muted-foreground: #065f46;
 }
 /*
@@ -74,63 +79,43 @@ html.theme-forest {
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-gray-200, currentcolor);
+        border-color: var(--color-border, currentcolor);
     }
     body {
         @apply bg-background text-foreground;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+    .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+    }
 }
 
-.cursive {
-    font-family: "Cedarville Cursive", cursive;
+/* Primary button — solid accent, paper foreground */
+.btn-primary {
+    background: var(--color-primary);
+    color: var(--color-primary-foreground, #fff);
+    border: 1px solid transparent;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
-.Welcome-text {
-    background: linear-gradient(
-            0deg,
-            rgba(255, 255, 255, 0.4),
-            rgba(255, 255, 255, 0.4)
-    ),
-    linear-gradient(90.01deg, #e59cff 0.01%, #ba9cff 50.01%, #9cb2ff 100%);
-    background-blend-mode: normal, screen;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.Welcome-box {
-    isolation: isolate;
-    overflow: hidden;
-    align-items: center;
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-    border-radius: 32px;
-    box-shadow: inset 0 -7px 11px #a48fff1f;
-    display: flex;
-
-    position: relative;
-    width: -moz-max-content;
-    width: max-content;
-    transition: 0.45s cubic-bezier(0.6, 0.6, 0, 1) box-shadow;
+.btn-primary:hover {
+    opacity: 0.88;
 }
 
-.button-primary {
-    background: linear-gradient(
-            180deg,
-            color-mix(in srgb, var(--color-primary) 80%, transparent) 80%,
-            color-mix(in srgb, var(--color-primary) 80%, transparent) 100%
-    ),
-    color-mix(in srgb, var(--color-primary) 12%, transparent);
-    box-shadow: inset 0 0 12px color-mix(in srgb, var(--color-primary) 24%, transparent);
+/* Ghost button — hairline border, paper foreground */
+.btn-ghost {
+    background: transparent;
+    color: var(--color-foreground);
+    border: 1px solid var(--color-border);
+    transition: border-color 0.3s ease, color 0.3s ease;
 }
-.button-primary:hover {
-    background: linear-gradient(
-            180deg,
-            color-mix(in srgb, var(--color-primary) 0%, transparent) 0%,
-            color-mix(in srgb, var(--color-primary) 42%, transparent) 100%
-    ),
-    color-mix(in srgb, var(--color-primary) 24%, transparent);
-    box-shadow: inset 0 0 12px color-mix(in srgb, var(--color-primary) 44%, transparent);
+.btn-ghost:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
