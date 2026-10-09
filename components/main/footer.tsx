@@ -53,22 +53,10 @@ export const Footer = () => {
           </h3>
           <div className="flex flex-col gap-2">
             <Link
-              href="#music"
+              href="/"
               className="hover:text-primary text-foreground/80 text-sm transition"
             >
-              Music
-            </Link>
-            <Link
-              href="/game"
-              className="hover:text-primary text-foreground/80 text-sm transition"
-            >
-              Game
-            </Link>
-            <Link
-              href="#merch"
-              className="hover:text-primary text-foreground/80 text-sm transition"
-            >
-              Merch
+              Play
             </Link>
             <Link
               href="#contact"

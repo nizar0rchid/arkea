@@ -30,6 +30,7 @@ export default [
             "**/*.spec.{js,ts,tsx}",
             "**/tests/**",
             "**/__tests__/**",
+            "_archived/**",
             "public/**",
         ],
     },
