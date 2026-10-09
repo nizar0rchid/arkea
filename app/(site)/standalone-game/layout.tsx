@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   manifest: '/game-content/index.manifest.json',
-  title: 'ArkeA - Trial Of The Elements',
-  description: 'ArkeA - Trial Of The Elements',
   alternates: {
-    canonical: '/standalone-game',
+    // The game renders identically at / and /standalone-game. Pointing the
+    // canonical at / keeps one page in the index instead of two.
+    canonical: '/',
   },
 }
 

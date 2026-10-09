@@ -40,10 +40,6 @@ export const NAV_LINKS = [
     link: '#music',
   },
   {
-    title: 'Game',
-    link: '/game',
-  },
-  {
     title: 'Merch',
     link: '#merch',
   },
