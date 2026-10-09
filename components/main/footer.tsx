@@ -9,9 +9,21 @@ export const Footer = () => {
   return (
     <footer
       id="contact"
-      className="bg-background border-border w-full border-t px-6 pt-16 pb-8 text-gray-200 sm:px-8 md:px-12"
+      className="bg-background border-border relative w-full overflow-hidden border-t px-6 pt-16 pb-8 text-gray-200 sm:px-8 md:px-12"
     >
-      <div className="grid w-full grid-cols-1 gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-8">
+      {/* Sigil watermark */}
+      <div className="pointer-events-none absolute -right-24 -bottom-24 z-0 opacity-[0.08]">
+        <Image
+          src="/SVG/pad-emblem.svg"
+          alt=""
+          width={320}
+          height={320}
+          draggable={false}
+          className="h-auto w-[240px] sm:w-[320px]"
+        />
+      </div>
+
+      <div className="relative z-10 grid w-full grid-cols-1 gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-8">
         <div className="flex flex-col gap-5">
           <Image
             src="/logo.png"
@@ -36,7 +48,7 @@ export const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <h3 className="text-dim font-display  tracking-[0.25em] uppercase">
+          <h3 className="text-dim font-display tracking-[0.25em] uppercase">
             Explore
           </h3>
           <div className="flex flex-col gap-2">
@@ -68,7 +80,7 @@ export const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <h3 className="text-dim font-display  tracking-[0.25em] uppercase">
+          <h3 className="text-dim font-display tracking-[0.25em] uppercase">
             Booking
           </h3>
           <Link
@@ -80,7 +92,7 @@ export const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <h3 className="text-dim font-display  tracking-[0.25em] uppercase">
+          <h3 className="text-dim font-display tracking-[0.25em] uppercase">
             Get In Touch
           </h3>
           <Link
@@ -92,11 +104,10 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="border-border mt-14 flex w-full flex-col items-start justify-between gap-3 border-t pt-6 sm:flex-row sm:items-center">
+      <div className="border-border relative z-10 mt-14 flex w-full flex-col items-start justify-between gap-3 border-t pt-6 sm:flex-row sm:items-center">
         <p className="text-dim text-xs">
-          &copy; {new Date().getFullYear()} ArkeA. All rights reserved.
+          &copy; 2025 ArkeA. All rights reserved.
         </p>
-
       </div>
     </footer>
   )

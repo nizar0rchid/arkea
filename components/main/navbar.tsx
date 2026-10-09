@@ -20,12 +20,17 @@ const NavLink = ({
 }) => {
   const isHashLink = link.startsWith('#')
 
-  const className = `cursor-pointer font-bold transition hover:text-primary ${isActive ? 'text-primary' : 'text-gray-200'}`
+  const className = `group relative cursor-pointer font-bold transition hover:text-primary ${isActive ? 'text-primary' : 'text-gray-200'}`
+
+  const underline = (
+    <span className="bg-primary absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 transition-transform duration-300 ease-out group-hover:scale-x-100" />
+  )
 
   if (isHashLink) {
     return (
       <a href={link} className={className} onClick={onClick}>
         {title}
+        {underline}
       </a>
     )
   }
@@ -33,6 +38,7 @@ const NavLink = ({
   return (
     <Link href={link} className={className} onClick={onClick}>
       {title}
+      {underline}
     </Link>
   )
 }

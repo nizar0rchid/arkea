@@ -19,7 +19,7 @@ export const InfoSection = ({
 }: InfoSectionProps) => {
   return (
     <div id={id} className="relative w-full">
-      <div className="relative z-20 flex w-full flex-col  py-[60px] md:px-0">
+      <div className="relative z-20 flex w-full flex-col py-[60px] md:px-0">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
@@ -41,8 +41,16 @@ export const InfoSection = ({
           </motion.h2>
           <motion.div
             variants={fadeInUp(0.1)}
-            className="bg-border h-px min-w-8 flex-1"
-          />
+            className="bg-border relative h-px min-w-8 flex-1 overflow-hidden"
+          >
+            <motion.span
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="bg-primary absolute inset-0 origin-left"
+            />
+          </motion.div>
         </motion.div>
 
         {children}

@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export const GameSection = () => {
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-center mt-35">
+    <div className="relative mt-35 flex h-full w-full flex-col items-center justify-center">
       <div className="z-20 w-full">
         <div className="relative h-[260px] w-full overflow-hidden sm:h-[340px] md:h-[420px]">
           <div className="absolute inset-0 h-full w-full">

@@ -56,12 +56,26 @@ export const MusicContent = () => {
                 track.playing ? 'bg-primary/10' : 'hover:bg-primary/5'
               }`}
             >
-              <span
-                className={`w-6 font-mono text-xs ${
-                  track.playing ? 'text-primary' : 'text-dim'
-                }`}
-              >
-                {String(i + 1).padStart(2, '0')}
+              <span className="relative flex w-6 items-center justify-center">
+                <span
+                  className={`font-mono text-xs transition-opacity duration-200 ${
+                    track.playing ? 'text-primary' : 'text-dim'
+                  }`}
+                >
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                {/* Play glyph slides in on hover (hidden for the playing track) */}
+                {!track.playing && (
+                  <span className="text-primary absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    <svg
+                      className="h-3 w-3"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </span>
+                )}
               </span>
               <span
                 className={`flex-1 font-medium ${
@@ -70,8 +84,16 @@ export const MusicContent = () => {
               >
                 {track.title}
               </span>
-              {track.playing && (
+              {track.playing ? (
                 <span className="flex items-center gap-1.5">
+                  <span className="bg-primary flex items-end gap-[2px] rounded-sm px-1 py-[5px]">
+                    <span className="bg-primary-foreground [height:6px] w-[2px] animate-pulse rounded-[1px] align-bottom" />
+                    <span className="bg-primary-foreground [height:10px] w-[2px] animate-pulse rounded-[1px] align-bottom [animation-delay:120ms]" />
+                    <span className="bg-primary-foreground [height:4px] w-[2px] animate-pulse rounded-[1px] [animation-delay:240ms]" />
+                  </span>
+                </span>
+              ) : (
+                <span className="flex items-center gap-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                   <span className="bg-primary flex items-end gap-[2px] rounded-sm px-1 py-[5px]">
                     <span className="bg-primary-foreground [height:6px] w-[2px] animate-pulse rounded-[1px] align-bottom" />
                     <span className="bg-primary-foreground [height:10px] w-[2px] animate-pulse rounded-[1px] align-bottom [animation-delay:120ms]" />

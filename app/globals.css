@@ -167,3 +167,84 @@ html {
 .hamburger-open .hamburger-line:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
 }
+
+/* --- Trial Journey: ambient + signature animations --- */
+
+/* B1: breathing sigil watermark (scale + opacity pulse, no rotation) */
+@keyframes sigil-breathe {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.05); opacity: 0.7; }
+}
+.animate-sigil-breathe {
+    animation: sigil-breathe 15s ease-in-out infinite;
+}
+
+/* A4: hero scroll cue bounce */
+@keyframes cue-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(8px); opacity: 1; }
+}
+.animate-cue {
+    animation: cue-bounce 2s ease-in-out infinite;
+}
+
+/* B2: ember particles */
+@keyframes ember-rise {
+    0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+    10% { opacity: var(--ember-opacity, 0.4); }
+    90% { opacity: var(--ember-opacity, 0.4); }
+    100% { transform: translateY(-140px) translateX(var(--ember-sway, 20px)) scale(0.4); opacity: 0; }
+}
+.ember {
+    position: absolute;
+    top: var(--ember-top, 90%);
+    border-radius: 9999px;
+    background: var(--color-primary);
+    animation: ember-rise var(--ember-duration, 9s) linear infinite;
+    animation-delay: var(--ember-delay, 0s);
+    will-change: transform, opacity;
+}
+
+/* D1: marquee ticker */
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+.animate-marquee {
+    animation: marquee var(--marquee-duration, 28s) linear infinite;
+}
+.animate-marquee:hover {
+    animation-play-state: paused;
+}
+
+/* D2: newsletter sigil stamp */
+@keyframes stamp-in {
+    0% { transform: scale(0.2) rotate(-25deg); opacity: 0; }
+    60% { transform: scale(1.15) rotate(4deg); opacity: 1; }
+    80% { transform: scale(0.95) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.animate-stamp {
+    animation: stamp-in 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes stamp-glow {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 45%, transparent); }
+    100% { box-shadow: 0 0 0 24px transparent; }
+}
+.animate-stamp-glow {
+    animation: stamp-glow 1s ease-out 0.35s forwards;
+}
+
+/* Reduced motion: disable decorative animation */
+@media (prefers-reduced-motion: reduce) {
+    .animate-sigil-breathe,
+    .animate-cue,
+    .ember,
+    .animate-marquee {
+        animation: none !important;
+    }
+    html {
+        scroll-behavior: auto;
+    }
+}
