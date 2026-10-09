@@ -11,7 +11,7 @@ export const SOCIALS = [
   {
     name: 'Facebook',
     icon: FaFacebook,
-    link: 'https://facebook.com/profile.php?id=61573737171853',
+    link: 'https://facebook.com/arkeaband',
   },
   {
     name: 'X',
