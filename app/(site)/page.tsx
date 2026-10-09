@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import { Standalone } from '@/components/main/standalone'
+import { ReleaseCountdown } from '@/components/main/release-countdown'
 import { PwaManifestLink } from '@/components/main/pwa-manifest-link'
 import { OG_IMAGES, TWITTER_IMAGES } from '@/constants'
 
@@ -53,7 +53,7 @@ export default function Home() {
   return (
     <main className="h-full w-full">
       <PwaManifestLink />
-      <Standalone />
+      <ReleaseCountdown />
     </main>
   )
 }
