@@ -3,28 +3,32 @@ import type { Metadata } from 'next'
 import { Standalone } from '@/components/main/standalone'
 import { PwaManifestLink } from '@/components/main/pwa-manifest-link'
 
-const TITLE = 'ArkeA — Trial Of The Elements | Metalcore Band From Tunisia'
+const TITLE =
+  'ArkeA — Trials Of The Elements, Pixel Art Puzzle Game | Modern Metal Band From Tunisia'
 
 const DESCRIPTION =
-  'ArkeA is a modern metal and metalcore band from Tunisia. Play Trial Of The Elements, the original video game releasing with our debut EP. Every element hides a trial, every trial reveals a secret.'
+  'Modern metal from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.'
 
-// Pulled from the archived home page so the band, the EP and the game all read
-// as one thing rather than three unrelated keywords.
+// Band-led copy for the root page. The EP name is deliberately absent, the
+// release is unrevealed. Game name is "Trials Of The Elements" (plural).
 export const metadata: Metadata = {
   manifest: '/game-content/index.manifest.json',
   title: TITLE,
   description: DESCRIPTION,
   keywords: [
     'ArkeA',
-    'metalcore band Tunisia',
-    'modern metal Tunisia',
+    'modern metal band Tunisia',
     'metal band Tunisia',
-    'Tunisia metalcore',
-    'Trial Of The Elements',
-    'ArkeA debut EP',
-    'metalcore video game',
-    'indie metal band',
+    'Tunisia metal band',
     'Tunisian metal scene',
+    'Trials Of The Elements',
+    'ArkeA game',
+    'pixel art puzzle game',
+    'pixel art game',
+    '8-bit game',
+    '8bit chiptune music game',
+    'chiptune game',
+    'indie metal band',
   ],
   alternates: {
     canonical: '/',

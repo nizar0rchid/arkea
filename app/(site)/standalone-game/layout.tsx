@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 
-const TITLE = 'Trial Of The Elements — The ArkeA Game'
+const TITLE = 'Trials Of The Elements — Pixel Art Puzzle Game | ArkeA'
 
 const DESCRIPTION =
-  'Guide Pablob through elemental trials, solve ancient puzzles and uncover the secrets of ArkeA. The original video game releasing with the debut EP from Tunisian metalcore band ArkeA.'
+  'A pixel art puzzle game with 8-bit chiptune music. Guide Pablob through elemental trials, solve ancient puzzles and uncover the secrets of ArkeA.'
 
 // Game-led metadata, distinct from the band-led root page, but canonicalised
 // to / so only one of the two is indexed.
@@ -13,11 +13,16 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   keywords: [
     'ArkeA game',
-    'Trial Of The Elements',
-    'metalcore video game',
+    'Trials Of The Elements',
+    'pixel art game',
+    'pixel art puzzle game',
+    '8-bit game',
+    '8bit chiptune music game',
+    'chiptune game',
+    'retro puzzle game',
     'elemental puzzle game',
-    'browser game',
-    'ArkeA debut EP',
+    'indie puzzle game',
+    'free browser puzzle game',
   ],
   alternates: {
     // The game renders identically at / and /standalone-game. Pointing the

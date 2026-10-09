@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   // request host, so social crawlers get a broken OG image URL.
   metadataBase: new URL('https://arkeaband.com'),
   title: {
-    default: 'ArkeA — Metalcore Band From Tunisia',
+    default: 'ArkeA — Modern Metal Band From Tunisia',
     // Lets each route set a bare title without repeating the brand suffix
     template: '%s | ArkeA',
   },
   description:
-    'ArkeA is a modern metal and metalcore band from Tunisia. Debut EP Trial Of The Elements, releasing with an original video game.',
+    'Modern metal from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
   applicationName: 'ArkeA',
   authors: [{ name: 'ArkeA' }],
   creator: 'ArkeA',
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'ArkeA — Metalcore Band From Tunisia',
+    title: 'ArkeA — Modern Metal Band From Tunisia',
     description:
-      'Modern metal and metalcore from Tunisia. Debut EP Trial Of The Elements, releasing with an original video game.',
+      'Modern metal from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
     url: 'https://arkeaband.com',
     siteName: 'ArkeA',
     locale: 'en_US',
@@ -42,9 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ArkeA — Metalcore Band From Tunisia',
+    title: 'ArkeA — Modern Metal Band From Tunisia',
     description:
-      'Modern metal and metalcore from Tunisia. Debut EP Trial Of The Elements, releasing with an original video game.',
+      'Modern metal from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
     images: ['/og-image.png'],
   },
   robots: {
