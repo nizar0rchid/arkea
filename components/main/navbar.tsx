@@ -35,6 +35,25 @@ const NavLink = ({
     )
   }
 
+  if (link === '/') {
+    return (
+      <Link
+        href="/"
+        className={className}
+        onClick={(e) => {
+          onClick?.()
+          if (window.location.pathname === '/') {
+            e.preventDefault()
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }
+        }}
+      >
+        {title}
+        {underline}
+      </Link>
+    )
+  }
+
   return (
     <Link href={link} className={className} onClick={onClick}>
       {title}
@@ -203,16 +222,13 @@ export const Navbar = () => {
                       : isGameActive && link.link === '/game'
 
                 return (
-                  <button
+                  <NavLink
                     key={link.title}
+                    title={link.title}
+                    link={link.link}
+                    isActive={isActive}
                     onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <NavLink
-                      title={link.title}
-                      link={link.link}
-                      isActive={isActive}
-                    />
-                  </button>
+                  />
                 )
               })}
             </div>
