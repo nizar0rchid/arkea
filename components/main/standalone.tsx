@@ -1,32 +1,15 @@
 'use client'
 import { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 
+import { PWAInstallBanner } from '@/components/main/pwa-install-banner'
+
 const GAME_VERSION = process.env.NEXT_PUBLIC_GAME_VERSION ?? 'v0' // auto-bumped from the pck hash at build time
 
 export const Standalone = () => {
-  const [showContent, setShowContent] = useState(false)
-
   return (
     <div className="relative flex h-screen w-full flex-col">
-      {showContent && (
-        <StandaloneContent onReady={() => setShowContent(true)} />
-      )}
-      <InstallPromptHint
-        showContent={showContent}
-        onShowContent={() => setShowContent(true)}
-      />
-      {!showContent && <LoadingOverlay />}
-    </div>
-  )
-}
-
-const LoadingOverlay = () => {
-  return (
-    <div className="fixed inset-0 z-40 flex items-center justify-center bg-[#030014]">
-      <div className="text-center">
-        <div className="border-primary mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-t-transparent" />
-        <p className="text-sm text-white">Preparing game...</p>
-      </div>
+      <StandaloneContent />
+      <PWAInstallBanner />
     </div>
   )
 }
@@ -46,105 +29,7 @@ const useIsIOS = () =>
     () => false,
   )
 
-interface InstallPromptHintProps {
-  showContent: boolean
-  onShowContent: () => void
-}
-
-const InstallPromptHint = ({
-  showContent,
-  onShowContent,
-}: InstallPromptHintProps) => {
-  const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null)
-  const isIOS = useIsIOS()
-  const [isInstalling, setIsInstalling] = useState(false)
-
-  useEffect(() => {
-    if (isIOS) return
-
-    const handler = (e: Event) => {
-      e.preventDefault()
-      setDeferredPrompt(e as any)
-    }
-
-    window.addEventListener('beforeinstallprompt', handler)
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handler)
-    }
-  }, [isIOS])
-
-  const handleInstall = async () => {
-    setIsInstalling(true)
-
-    if (deferredPrompt) {
-      try {
-        ;(deferredPrompt as any).prompt()
-        const { outcome } = await (deferredPrompt as any).userChoice
-        if (outcome !== 'accepted') {
-          setIsInstalling(false)
-          return
-        }
-      } catch {
-        // continue anyway
-      }
-    }
-    onShowContent()
-  }
-
-  const handleSkip = () => {
-    onShowContent()
-  }
-
-  if (showContent) return null
-
-  const btnStyle =
-    'px-4 py-2 bg-white text-primary font-medium rounded-lg hover:bg-primary-50 transition-colors'
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#030014]/95 p-4">
-      <div className="max-w-sm items-center justify-center text-center">
-        <img
-          src="/logo.png"
-          alt="Logo"
-          className="mx-auto mb-4 h-48 w-48 object-contain"
-        />
-
-        <p className="text-primary/70 mb-6 text-sm">
-          {isIOS
-            ? 'Tap Share → Add to Home Screen to install'
-            : 'Install to play offline as a native app'}
-        </p>
-        {!isIOS && (
-          <button onClick={handleInstall} className={btnStyle}>
-            {isInstalling ? 'Installing...' : 'Install App'}
-          </button>
-        )}
-        {isIOS && (
-          <div className="text-primary/60 mt-4 text-xs">
-            1. Tap the Share button in the browser&#39;s address bar
-            <br />
-            2. Scroll down and tap &ldquo;Add to Home Screen&ldquo;
-          </div>
-        )}
-
-        <button
-          onClick={handleSkip}
-          className="text-primary mx-auto mt-4 block text-sm transition-colors hover:text-white"
-        >
-          Continue without installing
-        </button>
-      </div>
-    </div>
-  )
-}
-
-interface StandaloneContentProps {
-  onReady?: () => void
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StandaloneContent = ({ onReady }: StandaloneContentProps) => {
+const StandaloneContent = () => {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const isIOS = useIsIOS()
   const [isRecording, setIsRecording] = useState(false)

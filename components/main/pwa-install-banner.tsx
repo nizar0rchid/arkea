@@ -1,20 +1,138 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { useEffect, useState, useSyncExternalStore } from 'react'
+
+const DISMISS_KEY = 'arkea-install-dismissed'
+const DISMISS_EVENT = 'arkea-install-dismiss'
+
+function detectIOS() {
+  if (typeof navigator === 'undefined') return false
+  return (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+    !(globalThis as any).MSStream
+  )
+}
+
+const useIsIOS = () =>
+  useSyncExternalStore(
+    () => () => {},
+    () => detectIOS(),
+    () => false,
+  )
+
+const isInstalled = () => {
+  if (typeof window === 'undefined') return false
+  return (
+    window.matchMedia('(display-mode: standalone)').matches ||
+    // iOS Safari exposes installed state on navigator instead
+    (window.navigator as any).standalone === true
+  )
+}
+
+const subscribeInstalled = (onChange: () => void) => {
+  const query = window.matchMedia('(display-mode: standalone)')
+
+  window.addEventListener('appinstalled', onChange)
+  query.addEventListener('change', onChange)
+
+  return () => {
+    window.removeEventListener('appinstalled', onChange)
+    query.removeEventListener('change', onChange)
+  }
+}
+
+// Start hidden on the server so nothing is baked into the HTML for users who
+// already dismissed the banner, then reveal it on the client if appropriate.
+const useInstalled = () =>
+  useSyncExternalStore(subscribeInstalled, isInstalled, () => true)
+
+const isDismissed = () => {
+  try {
+    return localStorage.getItem(DISMISS_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+// `storage` only fires cross-tab, so dismiss() dispatches DISMISS_EVENT itself
+const subscribeDismissed = (onChange: () => void) => {
+  window.addEventListener(DISMISS_EVENT, onChange)
+  window.addEventListener('storage', onChange)
+
+  return () => {
+    window.removeEventListener(DISMISS_EVENT, onChange)
+    window.removeEventListener('storage', onChange)
+  }
+}
+
+const useDismissed = () =>
+  useSyncExternalStore(subscribeDismissed, isDismissed, () => true)
 
 export const PWAInstallBanner = () => {
-  const [dismissed, setDismissed] = useState(false)
+  const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null)
+  const [isInstalling, setIsInstalling] = useState(false)
+  const [showFallback, setShowFallback] = useState(false)
+  const isIOS = useIsIOS()
+  const dismissed = useDismissed()
+  const installed = useInstalled()
 
-  if (dismissed) return null
+  useEffect(() => {
+    const onBeforeInstall = (e: Event) => {
+      e.preventDefault()
+      setDeferredPrompt(e)
+    }
+
+    window.addEventListener('beforeinstallprompt', onBeforeInstall)
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onBeforeInstall)
+    }
+  }, [])
+
+  const dismiss = () => {
+    try {
+      localStorage.setItem(DISMISS_KEY, '1')
+    } catch {
+      // storage unavailable, dismissal just will not persist
+    }
+    window.dispatchEvent(new Event(DISMISS_EVENT))
+  }
+
+  const install = async () => {
+    // No native prompt available (dev, Firefox, already-declined). Fall back to
+    // telling the user where the browser keeps its own install action.
+    if (!deferredPrompt) {
+      setShowFallback(true)
+      return
+    }
+
+    setIsInstalling(true)
+
+    try {
+      ;(deferredPrompt as any).prompt()
+      const { outcome } = await (deferredPrompt as any).userChoice
+
+      if (outcome === 'accepted') {
+        setDeferredPrompt(null)
+      } else {
+        setShowFallback(true)
+      }
+    } catch {
+      setShowFallback(true)
+    }
+
+    setIsInstalling(false)
+  }
+
+  if (dismissed || installed) return null
 
   return (
-    <div className="fixed right-0 bottom-0 left-0 z-50 border-t border-purple-500/30 bg-linear-to-t from-purple-900/90 to-purple-800/80 p-4 backdrop-blur-xs">
+    <div className="bg-background/90 border-primary/30 fixed right-0 bottom-0 left-0 z-40 border-t p-4 backdrop-blur-lg">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-purple-700">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="bg-primary/20 border-primary/40 flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border">
             <svg
-              className="h-8 w-8 text-white"
+              className="text-primary h-8 w-8"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -22,25 +140,33 @@ export const PWAInstallBanner = () => {
               <path d="M10 14v-2h4v2h-4z" />
             </svg>
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-white">
+          <div className="flex min-w-0 flex-col">
+            <span className="truncate text-sm font-semibold text-white">
               Install ArkeA
             </span>
-            <span className="text-xs text-purple-200">
-              Play offline as a native app
+            <span className="text-muted-foreground text-xs">
+              {showFallback
+                ? 'Use your browser menu, then Install app or Add to Home screen'
+                : isIOS
+                  ? 'Share → Add to Home Screen to play offline'
+                  : 'Play offline as a native app'}
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Link
-            href="/standalone-game"
-            className="rounded-lg bg-white px-4 py-2 text-sm font-medium text-purple-700 transition-colors hover:bg-purple-50"
-          >
-            Install
-          </Link>
+
+        <div className="flex shrink-0 items-center gap-2">
+          {!isIOS && (
+            <button
+              onClick={install}
+              disabled={isInstalling}
+              className="bg-primary hover:bg-primary/90 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors disabled:opacity-60"
+            >
+              {isInstalling ? 'Installing...' : 'Install'}
+            </button>
+          )}
           <button
-            onClick={() => setDismissed(true)}
-            className="p-2 text-purple-300 transition-colors hover:text-white"
+            onClick={dismiss}
+            className="text-muted-foreground p-2 transition-colors hover:text-white"
             aria-label="Dismiss"
           >
             <svg
