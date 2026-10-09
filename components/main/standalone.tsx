@@ -208,7 +208,7 @@ const StandaloneContent = () => {
 
   return (
     <div className="relative mt-16 h-screen w-full">
-      <div className="relative h-full w-full" ref={containerRef}>
+      <div className="relative h-full w-full md:px-42 md:py-4 sm:py-0 sm:px-0" ref={containerRef}>
         {showRewardVideo ? (
           <iframe
             title="ArkeA Reward"
