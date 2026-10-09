@@ -1,6 +1,16 @@
+import type { Metadata } from 'next'
 import type { HTMLAttributes } from 'react'
 
 const YOUTUBE_VIDEO_ID = 'FxTKvlNaj0s'
+
+export const metadata: Metadata = {
+  // In-game easter egg. Nothing here is worth a search result, and letting it
+  // rank would compete with the root page for the same terms.
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 declare module 'react' {
   interface IframeHTMLAttributes<T> extends HTMLAttributes<T> {

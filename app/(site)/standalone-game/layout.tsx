@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   manifest: '/game-content/index.manifest.json',
   title: 'ArkeA - Trial Of The Elements',
   description: 'ArkeA - Trial Of The Elements',
+  alternates: {
+    canonical: '/standalone-game',
+  },
 }
 
 export default function StandaloneGameLayout({

@@ -7,6 +7,9 @@ import { PwaManifestLink } from '@/components/main/pwa-manifest-link'
 // twitter stay inherited from app/layout.tsx so the OG image keeps resolving.
 export const metadata: Metadata = {
   manifest: '/game-content/index.manifest.json',
+  alternates: {
+    canonical: '/',
+  },
 }
 
 export default function Home() {
