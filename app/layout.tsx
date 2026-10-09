@@ -9,16 +9,26 @@ export const metadata: Metadata = {
   // Without this every relative URL in metadata below resolves against the
   // request host, so social crawlers get a broken OG image URL.
   metadataBase: new URL('https://arkeaband.com'),
-  title: 'Arkea',
-  description: 'Arkea',
+  title: {
+    default: 'ArkeA — Metalcore Band From Tunisia',
+    // Lets each route set a bare title without repeating the brand suffix
+    template: '%s | ArkeA',
+  },
+  description:
+    'ArkeA is a modern metal and metalcore band from Tunisia. Debut EP Trial Of The Elements, releasing with an original video game.',
+  applicationName: 'ArkeA',
+  authors: [{ name: 'ArkeA' }],
+  creator: 'ArkeA',
+  publisher: 'ArkeA',
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Arkea',
-    description: 'Arkea',
+    title: 'ArkeA — Metalcore Band From Tunisia',
+    description:
+      'Modern metal and metalcore from Tunisia. Debut EP Trial Of The Elements, releasing with an original video game.',
     url: 'https://arkeaband.com',
-    siteName: 'Arkea',
+    siteName: 'ArkeA',
     locale: 'en_US',
     images: [
       {
@@ -32,8 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Arkea',
-    description: 'Arkea',
+    title: 'ArkeA — Metalcore Band From Tunisia',
+    description:
+      'Modern metal and metalcore from Tunisia. Debut EP Trial Of The Elements, releasing with an original video game.',
     images: ['/og-image.png'],
   },
   robots: {
