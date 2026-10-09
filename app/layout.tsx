@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Unbounded } from 'next/font/google'
 
+import { OG_IMAGES, TWITTER_IMAGES } from '@/constants'
+
 import './globals.css'
 
 const unbounded = Unbounded({ subsets: ['latin'] })
@@ -15,7 +17,7 @@ export const metadata: Metadata = {
     template: '%s | ArkeA',
   },
   description:
-    'Modern metal from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
+    'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
   applicationName: 'ArkeA',
   authors: [{ name: 'ArkeA' }],
   creator: 'ArkeA',
@@ -26,26 +28,19 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'ArkeA — Modern Metal Band From Tunisia',
     description:
-      'Modern metal from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
+      'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
     url: 'https://arkeaband.com',
     siteName: 'ArkeA',
     locale: 'en_US',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'ArkeA',
-      },
-    ],
+    images: OG_IMAGES,
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'ArkeA — Modern Metal Band From Tunisia',
     description:
-      'Modern metal from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
-    images: ['/og-image.png'],
+      'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
+    images: TWITTER_IMAGES,
   },
   robots: {
     index: true,

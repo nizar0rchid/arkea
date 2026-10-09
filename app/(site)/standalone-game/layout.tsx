@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 
+import { OG_IMAGES, TWITTER_IMAGES } from '@/constants'
+
 const TITLE = 'Trials Of The Elements — Pixel Art Puzzle Game | ArkeA'
 
 const DESCRIPTION =
-  'A pixel art puzzle game with 8-bit chiptune music. Guide Pablob through elemental trials, solve ancient puzzles and uncover the secrets of ArkeA.'
+  'Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Guide Pablob through elemental trials, solve ancient puzzles and uncover the secrets of ArkeA.'
 
 // Game-led metadata, distinct from the band-led root page, but canonicalised
 // to / so only one of the two is indexed.
@@ -33,11 +35,13 @@ export const metadata: Metadata = {
     type: 'website',
     title: TITLE,
     description: DESCRIPTION,
+    images: OG_IMAGES,
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESCRIPTION,
+    images: TWITTER_IMAGES,
   },
 }
 

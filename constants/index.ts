@@ -2,6 +2,20 @@ import { FaYoutube, FaFacebook, FaTiktok } from 'react-icons/fa'
 import { RxInstagramLogo } from 'react-icons/rx'
 import { FaXTwitter } from 'react-icons/fa6'
 
+// Next.js replaces (not deep-merges) openGraph/twitter when a page defines
+// them, so any route with its own metadata must repeat the image or it
+// silently loses the card preview. Single source so they cannot drift.
+export const OG_IMAGE = {
+  url: '/og-image.png',
+  width: 1200,
+  height: 630,
+  alt: 'ArkeA - Trials Of The Elements',
+} as const
+
+export const OG_IMAGES = [OG_IMAGE]
+
+export const TWITTER_IMAGES = ['/og-image.png']
+
 export const SOCIALS = [
   {
     name: 'Instagram',

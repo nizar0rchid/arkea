@@ -2,12 +2,13 @@ import type { Metadata } from 'next'
 
 import { Standalone } from '@/components/main/standalone'
 import { PwaManifestLink } from '@/components/main/pwa-manifest-link'
+import { OG_IMAGES, TWITTER_IMAGES } from '@/constants'
 
 const TITLE =
   'ArkeA — Trials Of The Elements, Pixel Art Puzzle Game | Modern Metal Band From Tunisia'
 
 const DESCRIPTION =
-  'Modern metal from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.'
+  'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.'
 
 // Band-led copy for the root page. The EP name is deliberately absent, the
 // release is unrevealed. Game name is "Trials Of The Elements" (plural).
@@ -38,11 +39,13 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     url: '/',
+    images: OG_IMAGES,
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESCRIPTION,
+    images: TWITTER_IMAGES,
   },
 }
 
