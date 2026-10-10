@@ -94,7 +94,11 @@ export const Footer = () => {
 
       <div className="border-border relative z-10 mt-14 flex w-full flex-col items-start justify-between gap-3 border-t pt-6 sm:flex-row sm:items-center">
         <p className="text-dim text-xs">
-          &copy; 2025 ArkeA. All rights reserved.
+          {/* suppressHydrationWarning covers the one case where the server and
+              the visitor disagree on the year, ie across New Year */}
+          <span suppressHydrationWarning>
+            &copy; {new Date().getFullYear()} ArkeA. All rights reserved.
+          </span>
         </p>
       </div>
     </footer>
