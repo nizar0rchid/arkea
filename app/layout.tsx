@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Unbounded } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 
 import {
   OG_IMAGES,
@@ -73,6 +74,7 @@ export default function RootLayout({
     <html lang="en" data-scroll-behavior="smooth">
       <body className={`${unbounded.className} bg-background min-h-screen`}>
         {children}
+        <Analytics />
       </body>
     </html>
   )
