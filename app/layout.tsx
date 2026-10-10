@@ -25,11 +25,11 @@ export const metadata: Metadata = {
   // Without this every relative URL in metadata below resolves against the
   // request host, so social crawlers get a broken OG image URL.
   metadataBase: new URL('https://arkeaband.com'),
-  title: {
-    default: 'ArkeA Band',
-    // Lets each route set a bare title without repeating the brand suffix
-    template: '%s | ArkeA',
-  },
+  // Plain string, not { default, template }. Every route sets an absolute
+  // title that already ends in the brand, so a '%s | ArkeA' template produced
+  // duplicates like 'ArkeA Band | ArkeA' on / and a doubled suffix on
+  // /standalone-game. Next also requires template whenever default is used.
+  title: 'ArkeA Band',
   description: SITE_DESCRIPTION,
   applicationName: 'ArkeA',
   authors: [{ name: 'ArkeA' }],
