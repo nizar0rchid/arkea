@@ -12,49 +12,96 @@ import {
 } from '@/constants'
 import { SITE_STATE } from '@/config'
 
-const TITLE =
-  'ArkeA — Trials Of The Elements, Pixel Art Puzzle Game | Modern Metal Band From Tunisia'
+/**
+ * Copy is per-state on purpose:
+ *
+ * - countdown is a teaser, so it names neither the game nor the record
+ * - game leads with the game and stays silent on the record
+ * - home is the full landing page, so it can say everything
+ *
+ * Kept as separate blocks rather than one with inline conditionals so it is
+ * obvious at a glance what each state is allowed to reveal.
+ */
+const COPY = {
+  countdown: {
+    title: 'ArkeA — Something Is Coming',
+    description:
+      'ArkeA is a modern metal band from Tunisia. New music and something new to play, 13 October 2026.',
+    keywords: [
+      'ArkeA',
+      'modern metal band Tunisia',
+      'metal band Tunisia',
+      'Tunisia metal band',
+      'Tunisian metal scene',
+      'indie metal band',
+    ],
+    images: OG_IMAGES_COUNTDOWN,
+    twitterImages: TWITTER_IMAGES_COUNTDOWN,
+  },
+  game: {
+    title: 'ArkeA — Trials Of The Elements, Pixel Art Puzzle Game',
+    description:
+      'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
+    keywords: [
+      'ArkeA',
+      'Trials Of The Elements',
+      'ArkeA game',
+      'pixel art puzzle game',
+      'pixel art game',
+      '8-bit game',
+      '8bit chiptune music game',
+      'chiptune game',
+      'elemental puzzle game',
+    ],
+    images: OG_IMAGES,
+    twitterImages: TWITTER_IMAGES,
+  },
+  home: {
+    title: 'ArkeA — Trials Of The Elements, Pixel Art Puzzle Game',
+    description:
+      'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
+    keywords: [
+      'ArkeA',
+      'modern metal band Tunisia',
+      'metal band Tunisia',
+      'Tunisia metal band',
+      'Tunisian metal scene',
+      'Trials Of The Elements',
+      'ArkeA game',
+      'pixel art puzzle game',
+      'pixel art game',
+      '8-bit game',
+      '8bit chiptune music game',
+      'chiptune game',
+      'indie metal band',
+    ],
+    images: OG_IMAGES,
+    twitterImages: TWITTER_IMAGES,
+  },
+} as const
 
-const DESCRIPTION =
-  'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.'
+const copy = COPY[SITE_STATE]
 
-// Band-led copy for the root page. The EP name is deliberately absent, the
-// release is unrevealed. Game name is "Trials Of The Elements" (plural).
 export const metadata: Metadata = {
   manifest: '/game-content/index.manifest.json',
-  title: TITLE,
-  description: DESCRIPTION,
-  keywords: [
-    'ArkeA',
-    'modern metal band Tunisia',
-    'metal band Tunisia',
-    'Tunisia metal band',
-    'Tunisian metal scene',
-    'Trials Of The Elements',
-    'ArkeA game',
-    'pixel art puzzle game',
-    'pixel art game',
-    '8-bit game',
-    '8bit chiptune music game',
-    'chiptune game',
-    'indie metal band',
-  ],
+  title: copy.title,
+  description: copy.description,
+  keywords: [...copy.keywords],
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
-    title: TITLE,
-    description: DESCRIPTION,
+    title: copy.title,
+    description: copy.description,
     url: '/',
-    images: SITE_STATE === 'countdown' ? OG_IMAGES_COUNTDOWN : OG_IMAGES,
+    images: copy.images,
   },
   twitter: {
     card: 'summary_large_image',
-    title: TITLE,
-    description: DESCRIPTION,
-    images:
-      SITE_STATE === 'countdown' ? TWITTER_IMAGES_COUNTDOWN : TWITTER_IMAGES,
+    title: copy.title,
+    description: copy.description,
+    images: copy.twitterImages,
   },
 }
 

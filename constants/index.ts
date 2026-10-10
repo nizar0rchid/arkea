@@ -22,6 +22,7 @@ export const OG_IMAGE_COUNTDOWN = {
   url: '/og-image-countdown.png',
   width: 1200,
   height: 630,
+  // Deliberately vague, same as the teaser copy: no game name, no record
   alt: 'ArkeA - Trials Of The Elements, 13 October 2026',
 } as const
 
