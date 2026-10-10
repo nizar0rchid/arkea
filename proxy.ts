@@ -19,12 +19,22 @@ export function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Middleware also intercepts files served from public/, so anything Google
+  // or another crawler has to fetch at the root needs an exemption here or it
+  // gets a 307 instead of its content.
+  if (PUBLIC_PATHS.includes(pathname)) {
+    return NextResponse.next()
+  }
+
   if (pathname !== '/') {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
   return NextResponse.next()
 }
+
+// Google Search Console site verification. Must stay reachable in every state.
+const PUBLIC_PATHS = ['/googleb6f67dd8bf014cbc.html']
 
 export const config = {
   matcher: [
