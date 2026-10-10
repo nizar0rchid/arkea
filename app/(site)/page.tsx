@@ -57,9 +57,9 @@ const COPY = {
     twitterImages: TWITTER_IMAGES,
   },
   home: {
-    title: 'ArkeA — Trials Of The Elements, Pixel Art Puzzle Game',
+    title: 'ArkeA Band',
     description:
-      'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
+      'ArkeA is a modern metal band from Tunisia, forging heavy riffs and mythology-driven lyrics. Listen to the music, meet the band, and play Trials Of The Elements, the pixel art puzzle game releasing alongside it.',
     keywords: [
       'ArkeA',
       'modern metal band Tunisia',
