@@ -63,7 +63,7 @@ export const GameSection = () => {
             </p>
             <div className="mt-2 flex flex-wrap justify-center gap-3 sm:gap-4">
               <Link
-                href="/game"
+                href="/standalone-game"
                 className="btn-primary rounded-lg px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:scale-105 sm:px-6 sm:text-base"
               >
                 Play The Game

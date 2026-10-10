@@ -54,6 +54,10 @@ export const NAV_LINKS = [
     link: '#music',
   },
   {
+    title: 'Game',
+    link: '/standalone-game',
+  },
+  {
     title: 'Merch',
     link: '#merch',
   },

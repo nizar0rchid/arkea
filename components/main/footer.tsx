@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import { SOCIALS } from '@/constants'
+import { isCountdown, SITE_STATE } from '@/config'
 
 export const Footer = () => {
   return (
@@ -23,7 +24,13 @@ export const Footer = () => {
         />
       </div>
 
-      <div className="relative z-10 grid w-full grid-cols-1 gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:gap-8">
+      <div
+        className={`relative z-10 grid w-full grid-cols-1 gap-12 md:gap-8 ${
+          isCountdown
+            ? 'md:grid-cols-[1.4fr_1fr_1fr]'
+            : 'md:grid-cols-[1.4fr_1fr_1fr_1fr]'
+        }`}
+      >
         <div className="flex flex-col gap-5">
           <Image
             src="/logo.png"
@@ -47,25 +54,51 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
-          <h3 className="text-dim font-display tracking-[0.25em] uppercase">
-            Explore
-          </h3>
-          <div className="flex flex-col gap-2">
-            <Link
-              href="/"
-              className="hover:text-primary text-foreground/80 text-sm transition"
-            >
-              Play
-            </Link>
-            <Link
-              href="#contact"
-              className="hover:text-primary text-foreground/80 text-sm transition"
-            >
-              Contact
-            </Link>
+        {/* Nothing to explore yet while the site is just the teaser */}
+        {!isCountdown && (
+          <div className="flex flex-col gap-3">
+            <h3 className="text-dim font-display tracking-[0.25em] uppercase">
+              Explore
+            </h3>
+            <div className="flex flex-col gap-2">
+              {SITE_STATE === 'home' ? (
+                <>
+                  <Link
+                    href="#about"
+                    className="hover:text-primary text-foreground/80 text-sm transition"
+                  >
+                    About
+                  </Link>
+                  <Link
+                    href="#music"
+                    className="hover:text-primary text-foreground/80 text-sm transition"
+                  >
+                    Music
+                  </Link>
+                  <Link
+                    href="#merch"
+                    className="hover:text-primary text-foreground/80 text-sm transition"
+                  >
+                    Merch
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  href="/"
+                  className="hover:text-primary text-foreground/80 text-sm transition"
+                >
+                  Play
+                </Link>
+              )}
+              <Link
+                href="#contact"
+                className="hover:text-primary text-foreground/80 text-sm transition"
+              >
+                Contact
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="flex flex-col gap-3">
           <h3 className="text-dim font-display tracking-[0.25em] uppercase">

@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
 
+import { Standalone } from '@/components/main/standalone'
 import { ReleaseCountdown } from '@/components/main/release-countdown'
+import { HomePage } from '@/components/main/home-page'
 import { PwaManifestLink } from '@/components/main/pwa-manifest-link'
 import { OG_IMAGES, TWITTER_IMAGES } from '@/constants'
+import { SITE_STATE } from '@/config'
 
 const TITLE =
   'ArkeA — Trials Of The Elements, Pixel Art Puzzle Game | Modern Metal Band From Tunisia'
@@ -52,8 +55,14 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="h-full w-full">
-      <PwaManifestLink />
-      <ReleaseCountdown />
+      {SITE_STATE === 'home' ? (
+        <HomePage />
+      ) : (
+        <>
+          <PwaManifestLink />
+          {SITE_STATE === 'countdown' ? <ReleaseCountdown /> : <Standalone />}
+        </>
+      )}
     </main>
   )
 }

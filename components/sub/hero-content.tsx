@@ -117,7 +117,7 @@ export const HeroContent = () => {
           </Magnetic>
           <Magnetic>
             <Link
-              href="/game"
+              href="/standalone-game"
               className="btn-ghost font-display w-full max-w-[300px] cursor-pointer rounded-sm px-8 py-3 text-base tracking-wide sm:w-auto sm:px-8 sm:py-3 sm:text-lg"
             >
               Play The Game
