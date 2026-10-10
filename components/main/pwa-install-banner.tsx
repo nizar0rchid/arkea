@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useSyncExternalStore } from 'react'
 
+import { isCountdown } from '@/config'
+
 const DISMISS_KEY = 'arkea-install-dismissed'
 const DISMISS_EVENT = 'arkea-install-dismiss'
 
@@ -125,6 +127,12 @@ export const PWAInstallBanner = () => {
   }
 
   if (dismissed || installed) return null
+
+  // Never during the countdown teaser. There is no game to install, and the
+  // banner sits above the sigil. Standalone is not rendered on / in countdown
+  // state so this should already be unreachable, but guarding here means a
+  // future change cannot leak it.
+  if (isCountdown) return null
 
   return (
     <div className="bg-background/90 border-primary/30 fixed right-0 bottom-0 left-0 z-40 border-t p-4 backdrop-blur-lg">
