@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { OG_IMAGES, TWITTER_IMAGES } from '@/constants'
+import { SITE_STATE } from '@/config'
 
 const TITLE = 'Trials Of The Elements — Pixel Art Puzzle Game | ArkeA'
 
@@ -27,9 +28,10 @@ export const metadata: Metadata = {
     'free browser puzzle game',
   ],
   alternates: {
-    // The game renders identically at / and /standalone-game. Pointing the
-    // canonical at / keeps one page in the index instead of two.
-    canonical: '/',
+    // In game state / renders the same game, so canonicalising to / keeps one
+    // page indexed. In home state / is the band's landing page and this is the
+    // only game URL, so it has to stand on its own to be indexed at all.
+    canonical: SITE_STATE === 'home' ? '/standalone-game' : '/',
   },
   openGraph: {
     type: 'website',
