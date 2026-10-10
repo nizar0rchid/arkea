@@ -2,7 +2,11 @@ import type { MetadataRoute } from 'next'
 
 import { SITE_STATE } from '@/config'
 
-const SITE_URL = 'https://arkeaband.com'
+// Must match the host that actually serves content. Vercel 308s the apex to
+// www, so pointing canonical URLs at arkeaband.com makes every entry in the
+// sitemap a redirect, which is what made Search Console report a fetch
+// failure.
+const SITE_URL = 'https://www.arkeaband.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date()

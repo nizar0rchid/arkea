@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next'
 
-const SITE_URL = 'https://arkeaband.com'
+// Matches the host that serves content. The apex 308s to www, and a robots.txt
+// pointing crawlers at a redirecting host sends them somewhere else.
+const SITE_URL = 'https://www.arkeaband.com'
 
 export default function robots(): MetadataRoute.Robots {
   return {

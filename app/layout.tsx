@@ -25,7 +25,7 @@ const SITE_DESCRIPTION = isTeaser
 export const metadata: Metadata = {
   // Without this every relative URL in metadata below resolves against the
   // request host, so social crawlers get a broken OG image URL.
-  metadataBase: new URL('https://arkeaband.com'),
+  metadataBase: new URL('https://www.arkeaband.com'),
   // Plain string, not { default, template }. Every route sets an absolute
   // title that already ends in the brand, so a '%s | ArkeA' template produced
   // duplicates like 'ArkeA Band | ArkeA' on / and a doubled suffix on
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'ArkeA Band',
     description: SITE_DESCRIPTION,
-    url: 'https://arkeaband.com',
+    url: 'https://www.arkeaband.com',
     siteName: 'ArkeA',
     locale: 'en_US',
     images: isTeaser ? OG_IMAGES_COUNTDOWN : OG_IMAGES,
