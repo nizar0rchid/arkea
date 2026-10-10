@@ -63,10 +63,10 @@ export const ReleaseCountdown = () => {
 
         <p className="max-w-xl text-sm leading-relaxed sm:text-base">
           <time
-            dateTime="2026-10-13T18:00:00+01:00"
+            dateTime="2026-10-13T19:00:00+01:00"
             className="text-primary font-mono text-base font-bold tracking-[0.2em] uppercase sm:text-lg"
           >
-            13 October 2026 — 18:00 UTC+1
+            13 October 2026 — 19:00 UTC+1
           </time>
           <span className="text-primary block">
             Every element hides a trial, every trial reveals a secret.

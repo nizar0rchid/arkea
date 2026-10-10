@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 
-// 13 October 2026, 18:00 in Tunisia. Tunisia is UTC+1 all year (no DST), so
+// 13 October 2026, 19:00 in Tunisia. Tunisia is UTC+1 all year (no DST), so
 // the offset is fixed and the target is unambiguous for every visitor.
-export const RELEASE_DATE = new Date('2026-10-13T18:00:00+01:00')
+export const RELEASE_DATE = new Date('2026-10-13T19:00:00+01:00')
 
 type Remaining = {
   days: number
@@ -54,8 +54,8 @@ export const Countdown = () => {
       aria-live="off"
       aria-label={
         remaining === null
-          ? 'Counting down to 13 October 2026, 18:00 UTC+1'
-          : `${remaining.days} days, ${remaining.hours} hours, ${remaining.minutes} minutes and ${remaining.seconds} seconds until 13 October 2026, 18:00 UTC+1`
+          ? 'Counting down to 13 October 2026, 19:00 UTC+1'
+          : `${remaining.days} days, ${remaining.hours} hours, ${remaining.minutes} minutes and ${remaining.seconds} seconds until 13 October 2026, 19:00 UTC+1`
       }
     >
       {UNITS.map(({ key, label }) => (
