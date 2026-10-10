@@ -4,7 +4,12 @@ import { Standalone } from '@/components/main/standalone'
 import { ReleaseCountdown } from '@/components/main/release-countdown'
 import { HomePage } from '@/components/main/home-page'
 import { PwaManifestLink } from '@/components/main/pwa-manifest-link'
-import { OG_IMAGES, TWITTER_IMAGES } from '@/constants'
+import {
+  OG_IMAGES,
+  OG_IMAGES_COUNTDOWN,
+  TWITTER_IMAGES,
+  TWITTER_IMAGES_COUNTDOWN,
+} from '@/constants'
 import { SITE_STATE } from '@/config'
 
 const TITLE =
@@ -42,13 +47,14 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     url: '/',
-    images: OG_IMAGES,
+    images: SITE_STATE === 'countdown' ? OG_IMAGES_COUNTDOWN : OG_IMAGES,
   },
   twitter: {
     card: 'summary_large_image',
     title: TITLE,
     description: DESCRIPTION,
-    images: TWITTER_IMAGES,
+    images:
+      SITE_STATE === 'countdown' ? TWITTER_IMAGES_COUNTDOWN : TWITTER_IMAGES,
   },
 }
 
