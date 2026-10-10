@@ -26,7 +26,7 @@ const COPY = {
   countdown: {
     title: 'ArkeA — Something Is Coming',
     description:
-      'ArkeA is a modern metal band from Tunisia. New music and something new to play, 13 October 2026.',
+      'ArkeA is a modern metal band from Tunisia. Trials Of The Elements drops 13 October 2026.',
     keywords: [
       'ArkeA',
       'modern metal band Tunisia',

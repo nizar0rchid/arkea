@@ -9,7 +9,6 @@ const ROOT = 'C:/Users/nizar/Desktop/arkea-website'
 const BG = '#0b0a0c'
 const FG = '#f2ede6'
 const PRIMARY = '#712fff'
-const DIM = '#6b6460'
 
 const DISPLAY = 'Bebas Neue'
 const MONO = 'Consolas'

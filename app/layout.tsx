@@ -18,7 +18,7 @@ const unbounded = Unbounded({ subsets: ['latin'] })
 const isTeaser = SITE_STATE === 'countdown'
 
 const SITE_DESCRIPTION = isTeaser
-  ? 'ArkeA is a modern metal band from Tunisia. New music and something new to play, 13 October 2026.'
+  ? 'ArkeA is a modern metal band from Tunisia. Trials Of The Elements drops 13 October 2026.'
   : 'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.'
 
 export const metadata: Metadata = {
