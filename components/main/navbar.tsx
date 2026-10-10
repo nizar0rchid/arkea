@@ -199,12 +199,12 @@ export const Navbar = () => {
 
         {/* Explicit col-start-3 in both states. Without it the socials
             auto-place into column 2 when the menu is hidden, and
-            justify-self-end then pins them to the middle of the bar. */}
-        <div
-          className={`col-start-3 flex flex-row gap-5 justify-self-end ${
-            showMenu ? 'hidden md:flex' : ''
-          }`}
-        >
+            justify-self-end then pins them to the middle of the bar.
+
+            md:hidden because on mobile these live inside the burger panel
+            instead, which is how the navbar behaved before the site was
+            stripped down. */}
+        <div className="col-start-3 hidden flex-row gap-5 justify-self-end md:flex">
           {SOCIALS.map(({ link, name, icon: Icon }) => (
             <Link
               href={link}
@@ -217,19 +217,18 @@ export const Navbar = () => {
           ))}
         </div>
 
-        {showMenu && (
-          <button
-            className={`col-start-3 flex flex-col items-center justify-center gap-[4px] justify-self-end md:hidden ${
-              isMobileMenuOpen ? 'hamburger-open' : ''
-            }`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <span className="hamburger-line block h-[2.5px] w-6 rounded bg-white" />
-            <span className="hamburger-line block h-[2.5px] w-6 rounded bg-white" />
-            <span className="hamburger-line block h-[2.5px] w-6 rounded bg-white" />
-          </button>
-        )}
+        <button
+          className={`col-start-3 flex flex-col items-center justify-center gap-[4px] justify-self-end md:hidden ${
+            isMobileMenuOpen ? 'hamburger-open' : ''
+          }`}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
+        >
+          <span className="hamburger-line block h-[2.5px] w-6 rounded bg-white" />
+          <span className="hamburger-line block h-[2.5px] w-6 rounded bg-white" />
+          <span className="hamburger-line block h-[2.5px] w-6 rounded bg-white" />
+        </button>
       </div>
 
       <AnimatePresence>
@@ -241,29 +240,35 @@ export const Navbar = () => {
             transition={{ duration: 0.2 }}
             className="bg-background border-primary/20 absolute top-[65px] left-0 flex w-full flex-col items-center border-t p-5 md:hidden"
           >
-            <div className="flex flex-col items-center gap-4">
-              {NAV_LINKS.map((link) => {
-                const sectionId = link.link.replace('#', '')
-                const isActive =
-                  link.link === '/'
-                    ? activeSection === '' && !isGamePage
-                    : link.link.startsWith('#')
-                      ? activeSection === sectionId
-                      : isGamePage && link.link === '/standalone-game'
+            {/* Section links only exist on the landing page. In countdown and
+                game states the panel is socials only. */}
+            {showMenu && (
+              <div className="flex flex-col items-center gap-4">
+                {NAV_LINKS.map((link) => {
+                  const sectionId = link.link.replace('#', '')
+                  const isActive =
+                    link.link === '/'
+                      ? activeSection === '' && !isGamePage
+                      : link.link.startsWith('#')
+                        ? activeSection === sectionId
+                        : isGamePage && link.link === '/standalone-game'
 
-                return (
-                  <NavLink
-                    key={link.title}
-                    title={link.title}
-                    link={link.link}
-                    isActive={isActive}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  />
-                )
-              })}
-            </div>
+                  return (
+                    <NavLink
+                      key={link.title}
+                      title={link.title}
+                      link={link.link}
+                      isActive={isActive}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    />
+                  )
+                })}
+              </div>
+            )}
 
-            <div className="mt-6 flex justify-center gap-6">
+            <div
+              className={`${showMenu ? 'mt-6' : ''} flex justify-center gap-6`}
+            >
               {SOCIALS.map(({ link, name, icon: Icon }) => (
                 <Link
                   href={link}
