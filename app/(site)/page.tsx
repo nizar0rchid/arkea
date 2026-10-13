@@ -10,7 +10,7 @@ import {
   TWITTER_IMAGES,
   TWITTER_IMAGES_COUNTDOWN,
 } from '@/constants'
-import { SITE_STATE } from '@/config'
+import { SITE_STATE, isCountdown } from '@/config'
 
 /**
  * Copy is per-state on purpose:
@@ -83,7 +83,10 @@ const COPY = {
 const copy = COPY[SITE_STATE]
 
 export const metadata: Metadata = {
-  manifest: '/game-content/index.manifest.json',
+  // Omitted during the countdown. The manifest is what makes a page
+  // installable, so leaving it in place still lets Chrome offer its own
+  // install prompt even with our banner commented out.
+  ...(isCountdown ? {} : { manifest: '/game-content/index.manifest.json' }),
   title: copy.title,
   description: copy.description,
   keywords: [...copy.keywords],
@@ -112,7 +115,9 @@ export default function Home() {
         <HomePage />
       ) : (
         <>
-          <PwaManifestLink />
+          {/* Same reason as the manifest above: nothing install-related during
+              the countdown, or the browser will still offer to install. */}
+          {!isCountdown && <PwaManifestLink />}
           {SITE_STATE === 'countdown' ? <ReleaseCountdown /> : <Standalone />}
         </>
       )}
