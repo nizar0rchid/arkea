@@ -1,7 +1,10 @@
 'use client'
 import { useState, useRef, useEffect, useSyncExternalStore } from 'react'
 
-import { PWAInstallBanner } from '@/components/main/pwa-install-banner'
+// Install banner parked for now. The component is left untouched in
+// components/main/pwa-install-banner.tsx, restore by uncommenting both the
+// import below and the render inside Standalone.
+// import { PWAInstallBanner } from '@/components/main/pwa-install-banner'
 
 const GAME_VERSION = process.env.NEXT_PUBLIC_GAME_VERSION ?? 'v0' // auto-bumped from the pck hash at build time
 
@@ -9,7 +12,7 @@ export const Standalone = () => {
   return (
     <div className="relative flex h-screen w-full flex-col">
       <StandaloneContent />
-      <PWAInstallBanner />
+      {/* <PWAInstallBanner /> */}
     </div>
   )
 }
