@@ -9,7 +9,7 @@ const TRACKS = [
   { title: 'The Awakening', duration: '5:02' },
 ]
 
-const YOUTUBE_VIDEO_ID = 'FxTKvlNaj0s'
+const YOUTUBE_VIDEO_ID = 'Xedjf2ryS4s'
 
 export const MusicContent = () => {
   return (

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import type { HTMLAttributes } from 'react'
 
-const YOUTUBE_VIDEO_ID = 'FxTKvlNaj0s'
+const YOUTUBE_VIDEO_ID = 'Xedjf2ryS4s'
 
 export const metadata: Metadata = {
   // In-game easter egg. Nothing here is worth a search result, and letting it
