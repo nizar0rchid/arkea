@@ -47,6 +47,35 @@ export const Countdown = () => {
     return () => clearInterval(id)
   }, [])
 
+  // The deployed build keeps rendering this page after the date passes, so the
+  // digits alone would sit frozen at zero forever. Prompt for a refresh
+  // instead, which is what actually pulls in the next deployment.
+  const hasReached =
+    remaining !== null &&
+    remaining.days === 0 &&
+    remaining.hours === 0 &&
+    remaining.minutes === 0 &&
+    remaining.seconds === 0
+
+  if (hasReached) {
+    return (
+      <div className="flex w-full flex-col items-center gap-5 text-center">
+        <p className="text-primary font-display text-3xl tracking-[0.2em] uppercase sm:text-4xl">
+          Out now
+        </p>
+        <p className="text-muted-foreground max-w-sm text-sm sm:text-base">
+          Trials Of The Elements has arrived. Refresh the page to play.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="btn-primary font-display cursor-pointer rounded-sm px-8 py-3 text-base tracking-wide sm:text-lg"
+        >
+          Refresh to play
+        </button>
+      </div>
+    )
+  }
+
   return (
     <div
       className="flex w-full items-start justify-center gap-3 sm:gap-5"
