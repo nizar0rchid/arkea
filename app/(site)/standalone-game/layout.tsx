@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import { OG_IMAGES, TWITTER_IMAGES } from '@/constants'
-import { SITE_STATE } from '@/config'
+import { SITE_STATE, isCountdown } from '@/config'
 
 const TITLE = 'Trials Of The Elements — Pixel Art Puzzle Game | ArkeA'
 
@@ -11,7 +11,10 @@ const DESCRIPTION =
 // Game-led metadata, distinct from the band-led root page, but canonicalised
 // to / so only one of the two is indexed.
 export const metadata: Metadata = {
-  manifest: '/game-content/index.manifest.json',
+  // Omitted during the countdown, same as the root page. The proxy already
+  // redirects this route away in that state, but the manifest is what makes a
+  // page installable so it should never render there.
+  ...(isCountdown ? {} : { manifest: '/game-content/index.manifest.json' }),
   title: TITLE,
   description: DESCRIPTION,
   keywords: [
