@@ -2,32 +2,69 @@ import Image from 'next/image'
 
 export const AboutContent = () => {
   return (
-    <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
-      <div className="text-muted-foreground flex flex-col gap-5 text-sm leading-relaxed sm:text-base">
+    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-12">
+      <div className="text-primary flex flex-col gap-5 text-sm leading-relaxed sm:text-[15px]">
         <p>
           <span className="text-foreground font-bold">
-            Forged in the underground,
+            ArkeA started with a simple idea:
           </span>{' '}
-          ArkeA is a modern metal band from Tunisia, crafting a unique blend of
-          heavy riffs, atmospheric soundscapes, and mythology-driven lyrics.
+          to turn years of writing music at home into something real.
+        </p>
+        <p>
+          <span className="text-foreground font-bold">In 2024,</span> a
+          conversation between Tunisian musician{' '}
+          <span className="text-foreground font-bold">Aziz</span> and drummer{' '}
+          <span className="text-foreground font-bold">Youssef</span> became the
+          starting point of a new project. What began with a collection of
+          compositions gradually grew into a collective, bringing together
+          musicians separated by borders but connected by a shared desire to
+          create. With <span className="text-foreground font-bold">Ahmed</span>{' '}
+          bringing electronic textures into the picture,{' '}
+          <span className="text-foreground font-bold">Nizar</span> joining on
+          bass, and <span className="text-foreground font-bold">Pablo</span>{' '}
+          completing the lineup on vocals in September 2025, ArkeA took shape
+          across Tunisia, Germany, and Canada.{' '}
+          <span className="text-foreground font-semibold">
+            Different backgrounds, different environments, one shared body of
+            work.
+          </span>
         </p>
         <p>
           <span className="text-foreground font-bold">
-            A world to step into.
+            The name comes from Archaea:
           </span>{' '}
-          We believe music is more than sound — it&apos;s a gateway to a
-          universe where myth and metal collide.
+          ancient microorganisms known for their ability to adapt to a wide
+          range of environments. It felt fitting. ArkeA was never meant to be
+          confined to one place, one genre, or one way of thinking.
+        </p>
+        <p>
+          <span className="text-foreground font-bold">Musically,</span> ArkeA
+          brings together the weight of metal, the restless pulse of electronic
+          music, intricate rhythms, and choruses built to stay with you. Heavy
+          guitars that coexist with synthetic atmospheres and melodic passages,
+          drawing from a wide range of influences without trying to fit into a
+          single category.
         </p>
         <p>
           <span className="text-foreground font-bold">
-            Trial Of The Elements.
+            ArkeA is an independent band built across borders,
           </span>{' '}
-          Our debut EP is accompanied by an original video game that expands the
-          universe. Every element hides a trial. Every trial reveals a secret.
+          shaped by different perspectives, and driven by the simple need to
+          make music. No two elements are quite alike, but sometimes they find a
+          way to work together.
         </p>
+
+        <div className="border-primary/60 bg-primary/10 mt-2 border-l-2 py-3 pl-4">
+          <p className="font-display text-foreground text-base tracking-[0.02em] uppercase sm:text-lg">
+            Different origins. One evolving organism.
+          </p>
+          <p className="text-primary mt-1.5 font-mono text-xs tracking-[0.2em]">
+            🜃🜂 BECOME THE COLONY 🜄🜁
+          </p>
+        </div>
       </div>
 
-      <div className="from-card border-border to-background relative aspect-[1/1.1] w-full max-w-[320px] overflow-hidden border bg-gradient-to-br lg:justify-self-end">
+      <div className="from-card border-border to-background relative mx-auto aspect-[1/1.1] w-full max-w-[320px] overflow-hidden border bg-gradient-to-br lg:mx-0 lg:self-center">
         <Image
           src="/SVG/pad-emblem.svg"
           alt="ArkeA sigil"
@@ -36,11 +73,8 @@ export const AboutContent = () => {
           draggable={false}
           className="absolute top-1/2 left-1/2 w-[64%] -translate-x-1/2 -translate-y-1/2 object-contain opacity-90"
         />
-        <span className="text-dim absolute top-3 left-4 font-mono text-[10px] tracking-[0.25em] uppercase">
-          ArkeA
-        </span>
         <span className="text-dim absolute right-4 bottom-3 font-mono text-[10px] tracking-[0.25em] uppercase">
-          EST. 2025
+          EST. 2024
         </span>
       </div>
     </div>

@@ -64,6 +64,10 @@ export const NAV_LINKS = [
     link: '/',
   },
   {
+    title: 'About',
+    link: '#about',
+  },
+  {
     title: 'Music',
     link: '#music',
   },

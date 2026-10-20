@@ -21,7 +21,7 @@ const isTeaser = SITE_STATE === 'countdown'
 
 const SITE_DESCRIPTION = isTeaser
   ? 'ArkeA is a modern metal band from Tunisia. Trials Of The Elements drops 13 October 2026.'
-  : 'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.'
+  : 'ArkeA is a modern metal and metalcore band formed in 2024 across Tunisia, Germany and Canada. Heavy riffs, electronic textures and melodic choruses.'
 
 export const metadata: Metadata = {
   // Without this every relative URL in metadata below resolves against the
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   // title that already ends in the brand, so a '%s | ArkeA' template produced
   // duplicates like 'ArkeA Band | ArkeA' on / and a doubled suffix on
   // /standalone-game. Next also requires template whenever default is used.
-  title: 'ArkeA Band',
+  title: 'ArkeA',
   description: SITE_DESCRIPTION,
   applicationName: 'ArkeA',
   authors: [{ name: 'ArkeA' }],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'ArkeA Band',
+    title: 'ArkeA',
     description: SITE_DESCRIPTION,
     url: 'https://www.arkeaband.com',
     siteName: 'ArkeA',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ArkeA Band',
+    title: 'ArkeA',
     description: SITE_DESCRIPTION,
     images: isTeaser ? TWITTER_IMAGES_COUNTDOWN : TWITTER_IMAGES,
   },

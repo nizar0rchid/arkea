@@ -7,6 +7,7 @@ import { PwaManifestLink } from '@/components/main/pwa-manifest-link'
 import {
   OG_IMAGES,
   OG_IMAGES_COUNTDOWN,
+  SOCIALS,
   TWITTER_IMAGES,
   TWITTER_IMAGES_COUNTDOWN,
 } from '@/constants'
@@ -29,10 +30,14 @@ const COPY = {
       'ArkeA is a modern metal band from Tunisia. Trials Of The Elements drops 13 October 2026.',
     keywords: [
       'ArkeA',
+      'modern metal',
+      'metalcore',
       'modern metal band Tunisia',
       'metal band Tunisia',
       'Tunisia metal band',
       'Tunisian metal scene',
+      'independent metal band',
+      'international metal band',
       'indie metal band',
     ],
     images: OG_IMAGES_COUNTDOWN,
@@ -41,9 +46,14 @@ const COPY = {
   game: {
     title: 'ArkeA — Trials Of The Elements, Pixel Art Puzzle Game',
     description:
-      'ArkeA is a modern metal band from Tunisia. Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Solve ancient elemental puzzles and uncover the secrets of ArkeA.',
+      'Trials Of The Elements is a pixel art puzzle game by ArkeA, a modern metal and metalcore band from Tunisia. Guide Pablob through elemental trials with an 8-bit chiptune soundtrack.',
     keywords: [
       'ArkeA',
+      'ArkeA band',
+      'modern metal',
+      'metalcore',
+      'Tunisian metal band',
+      'Tunisian metalcore band',
       'Trials Of The Elements',
       'ArkeA game',
       'pixel art puzzle game',
@@ -57,15 +67,33 @@ const COPY = {
     twitterImages: TWITTER_IMAGES,
   },
   home: {
-    title: 'ArkeA Band',
+    title: 'ArkeA',
     description:
-      'ArkeA is a modern metal band from Tunisia, forging heavy riffs and mythology-driven lyrics. Listen to the music, meet the band, and play Trials Of The Elements, the pixel art puzzle game releasing alongside it.',
+      'ArkeA is a modern metal and metalcore band formed in 2024 across Tunisia, Germany and Canada. Heavy riffs, electronic textures and melodic choruses.',
     keywords: [
       'ArkeA',
+      'ArkeA band',
+      'ArkeA music',
+      'modern metal',
+      'metalcore',
       'modern metal band Tunisia',
+      'metalcore band Tunisia',
       'metal band Tunisia',
       'Tunisia metal band',
+      'Tunisian metal band',
+      'Tunisian metalcore band',
       'Tunisian metal scene',
+      'independent metal band',
+      'international metal band',
+      'indie metal band',
+      'cross-border metal band',
+      'metal band Germany',
+      'metal band Canada',
+      'Aziz ArkeA',
+      'Youssef ArkeA',
+      'Ahmed ArkeA',
+      'Nizar ArkeA',
+      'Pablo ArkeA',
       'Trials Of The Elements',
       'ArkeA game',
       'pixel art puzzle game',
@@ -73,7 +101,6 @@ const COPY = {
       '8-bit game',
       '8bit chiptune music game',
       'chiptune game',
-      'indie metal band',
     ],
     images: OG_IMAGES,
     twitterImages: TWITTER_IMAGES,
@@ -81,6 +108,44 @@ const COPY = {
 } as const
 
 const copy = COPY[SITE_STATE]
+
+// Structured data gives crawlers the band's line-up, origin and genre directly,
+// rather than making them infer it from the about copy. The album is only
+// included outside the countdown, where naming the record is allowed.
+const BAND_STRUCTURED_DATA = {
+  '@context': 'https://schema.org',
+  '@type': 'MusicGroup',
+  '@id': 'https://www.arkeaband.com/#band',
+  name: 'ArkeA',
+  alternateName: 'ArkeA Band',
+  url: 'https://www.arkeaband.com',
+  logo: 'https://www.arkeaband.com/logo.png',
+  image: 'https://www.arkeaband.com/og-image.png',
+  description:
+    'ArkeA is a modern metal and metalcore band formed in 2024 across Tunisia, Germany and Canada. Heavy riffs, electronic textures and melodic choruses.',
+  foundingDate: '2024',
+  foundingLocation: {
+    '@type': 'Place',
+    name: 'Tunisia',
+  },
+  genre: ['Modern metal', 'Metalcore'],
+  member: [
+    { '@type': 'Person', name: 'Aziz', jobTitle: 'Musician' },
+    { '@type': 'Person', name: 'Youssef', jobTitle: 'Drummer' },
+    { '@type': 'Person', name: 'Ahmed', jobTitle: 'Electronics' },
+    { '@type': 'Person', name: 'Nizar', jobTitle: 'Bassist' },
+    { '@type': 'Person', name: 'Pablo', jobTitle: 'Vocalist' },
+  ],
+  ...(isCountdown
+    ? {}
+    : {
+        album: {
+          '@type': 'MusicAlbum',
+          name: 'Trials Of The Elements',
+        },
+      }),
+  sameAs: SOCIALS.map(({ link }) => link),
+} as const
 
 export const metadata: Metadata = {
   // Omitted during the countdown. The manifest is what makes a page
@@ -90,11 +155,14 @@ export const metadata: Metadata = {
   title: copy.title,
   description: copy.description,
   keywords: [...copy.keywords],
+  category: 'music',
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
+    siteName: 'ArkeA',
+    locale: 'en_US',
     title: copy.title,
     description: copy.description,
     url: '/',
@@ -111,6 +179,14 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="h-full w-full">
+      {!isCountdown && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(BAND_STRUCTURED_DATA),
+          }}
+        />
+      )}
       {SITE_STATE === 'home' ? (
         <HomePage />
       ) : (

@@ -6,7 +6,7 @@ import { SITE_STATE, isCountdown } from '@/config'
 const TITLE = 'Trials Of The Elements — Pixel Art Puzzle Game | ArkeA'
 
 const DESCRIPTION =
-  'Trials Of The Elements is a pixel art puzzle game with 8-bit chiptune music. Guide Pablob through elemental trials, solve ancient puzzles and uncover the secrets of ArkeA.'
+  'Trials Of The Elements is a pixel art puzzle game by ArkeA, a modern metal and metalcore band from Tunisia. Guide Pablob through elemental trials with an 8-bit chiptune soundtrack.'
 
 // Game-led metadata, distinct from the band-led root page, but canonicalised
 // to / so only one of the two is indexed.
@@ -18,7 +18,14 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   keywords: [
+    'ArkeA',
+    'ArkeA band',
     'ArkeA game',
+    'modern metal',
+    'metalcore',
+    'modern metal band Tunisia',
+    'Tunisian metal band',
+    'Tunisian metalcore band',
     'Trials Of The Elements',
     'pixel art game',
     'pixel art puzzle game',
@@ -30,6 +37,7 @@ export const metadata: Metadata = {
     'indie puzzle game',
     'free browser puzzle game',
   ],
+  category: 'games',
   alternates: {
     // In game state / renders the same game, so canonicalising to / keeps one
     // page indexed. In home state / is the band's landing page and this is the
