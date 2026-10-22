@@ -5,9 +5,9 @@ import Link from 'next/link'
 
 export const GameSection = () => {
   return (
-    <div className="relative mt-35 flex h-full w-full flex-col items-center justify-center">
+    <div className="relative mt-20 flex h-full w-full flex-col items-center justify-center">
       <div className="z-20 w-full">
-        <div className="relative h-[260px] w-full overflow-hidden sm:h-[340px] md:h-[420px]">
+        <div className="relative h-[380px] w-full overflow-hidden sm:h-[340px] md:h-[420px]">
           <div className="absolute inset-0 h-full w-full">
             {/* Game art background */}
             <img
@@ -21,7 +21,7 @@ export const GameSection = () => {
                 objectPosition: '100% 60%',
               }}
             />
-            <div className="pointer-events-none absolute right-0 bottom-10 z-0 h-full w-1/2">
+            <div className="pointer-events-none absolute right-0 -bottom-1 z-0 h-1/2 w-1/2 origin-bottom-right scale-[1] opacity-80 sm:bottom-10 sm:h-full sm:scale-100 sm:opacity-100">
               <div className="relative h-full w-full">
                 <Image
                   src="/home/hero/pablob.png"
@@ -30,10 +30,6 @@ export const GameSection = () => {
                   sizes="50vw"
                   draggable={false}
                   className="animate-float object-contain object-right-bottom"
-                  style={{
-                    transform: 'scale(0.85)',
-                    transformOrigin: 'bottom right',
-                  }}
                 />
               </div>
             </div>
@@ -56,19 +52,18 @@ export const GameSection = () => {
               className="h-auto max-w-[260px] object-contain sm:max-w-[420px] md:max-w-[420px]"
               style={{ width: '100%', height: 'auto' }}
             />
-            <p className="mt-4 max-w-[280px] text-xs leading-relaxed text-white sm:max-w-sm sm:text-sm md:max-w-md md:text-base">
+            <p className="mt-2 max-w-[320px] text-xs leading-relaxed text-white sm:mt-4 sm:max-w-sm sm:text-sm md:max-w-md md:text-base">
               Every Element hides a Trial. Every Trial reveals a Secret. Explore
               ArkeA, guide Pablob through elemental trials, solve ancient
               puzzles, and uncover it&#39;s secrets!
             </p>
-            <div className="mt-2 flex flex-wrap justify-center gap-3 sm:gap-4">
+            <div className="mt-1 flex flex-wrap justify-center gap-3 sm:mt-2 sm:gap-4">
               <Link
                 href="/standalone-game"
-                className="btn-primary rounded-lg px-5 py-2.5 text-sm font-bold text-white transition-all duration-300 hover:scale-105 sm:px-6 sm:text-base"
+                className="btn-primary rounded-md px-4 py-2 text-xs font-bold text-white transition-all duration-300 hover:scale-105 sm:rounded-lg sm:px-6 sm:py-2.5 sm:text-base"
               >
                 Play The Game
               </Link>
-              
             </div>
           </div>
 

@@ -26,7 +26,7 @@ export default function Home() {
               <MusicContent />
           </InfoSection>
 
-          <InfoSection id="merch" index="03" title="Wear The Trials">
+          <InfoSection id="merch" index="03" title="Merch">
               <MerchContent />
           </InfoSection>
       </div>

@@ -4,37 +4,22 @@ import Image from 'next/image'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 
 const ITEMS = [
-  {
-    title: 'Logo Shirt',
-    image: '/home/merch/logoshirt.webp',
-    desc: 'Black oversized tee with embroidered logo',
-    price: '35€',
-  },
-  {
-    title: 'Elemental Short',
-    image: '/home/merch/elemtalshort.webp',
-    desc: 'Purple scoop-neck with foil print',
-    price: '40€',
-  },
-  {
-    title: 'Hoodie',
-    image: '/home/merch/hoodie.webp',
-    desc: 'White crew with game-art back print',
-    price: '38€',
-  },
+  '/home/merch/logoshirt.webp',
+  '/home/merch/elemtalshort.webp',
+  '/home/merch/hoodie.webp',
 ]
 
 export const MerchContent = () => {
   return (
-    <div className="mx-auto grid max-w-4xl gap-6 sm:grid-cols-3 md:gap-8">
-      {ITEMS.map((item) => (
-        <TiltCard key={item.title} item={item} />
+    <div className="mx-auto grid w-full max-w-4xl grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 md:gap-8">
+      {ITEMS.map((src) => (
+        <TiltCard key={src} src={src} />
       ))}
     </div>
   )
 }
 
-const TiltCard = ({ item }: { item: (typeof ITEMS)[number] }) => {
+const TiltCard = ({ src }: { src: string }) => {
   const mx = useMotionValue(0.5)
   const my = useMotionValue(0.5)
 
@@ -68,11 +53,11 @@ const TiltCard = ({ item }: { item: (typeof ITEMS)[number] }) => {
       <div className="relative aspect-[4/5] w-full overflow-hidden">
         <div className="relative h-full w-full transition-transform duration-500 group-hover:scale-[1.03]">
           <Image
-            src={item.image}
-            alt={item.title}
+            src={src}
+            alt=""
             fill
             sizes="(max-width: 640px) 50vw, 33vw"
-            className="object-cover object-center"
+            className="scale-105 object-cover object-center blur-lg"
           />
         </div>
 
@@ -90,14 +75,10 @@ const TiltCard = ({ item }: { item: (typeof ITEMS)[number] }) => {
         />
       </div>
 
-      <div className="border-border flex flex-col gap-2 border-t p-4">
-        <div className="flex items-baseline justify-between gap-3">
-          <h4 className="font-unbounded text-foreground text-sm font-bold">
-            {item.title}
-          </h4>
-          <span className="text-primary font-mono text-sm">{item.price}</span>
-        </div>
-        <p className="text-muted-foreground text-xs">{item.desc}</p>
+      <div className="border-border flex items-center justify-center border-t p-4">
+        <h4 className="font-unbounded text-foreground text-sm font-bold blur-[4px] select-none">
+          Coming Soon
+        </h4>
       </div>
     </motion.div>
   )

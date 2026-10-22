@@ -33,7 +33,7 @@ export const HomePage = () => {
           <MusicContent />
         </InfoSection> */}
 
-        <InfoSection id="merch" index="03" title="Wear The Trials">
+        <InfoSection id="merch" index="03" title="Merch">
           <MerchContent />
         </InfoSection>
       </div>

@@ -69,6 +69,12 @@ export const Footer = () => {
                   >
                     About
                   </Link>
+                  <Link
+                    href="/standalone-game"
+                    className="hover:text-primary text-foreground/80 text-sm transition"
+                  >
+                    Game
+                  </Link>
 {/*                   <Link
                     href="#music"
                     className="hover:text-primary text-foreground/80 text-sm transition"

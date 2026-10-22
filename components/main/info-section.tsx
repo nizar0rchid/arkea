@@ -19,7 +19,7 @@ export const InfoSection = ({
 }: InfoSectionProps) => {
   return (
     <div id={id} className="relative w-full">
-      <div className="relative z-20 flex w-full flex-col py-[60px] md:px-0">
+      <div className="relative z-20 flex w-full flex-col py-8 md:px-0">
         <motion.div
           variants={staggerContainer}
           initial="hidden"
