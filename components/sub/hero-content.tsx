@@ -133,7 +133,7 @@ export const HeroContent = () => {
         className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-1"
         aria-label="Scroll to explore"
       >
-        <span className="eyebrow text-dim text-[10px]">Enter ArkeA</span>
+        <span className="eyebrow text-dim text-[10px]">Enter</span>
         <svg
           className="animate-cue text-foreground/70 h-4 w-4"
           viewBox="0 0 24 24"
