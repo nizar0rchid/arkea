@@ -9,7 +9,7 @@ export const OG_IMAGE = {
   url: '/og-image.png',
   width: 1200,
   height: 630,
-  alt: 'ArkeA - Trials Of The Elements',
+  alt: 'ArkeA - Become The Colony',
 } as const
 
 export const OG_IMAGES = [OG_IMAGE]

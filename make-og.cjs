@@ -24,33 +24,6 @@ const LOGO = fs
   .readFileSync(path.join(ROOT, 'public/logo.png'))
   .toString('base64')
 
-// "TRIALS OF THE ELEMENTS" wordmark, supplied as artwork rather than
-// re-typeset. The source has a transparent background but black lettering,
-// which vanishes on the dark backdrop, so the RGB channels are inverted while
-// alpha is left untouched.
-const WORDMARK_PATH = path.join(ROOT, 'public/home/hero/herotitle.png')
-
-let wordmarkCache = null
-
-async function wordmarkLight() {
-  if (wordmarkCache) return wordmarkCache
-
-  const { data, info } = await sharp(WORDMARK_PATH)
-    .ensureAlpha()
-    .raw()
-    .toBuffer({ resolveWithObject: true })
-
-  for (let i = 0; i < data.length; i += 4) {
-    data[i] = 255 - data[i]
-    data[i + 1] = 255 - data[i + 1]
-    data[i + 2] = 255 - data[i + 2]
-  }
-
-  const out = await sharp(data, { raw: info }).png().toBuffer()
-  wordmarkCache = out.toString('base64')
-  return wordmarkCache
-}
-
 // Shared chrome. Both variants get the same treatment so the pair reads as one
 // set: grid texture, sigil watermark, purple glow and scrim.
 const backdrop = `
@@ -116,6 +89,14 @@ const title = (y, text) => `
         fill="${FG}" fill-opacity="0.95">${text}</text>
 `
 
+// Band slogan, with the elemental glyphs used in the hero. Bebas Neue renders
+// the glyphs itself, so the whole line stays typeset rather than composited.
+const colony = (y) => `
+  <text x="${W / 2}" y="${y}" text-anchor="middle"
+        font-family="${DISPLAY}" font-size="72" letter-spacing="2"
+        fill="${FG}" fill-opacity="0.95">🜃🜂 BECOME THE COLONY 🜄🜁</text>
+`
+
 const rule = (y, width = 330) =>
   `<rect x="${W / 2 - width / 2}" y="${y}" width="${width}" height="1.5" fill="url(#rule)"/>`
 
@@ -144,20 +125,17 @@ const countdown = svg(`
   ${caption(534, 'Every element hides a trial, every trial reveals a secret.')}
 `)
 
-// General artwork, used for game and home states. Leads with the band the way
-// the home page does, with the game as the hook.
-const general = (wordmark) => svg(`
+// General artwork, used for game and home states. Leads with the band and the
+// colony slogan, with no game-specific title.
+const general = svg(`
   ${logo(196)}
-  <image href="data:image/png;base64,${wordmark}"
-         x="${W / 2 - 355}" y="352" width="710" height="107"
-         preserveAspectRatio="xMidYMid meet"/>
-  ${caption(516, 'Play the game, listen to the debut, and meet ArkeA.', 25)}
+  ${colony(444)}
 `)
 
 async function main() {
   const targets = [
     ['public/og-image-countdown.png', countdown],
-    ['public/og-image.png', general(await wordmarkLight())],
+    ['public/og-image.png', general],
   ]
 
   for (const [file, svgSource] of targets) {

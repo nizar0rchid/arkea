@@ -25,7 +25,7 @@ export const HomePage = () => {
       <div className="px-4 sm:px-6 md:px-10">
         <GameSection />
 
-        <InfoSection id="about" index="01" title="About">
+        <InfoSection id="about" index="" title="About">
           <AboutContent />
         </InfoSection>
 
@@ -33,7 +33,7 @@ export const HomePage = () => {
           <MusicContent />
         </InfoSection> */}
 
-        <InfoSection id="merch" index="03" title="Merch">
+        <InfoSection id="merch" index="" title="Merch">
           <MerchContent />
         </InfoSection>
       </div>
