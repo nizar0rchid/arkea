@@ -15,8 +15,16 @@ export const RootBackground = () => {
     initializedRef.current = true
 
     const stored = sessionStorage.getItem('uc-bg')
-    const current = stored ? Number(stored) : -1
-    const next = current + 1 >= SVGS.length ? 0 : current + 1
+    const current = stored === null ? null : Number(stored)
+
+    // A new tab starts on a random theme, then advances through the set on each
+    // reload. Wrapping only after all four have shown means a theme cannot
+    // repeat before the sequence completes.
+    const next =
+      current !== null && current >= 0 && current < SVGS.length
+        ? (current + 1) % SVGS.length
+        : Math.floor(Math.random() * SVGS.length)
+
     sessionStorage.setItem('uc-bg', String(next))
 
     document.documentElement.classList.remove(...THEMES)
