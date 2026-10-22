@@ -18,11 +18,11 @@ export default function Home() {
       <div className="px-4 sm:px-6 md:px-10">
           <GameSection />
 
-          <InfoSection id="about" index="01" title="The Awakening of ArkeA">
+          <InfoSection id="about" index="01" title="About">
               <AboutContent />
           </InfoSection>
 
-          <InfoSection id="music" index="02" title="Latest Release">
+          <InfoSection id="music" index="02" title="Music">
               <MusicContent />
           </InfoSection>
 

@@ -74,15 +74,8 @@ export const HeroContent = () => {
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
-        className="relative z-10 flex w-full max-w-3xl flex-col items-center gap-4 text-center sm:gap-5"
+        className="relative z-10 flex w-full max-w-3xl flex-col items-center gap-4 space-y-2   text-center sm:gap-5"
       >
-        <motion.p
-          variants={fadeInUp(0)}
-          className="eyebrow font-display text-primary text-xs sm:text-sm"
-        >
-          Debut EP — Trial Of The Elements
-        </motion.p>
-
         <motion.div variants={fadeInUp(0.1)} className="relative w-full">
           <Image
             src="/logo.png"
@@ -96,16 +89,14 @@ export const HeroContent = () => {
 
         <motion.p
           variants={fadeInUp(0.2)}
-          className="font-display text-foreground/90 max-w-2xl text-base leading-snug sm:text-lg md:text-xl"
+          className="font-display text-foreground/90 max-w-2xl text-2xl leading-snug tracking-[0.08em] sm:text-3xl md:text-4xl"
         >
-          Every Element hides a Trial. Every Trial reveals a Secret. Explore
-          ArkeA, guide Pablob through elemental trials, solve ancient puzzles,
-          and uncover its secrets!
+          🜃🜂 BECOME THE COLONY 🜄🜁
         </motion.p>
 
         <motion.div
           variants={fadeInUp(0.3)}
-          className="mt-1 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row"
+          className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row"
         >
           <Magnetic>
             <Link
@@ -125,7 +116,7 @@ export const HeroContent = () => {
           </Magnetic>
         </motion.div>
 
-        <motion.p
+      {/*   <motion.p
           variants={fadeInUp(0.4)}
           className="mt-1 flex items-center gap-2"
         >
@@ -133,7 +124,7 @@ export const HeroContent = () => {
           <span className="font-display text-foreground/80 text-xs tracking-[0.2em] uppercase sm:text-sm">
             Also out now — The Companion Game
           </span>
-        </motion.p>
+        </motion.p> */}
       </motion.div>
 
       {/* Scroll cue — invites the user to begin the trial */}

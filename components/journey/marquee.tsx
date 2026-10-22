@@ -1,8 +1,8 @@
 const PHRASES = [
-  'Trial Of The Elements — Out Now',
-  'Every Element Hides A Trial',
-  'Every Trial Reveals A Secret',
-  'ArkeA — Modern Metal From Tunisia',
+  'Trials Of The Elements — Out Now',
+  'Trials Of The Elements — Out Now',
+  'Trials Of The Elements — Out Now',
+  'Trials Of The Elements — Out Now',
 ]
 
 const MarqueeRow = ({ ariaHidden = false }: { ariaHidden?: boolean }) => (
@@ -10,9 +10,9 @@ const MarqueeRow = ({ ariaHidden = false }: { ariaHidden?: boolean }) => (
     aria-hidden={ariaHidden}
     className="flex shrink-0 items-center gap-8 pr-8"
   >
-    {PHRASES.map((phrase) => (
+    {PHRASES.map((phrase, index) => (
       <span
-        key={phrase}
+        key={index}
         className="font-display text-foreground/60 text-sm tracking-[0.3em] whitespace-nowrap uppercase"
       >
         {phrase}
