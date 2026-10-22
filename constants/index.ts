@@ -67,10 +67,10 @@ export const NAV_LINKS = [
     title: 'About',
     link: '#about',
   },
-  {
+/*   {
     title: 'Music',
     link: '#music',
-  },
+  }, */
   {
     title: 'Game',
     link: '/standalone-game',

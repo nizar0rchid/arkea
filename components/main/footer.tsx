@@ -69,13 +69,13 @@ export const Footer = () => {
                   >
                     About
                   </Link>
-                  <Link
+{/*                   <Link
                     href="#music"
                     className="hover:text-primary text-foreground/80 text-sm transition"
                   >
                     Music
                   </Link>
-                  <Link
+ */}                  <Link
                     href="#merch"
                     className="hover:text-primary text-foreground/80 text-sm transition"
                   >

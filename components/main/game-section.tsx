@@ -68,12 +68,7 @@ export const GameSection = () => {
               >
                 Play The Game
               </Link>
-              <a
-                href="#music"
-                className="btn-ghost rounded-lg px-5 py-2.5 text-sm font-bold transition-all duration-300 hover:scale-105 sm:px-6 sm:text-base"
-              >
-                Listen Now
-              </a>
+              
             </div>
           </div>
 

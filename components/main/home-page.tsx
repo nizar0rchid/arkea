@@ -29,9 +29,9 @@ export const HomePage = () => {
           <AboutContent />
         </InfoSection>
 
-        <InfoSection id="music" index="02" title="Music">
+{/*         <InfoSection id="music" index="02" title="Music">
           <MusicContent />
-        </InfoSection>
+        </InfoSection> */}
 
         <InfoSection id="merch" index="03" title="Wear The Trials">
           <MerchContent />
@@ -40,7 +40,6 @@ export const HomePage = () => {
 
       <Marquee />
 
-      <Newsletter />
     </main>
   )
 }

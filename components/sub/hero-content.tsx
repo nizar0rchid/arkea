@@ -94,7 +94,7 @@ export const HeroContent = () => {
           🜃🜂 BECOME THE COLONY 🜄🜁
         </motion.p>
 
-        <motion.div
+       {/*  <motion.div
           variants={fadeInUp(0.3)}
           className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row"
         >
@@ -114,17 +114,16 @@ export const HeroContent = () => {
               Play The Game
             </Link>
           </Magnetic>
-        </motion.div>
+        </motion.div> */}
 
-      {/*   <motion.p
+         <motion.p
           variants={fadeInUp(0.4)}
           className="mt-1 flex items-center gap-2"
         >
-          <span className="bg-primary h-2 w-2 rounded-full" />
           <span className="font-display text-foreground/80 text-xs tracking-[0.2em] uppercase sm:text-sm">
-            Also out now — The Companion Game
+            Established 2024
           </span>
-        </motion.p> */}
+        </motion.p> 
       </motion.div>
 
       {/* Scroll cue — invites the user to begin the trial */}
